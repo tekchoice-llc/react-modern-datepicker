@@ -66,6 +66,7 @@
     "react-dom": "^16.8.6"
   },
   "dependencies": {
+    "cleave.js": "^1.6.0",
     "dayjs": "^1.8.14",
     "styled-components": "^4.2.0"
   },
