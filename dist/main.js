@@ -1,53 +1,2752 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("react"), require("react-dom"));
+		module.exports = factory(require("react"));
 	else if(typeof define === 'function' && define.amd)
-		define(["react", "react-dom"], factory);
+		define(["react"], factory);
 	else if(typeof exports === 'object')
-		exports["ReactModernDatepicker"] = factory(require("react"), require("react-dom"));
+		exports["ReactModernDatepicker"] = factory(require("react"));
 	else
-		root["ReactModernDatepicker"] = factory(root["React"], root["ReactDOM"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE__698__, __WEBPACK_EXTERNAL_MODULE__207__) {
+		root["ReactModernDatepicker"] = factory(root["React"]);
+})(this, (__WEBPACK_EXTERNAL_MODULE__787__) => {
 return /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
+
+/***/ 38:
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory(__webpack_require__(787));
+	else {}
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __nested_webpack_require_608__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __nested_webpack_require_608__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__nested_webpack_require_608__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__nested_webpack_require_608__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__nested_webpack_require_608__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __nested_webpack_require_608__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __nested_webpack_require_1809__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	var React = __nested_webpack_require_1809__(1); // eslint-disable-line no-unused-vars
+	var CreateReactClass = __nested_webpack_require_1809__(2);
+
+	var NumeralFormatter = __nested_webpack_require_1809__(9);
+	var DateFormatter = __nested_webpack_require_1809__(10);
+	var TimeFormatter = __nested_webpack_require_1809__(11);
+	var PhoneFormatter = __nested_webpack_require_1809__(12);
+	var CreditCardDetector = __nested_webpack_require_1809__(13);
+	var Util = __nested_webpack_require_1809__(14);
+	var DefaultProperties = __nested_webpack_require_1809__(15);
+
+	var cleaveReactClass = CreateReactClass({
+	    componentDidMount: function componentDidMount() {
+	        this.init();
+	    },
+
+	    componentDidUpdate: function componentDidUpdate(prevProps) {
+	        var owner = this,
+	            phoneRegionCode = (owner.props.options || {}).phoneRegionCode,
+	            newValue = owner.props.value,
+	            pps = owner.properties;
+
+	        owner.updateRegisteredEvents(owner.props);
+	        if (prevProps.value !== newValue && newValue !== undefined && newValue !== null) {
+	            newValue = newValue.toString();
+
+	            if (newValue !== owner.properties.result) {
+	                owner.properties.initValue = newValue;
+	                owner.onInput(newValue, true);
+	            }
+	        }
+
+	        // update phone region code
+	        var prevPhoneRegionCode = (prevProps.options || {}).phoneRegionCode;
+	        if (prevPhoneRegionCode !== phoneRegionCode && phoneRegionCode && phoneRegionCode !== owner.properties.phoneRegionCode) {
+	            owner.properties.phoneRegionCode = phoneRegionCode;
+	            owner.initPhoneFormatter();
+	            owner.onInput(owner.properties.result);
+	        }
+
+	        Util.setSelection(owner.element, owner.state.cursorPosition, pps.document);
+	    },
+
+	    updateRegisteredEvents: function updateRegisteredEvents(props) {
+	        var owner = this,
+	            _owner$registeredEven = owner.registeredEvents,
+	            onKeyDown = _owner$registeredEven.onKeyDown,
+	            onChange = _owner$registeredEven.onChange,
+	            onFocus = _owner$registeredEven.onFocus,
+	            onBlur = _owner$registeredEven.onBlur,
+	            onInit = _owner$registeredEven.onInit;
+
+
+	        if (props.onInit && props.onInit !== onInit) owner.registeredEvents.onInit = props.onInit;
+	        if (props.onChange && props.onChange !== onChange) owner.registeredEvents.onChange = props.onChange;
+	        if (props.onFocus && props.onFocus !== onFocus) owner.registeredEvents.onFocus = props.onFocus;
+	        if (props.onBlur && props.onBlur !== onBlur) owner.registeredEvents.onBlur = props.onBlur;
+	        if (props.onKeyDown && props.onKeyDown !== onKeyDown) owner.registeredEvents.onKeyDown = props.onKeyDown;
+	    },
+
+	    getInitialState: function getInitialState() {
+	        var owner = this,
+	            _owner$props = owner.props,
+	            value = _owner$props.value,
+	            options = _owner$props.options,
+	            onKeyDown = _owner$props.onKeyDown,
+	            onChange = _owner$props.onChange,
+	            onFocus = _owner$props.onFocus,
+	            onBlur = _owner$props.onBlur,
+	            onInit = _owner$props.onInit;
+
+
+	        owner.registeredEvents = {
+	            onInit: onInit || Util.noop,
+	            onChange: onChange || Util.noop,
+	            onFocus: onFocus || Util.noop,
+	            onBlur: onBlur || Util.noop,
+	            onKeyDown: onKeyDown || Util.noop
+	        };
+
+	        if (!options) {
+	            options = {};
+	        }
+
+	        options.initValue = value;
+
+	        owner.properties = DefaultProperties.assign({}, options);
+
+	        return {
+	            value: owner.properties.result,
+	            cursorPosition: 0
+	        };
+	    },
+
+	    init: function init() {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        // so no need for this lib at all
+	        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.time && !pps.date && pps.blocksLength === 0 && !pps.prefix) {
+	            owner.onInput(pps.initValue);
+	            owner.registeredEvents.onInit(owner);
+
+	            return;
+	        }
+
+	        pps.maxLength = Util.getMaxLength(pps.blocks);
+
+	        owner.isAndroid = Util.isAndroid();
+
+	        owner.initPhoneFormatter();
+	        owner.initDateFormatter();
+	        owner.initTimeFormatter();
+	        owner.initNumeralFormatter();
+
+	        // avoid touch input field if value is null
+	        // otherwise Firefox will add red box-shadow for <input required />
+	        if (pps.initValue || pps.prefix && !pps.noImmediatePrefix) {
+	            owner.onInput(pps.initValue);
+	        }
+
+	        owner.registeredEvents.onInit(owner);
+	    },
+
+	    initNumeralFormatter: function initNumeralFormatter() {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        if (!pps.numeral) {
+	            return;
+	        }
+
+	        pps.numeralFormatter = new NumeralFormatter(pps.numeralDecimalMark, pps.numeralIntegerScale, pps.numeralDecimalScale, pps.numeralThousandsGroupStyle, pps.numeralPositiveOnly, pps.stripLeadingZeroes, pps.prefix, pps.signBeforePrefix, pps.tailPrefix, pps.delimiter);
+	    },
+
+	    initTimeFormatter: function initTimeFormatter() {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        if (!pps.time) {
+	            return;
+	        }
+
+	        pps.timeFormatter = new TimeFormatter(pps.timePattern, pps.timeFormat);
+	        pps.blocks = pps.timeFormatter.getBlocks();
+	        pps.blocksLength = pps.blocks.length;
+	        pps.maxLength = Util.getMaxLength(pps.blocks);
+	    },
+
+	    initDateFormatter: function initDateFormatter() {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        if (!pps.date) {
+	            return;
+	        }
+
+	        pps.dateFormatter = new DateFormatter(pps.datePattern, pps.dateMin, pps.dateMax);
+	        pps.blocks = pps.dateFormatter.getBlocks();
+	        pps.blocksLength = pps.blocks.length;
+	        pps.maxLength = Util.getMaxLength(pps.blocks);
+	    },
+
+	    initPhoneFormatter: function initPhoneFormatter() {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        if (!pps.phone) {
+	            return;
+	        }
+
+	        // Cleave.AsYouTypeFormatter should be provided by
+	        // external google closure lib
+	        try {
+	            pps.phoneFormatter = new PhoneFormatter(new pps.root.Cleave.AsYouTypeFormatter(pps.phoneRegionCode), pps.delimiter);
+	        } catch (ex) {
+	            throw new Error('Please include phone-type-formatter.{country}.js lib');
+	        }
+	    },
+
+	    setRawValue: function setRawValue(value) {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        value = value !== undefined && value !== null ? value.toString() : '';
+
+	        if (pps.numeral) {
+	            value = value.replace('.', pps.numeralDecimalMark);
+	        }
+
+	        pps.postDelimiterBackspace = false;
+
+	        owner.onChange({
+	            target: { value: value },
+
+	            // Methods to better resemble a SyntheticEvent
+	            stopPropagation: Util.noop,
+	            preventDefault: Util.noop,
+	            persist: Util.noop
+	        });
+	    },
+
+	    getRawValue: function getRawValue() {
+	        var owner = this,
+	            pps = owner.properties,
+	            rawValue = pps.result;
+
+	        if (pps.rawValueTrimPrefix) {
+	            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix, pps.tailPrefix, pps.signBeforePrefix);
+	        }
+
+	        if (pps.numeral) {
+	            rawValue = pps.numeralFormatter ? pps.numeralFormatter.getRawValue(rawValue) : '';
+	        } else {
+	            rawValue = Util.stripDelimiters(rawValue, pps.delimiter, pps.delimiters);
+	        }
+
+	        return rawValue;
+	    },
+
+	    getISOFormatDate: function getISOFormatDate() {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        return pps.date ? pps.dateFormatter.getISOFormatDate() : '';
+	    },
+
+	    getISOFormatTime: function getISOFormatTime() {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        return pps.time ? pps.timeFormatter.getISOFormatTime() : '';
+	    },
+
+	    onInit: function onInit(owner) {
+	        return owner;
+	    },
+
+	    onKeyDown: function onKeyDown(event) {
+	        var owner = this,
+	            pps = owner.properties,
+	            charCode = event.which || event.keyCode;
+
+	        owner.lastInputValue = pps.result;
+	        owner.isBackward = charCode === 8;
+
+	        owner.registeredEvents.onKeyDown(event);
+	    },
+
+	    onFocus: function onFocus(event) {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        if (pps.prefix && pps.noImmediatePrefix && !event.target.value) {
+	            owner.onInput(pps.prefix);
+	        }
+
+	        event.target.rawValue = owner.getRawValue();
+	        event.target.value = pps.result;
+
+	        owner.registeredEvents.onFocus(event);
+
+	        Util.fixPrefixCursor(owner.element, pps.prefix, pps.delimiter, pps.delimiters);
+	    },
+
+	    onBlur: function onBlur(event) {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        event.target.rawValue = owner.getRawValue();
+	        event.target.value = pps.result;
+
+	        owner.registeredEvents.onBlur(event);
+	    },
+
+	    onChange: function onChange(event) {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        owner.isBackward = owner.isBackward || event.inputType === 'deleteContentBackward';
+	        // hit backspace when last character is delimiter
+	        var postDelimiter = Util.getPostDelimiter(owner.lastInputValue, pps.delimiter, pps.delimiters);
+
+	        if (owner.isBackward && postDelimiter) {
+	            pps.postDelimiterBackspace = postDelimiter;
+	        } else {
+	            pps.postDelimiterBackspace = false;
+	        }
+
+	        owner.onInput(event.target.value);
+
+	        event.target.rawValue = owner.getRawValue();
+	        event.target.value = pps.result;
+
+	        owner.registeredEvents.onChange(event);
+	    },
+
+	    onInput: function onInput(value, fromProps) {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        // case 1: delete one more character "4"
+	        // 1234*| -> hit backspace -> 123|
+	        // case 2: last character is not delimiter which is:
+	        // 12|34* -> hit backspace -> 1|34*
+	        var postDelimiterAfter = Util.getPostDelimiter(value, pps.delimiter, pps.delimiters);
+	        if (!fromProps && !pps.numeral && pps.postDelimiterBackspace && !postDelimiterAfter) {
+	            value = Util.headStr(value, value.length - pps.postDelimiterBackspace.length);
+	        }
+
+	        // phone formatter
+	        if (pps.phone) {
+	            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
+	                pps.result = pps.prefix + pps.phoneFormatter.format(value).slice(pps.prefix.length);
+	            } else {
+	                pps.result = pps.phoneFormatter.format(value);
+	            }
+	            owner.updateValueState();
+
+	            return;
+	        }
+
+	        // numeral formatter
+	        if (pps.numeral) {
+	            // Do not show prefix when noImmediatePrefix is specified
+	            // This mostly because we need to show user the native input placeholder
+	            if (pps.prefix && pps.noImmediatePrefix && value.length === 0) {
+	                pps.result = '';
+	            } else {
+	                pps.result = pps.numeralFormatter.format(value);
+	            }
+	            owner.updateValueState();
+
+	            return;
+	        }
+
+	        // date
+	        if (pps.date) {
+	            value = pps.dateFormatter.getValidatedDate(value);
+	        }
+
+	        // time
+	        if (pps.time) {
+	            value = pps.timeFormatter.getValidatedTime(value);
+	        }
+
+	        // strip delimiters
+	        value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
+
+	        // strip prefix
+	        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix, pps.tailPrefix, pps.signBeforePrefix);
+
+	        // strip non-numeric characters
+	        value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
+
+	        // convert case
+	        value = pps.uppercase ? value.toUpperCase() : value;
+	        value = pps.lowercase ? value.toLowerCase() : value;
+
+	        // prevent from showing prefix when no immediate option enabled with empty input value
+	        if (pps.prefix) {
+	            if (pps.tailPrefix) {
+	                value = value + pps.prefix;
+	            } else {
+	                value = pps.prefix + value;
+	            }
+
+	            // no blocks specified, no need to do formatting
+	            if (pps.blocksLength === 0) {
+	                pps.result = value;
+	                owner.updateValueState();
+
+	                return;
+	            }
+	        }
+
+	        // update credit card props
+	        if (pps.creditCard) {
+	            owner.updateCreditCardPropsByValue(value);
+	        }
+
+	        // strip over length characters
+	        value = pps.maxLength > 0 ? Util.headStr(value, pps.maxLength) : value;
+
+	        // apply blocks
+	        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters, pps.delimiterLazyShow);
+
+	        owner.updateValueState();
+	    },
+
+	    updateCreditCardPropsByValue: function updateCreditCardPropsByValue(value) {
+	        var owner = this,
+	            pps = owner.properties,
+	            creditCardInfo;
+
+	        // At least one of the first 4 characters has changed
+	        if (Util.headStr(pps.result, 4) === Util.headStr(value, 4)) {
+	            return;
+	        }
+
+	        creditCardInfo = CreditCardDetector.getInfo(value, pps.creditCardStrictMode);
+
+	        pps.blocks = creditCardInfo.blocks;
+	        pps.blocksLength = pps.blocks.length;
+	        pps.maxLength = Util.getMaxLength(pps.blocks);
+
+	        // credit card type changed
+	        if (pps.creditCardType !== creditCardInfo.type) {
+	            pps.creditCardType = creditCardInfo.type;
+
+	            pps.onCreditCardTypeChanged.call(owner, pps.creditCardType);
+	        }
+	    },
+
+	    updateValueState: function updateValueState() {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        if (!owner.element) {
+	            owner.setState({ value: pps.result });
+	            return;
+	        }
+
+	        var endPos = owner.element.selectionEnd;
+	        var oldValue = owner.element.value;
+	        var newValue = pps.result;
+
+	        owner.lastInputValue = newValue;
+
+	        endPos = Util.getNextCursorPosition(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
+
+	        if (owner.isAndroid) {
+	            window.setTimeout(function () {
+	                owner.setState({ value: newValue, cursorPosition: endPos });
+	            }, 1);
+
+	            return;
+	        }
+
+	        owner.setState({ value: newValue, cursorPosition: endPos });
+	    },
+
+	    render: function render() {
+	        var owner = this;
+	        // eslint-disable-next-line
+
+	        var _owner$props2 = owner.props,
+	            value = _owner$props2.value,
+	            options = _owner$props2.options,
+	            onKeyDown = _owner$props2.onKeyDown,
+	            onFocus = _owner$props2.onFocus,
+	            onBlur = _owner$props2.onBlur,
+	            onChange = _owner$props2.onChange,
+	            onInit = _owner$props2.onInit,
+	            htmlRef = _owner$props2.htmlRef,
+	            propsToTransfer = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onFocus', 'onBlur', 'onChange', 'onInit', 'htmlRef']);
+
+	        return React.createElement('input', _extends({
+	            type: 'text',
+	            ref: function ref(_ref) {
+	                owner.element = _ref;
+
+	                if (!htmlRef) {
+	                    return;
+	                }
+
+	                htmlRef.apply(this, arguments);
+	            },
+	            value: owner.state.value,
+	            onKeyDown: owner.onKeyDown,
+	            onChange: owner.onChange,
+	            onFocus: owner.onFocus,
+	            onBlur: owner.onBlur
+	        }, propsToTransfer));
+	    }
+	});
+
+	module.exports = cleaveReactClass;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __nested_webpack_require_18748__) {
+
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 *
+	 */
+
+	'use strict';
+
+	var React = __nested_webpack_require_18748__(1);
+	var factory = __nested_webpack_require_18748__(3);
+
+	if (typeof React === 'undefined') {
+	  throw Error(
+	    'create-react-class could not find the React object. If you are using script tags, ' +
+	      'make sure that React is being loaded before create-react-class.'
+	  );
+	}
+
+	// Hack to grab NoopUpdateQueue from isomorphic React
+	var ReactNoopUpdateQueue = new React.Component().updater;
+
+	module.exports = factory(
+	  React.Component,
+	  React.isValidElement,
+	  ReactNoopUpdateQueue
+	);
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __nested_webpack_require_19555__) {
+
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 *
+	 */
+
+	'use strict';
+
+	var _assign = __nested_webpack_require_19555__(4);
+
+	var emptyObject = __nested_webpack_require_19555__(5);
+	var _invariant = __nested_webpack_require_19555__(6);
+
+	if (false) { var warning; }
+
+	var MIXINS_KEY = 'mixins';
+
+	// Helper function to allow the creation of anonymous functions which do not
+	// have .name set to the name of the variable being assigned to.
+	function identity(fn) {
+	  return fn;
+	}
+
+	var ReactPropTypeLocationNames;
+	if (false) {} else {
+	  ReactPropTypeLocationNames = {};
+	}
+
+	function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
+	  /**
+	   * Policies that describe methods in `ReactClassInterface`.
+	   */
+
+	  var injectedMixins = [];
+
+	  /**
+	   * Composite components are higher-level components that compose other composite
+	   * or host components.
+	   *
+	   * To create a new type of `ReactClass`, pass a specification of
+	   * your new class to `React.createClass`. The only requirement of your class
+	   * specification is that you implement a `render` method.
+	   *
+	   *   var MyComponent = React.createClass({
+	   *     render: function() {
+	   *       return <div>Hello World</div>;
+	   *     }
+	   *   });
+	   *
+	   * The class specification supports a specific protocol of methods that have
+	   * special meaning (e.g. `render`). See `ReactClassInterface` for
+	   * more the comprehensive protocol. Any other properties and methods in the
+	   * class specification will be available on the prototype.
+	   *
+	   * @interface ReactClassInterface
+	   * @internal
+	   */
+	  var ReactClassInterface = {
+	    /**
+	     * An array of Mixin objects to include when defining your component.
+	     *
+	     * @type {array}
+	     * @optional
+	     */
+	    mixins: 'DEFINE_MANY',
+
+	    /**
+	     * An object containing properties and methods that should be defined on
+	     * the component's constructor instead of its prototype (static methods).
+	     *
+	     * @type {object}
+	     * @optional
+	     */
+	    statics: 'DEFINE_MANY',
+
+	    /**
+	     * Definition of prop types for this component.
+	     *
+	     * @type {object}
+	     * @optional
+	     */
+	    propTypes: 'DEFINE_MANY',
+
+	    /**
+	     * Definition of context types for this component.
+	     *
+	     * @type {object}
+	     * @optional
+	     */
+	    contextTypes: 'DEFINE_MANY',
+
+	    /**
+	     * Definition of context types this component sets for its children.
+	     *
+	     * @type {object}
+	     * @optional
+	     */
+	    childContextTypes: 'DEFINE_MANY',
+
+	    // ==== Definition methods ====
+
+	    /**
+	     * Invoked when the component is mounted. Values in the mapping will be set on
+	     * `this.props` if that prop is not specified (i.e. using an `in` check).
+	     *
+	     * This method is invoked before `getInitialState` and therefore cannot rely
+	     * on `this.state` or use `this.setState`.
+	     *
+	     * @return {object}
+	     * @optional
+	     */
+	    getDefaultProps: 'DEFINE_MANY_MERGED',
+
+	    /**
+	     * Invoked once before the component is mounted. The return value will be used
+	     * as the initial value of `this.state`.
+	     *
+	     *   getInitialState: function() {
+	     *     return {
+	     *       isOn: false,
+	     *       fooBaz: new BazFoo()
+	     *     }
+	     *   }
+	     *
+	     * @return {object}
+	     * @optional
+	     */
+	    getInitialState: 'DEFINE_MANY_MERGED',
+
+	    /**
+	     * @return {object}
+	     * @optional
+	     */
+	    getChildContext: 'DEFINE_MANY_MERGED',
+
+	    /**
+	     * Uses props from `this.props` and state from `this.state` to render the
+	     * structure of the component.
+	     *
+	     * No guarantees are made about when or how often this method is invoked, so
+	     * it must not have side effects.
+	     *
+	     *   render: function() {
+	     *     var name = this.props.name;
+	     *     return <div>Hello, {name}!</div>;
+	     *   }
+	     *
+	     * @return {ReactComponent}
+	     * @required
+	     */
+	    render: 'DEFINE_ONCE',
+
+	    // ==== Delegate methods ====
+
+	    /**
+	     * Invoked when the component is initially created and about to be mounted.
+	     * This may have side effects, but any external subscriptions or data created
+	     * by this method must be cleaned up in `componentWillUnmount`.
+	     *
+	     * @optional
+	     */
+	    componentWillMount: 'DEFINE_MANY',
+
+	    /**
+	     * Invoked when the component has been mounted and has a DOM representation.
+	     * However, there is no guarantee that the DOM node is in the document.
+	     *
+	     * Use this as an opportunity to operate on the DOM when the component has
+	     * been mounted (initialized and rendered) for the first time.
+	     *
+	     * @param {DOMElement} rootNode DOM element representing the component.
+	     * @optional
+	     */
+	    componentDidMount: 'DEFINE_MANY',
+
+	    /**
+	     * Invoked before the component receives new props.
+	     *
+	     * Use this as an opportunity to react to a prop transition by updating the
+	     * state using `this.setState`. Current props are accessed via `this.props`.
+	     *
+	     *   componentWillReceiveProps: function(nextProps, nextContext) {
+	     *     this.setState({
+	     *       likesIncreasing: nextProps.likeCount > this.props.likeCount
+	     *     });
+	     *   }
+	     *
+	     * NOTE: There is no equivalent `componentWillReceiveState`. An incoming prop
+	     * transition may cause a state change, but the opposite is not true. If you
+	     * need it, you are probably looking for `componentWillUpdate`.
+	     *
+	     * @param {object} nextProps
+	     * @optional
+	     */
+	    componentWillReceiveProps: 'DEFINE_MANY',
+
+	    /**
+	     * Invoked while deciding if the component should be updated as a result of
+	     * receiving new props, state and/or context.
+	     *
+	     * Use this as an opportunity to `return false` when you're certain that the
+	     * transition to the new props/state/context will not require a component
+	     * update.
+	     *
+	     *   shouldComponentUpdate: function(nextProps, nextState, nextContext) {
+	     *     return !equal(nextProps, this.props) ||
+	     *       !equal(nextState, this.state) ||
+	     *       !equal(nextContext, this.context);
+	     *   }
+	     *
+	     * @param {object} nextProps
+	     * @param {?object} nextState
+	     * @param {?object} nextContext
+	     * @return {boolean} True if the component should update.
+	     * @optional
+	     */
+	    shouldComponentUpdate: 'DEFINE_ONCE',
+
+	    /**
+	     * Invoked when the component is about to update due to a transition from
+	     * `this.props`, `this.state` and `this.context` to `nextProps`, `nextState`
+	     * and `nextContext`.
+	     *
+	     * Use this as an opportunity to perform preparation before an update occurs.
+	     *
+	     * NOTE: You **cannot** use `this.setState()` in this method.
+	     *
+	     * @param {object} nextProps
+	     * @param {?object} nextState
+	     * @param {?object} nextContext
+	     * @param {ReactReconcileTransaction} transaction
+	     * @optional
+	     */
+	    componentWillUpdate: 'DEFINE_MANY',
+
+	    /**
+	     * Invoked when the component's DOM representation has been updated.
+	     *
+	     * Use this as an opportunity to operate on the DOM when the component has
+	     * been updated.
+	     *
+	     * @param {object} prevProps
+	     * @param {?object} prevState
+	     * @param {?object} prevContext
+	     * @param {DOMElement} rootNode DOM element representing the component.
+	     * @optional
+	     */
+	    componentDidUpdate: 'DEFINE_MANY',
+
+	    /**
+	     * Invoked when the component is about to be removed from its parent and have
+	     * its DOM representation destroyed.
+	     *
+	     * Use this as an opportunity to deallocate any external resources.
+	     *
+	     * NOTE: There is no `componentDidUnmount` since your component will have been
+	     * destroyed by that point.
+	     *
+	     * @optional
+	     */
+	    componentWillUnmount: 'DEFINE_MANY',
+
+	    /**
+	     * Replacement for (deprecated) `componentWillMount`.
+	     *
+	     * @optional
+	     */
+	    UNSAFE_componentWillMount: 'DEFINE_MANY',
+
+	    /**
+	     * Replacement for (deprecated) `componentWillReceiveProps`.
+	     *
+	     * @optional
+	     */
+	    UNSAFE_componentWillReceiveProps: 'DEFINE_MANY',
+
+	    /**
+	     * Replacement for (deprecated) `componentWillUpdate`.
+	     *
+	     * @optional
+	     */
+	    UNSAFE_componentWillUpdate: 'DEFINE_MANY',
+
+	    // ==== Advanced methods ====
+
+	    /**
+	     * Updates the component's currently mounted DOM representation.
+	     *
+	     * By default, this implements React's rendering and reconciliation algorithm.
+	     * Sophisticated clients may wish to override this.
+	     *
+	     * @param {ReactReconcileTransaction} transaction
+	     * @internal
+	     * @overridable
+	     */
+	    updateComponent: 'OVERRIDE_BASE'
+	  };
+
+	  /**
+	   * Similar to ReactClassInterface but for static methods.
+	   */
+	  var ReactClassStaticInterface = {
+	    /**
+	     * This method is invoked after a component is instantiated and when it
+	     * receives new props. Return an object to update state in response to
+	     * prop changes. Return null to indicate no change to state.
+	     *
+	     * If an object is returned, its keys will be merged into the existing state.
+	     *
+	     * @return {object || null}
+	     * @optional
+	     */
+	    getDerivedStateFromProps: 'DEFINE_MANY_MERGED'
+	  };
+
+	  /**
+	   * Mapping from class specification keys to special processing functions.
+	   *
+	   * Although these are declared like instance properties in the specification
+	   * when defining classes using `React.createClass`, they are actually static
+	   * and are accessible on the constructor instead of the prototype. Despite
+	   * being static, they must be defined outside of the "statics" key under
+	   * which all other static methods are defined.
+	   */
+	  var RESERVED_SPEC_KEYS = {
+	    displayName: function(Constructor, displayName) {
+	      Constructor.displayName = displayName;
+	    },
+	    mixins: function(Constructor, mixins) {
+	      if (mixins) {
+	        for (var i = 0; i < mixins.length; i++) {
+	          mixSpecIntoComponent(Constructor, mixins[i]);
+	        }
+	      }
+	    },
+	    childContextTypes: function(Constructor, childContextTypes) {
+	      if (false) {}
+	      Constructor.childContextTypes = _assign(
+	        {},
+	        Constructor.childContextTypes,
+	        childContextTypes
+	      );
+	    },
+	    contextTypes: function(Constructor, contextTypes) {
+	      if (false) {}
+	      Constructor.contextTypes = _assign(
+	        {},
+	        Constructor.contextTypes,
+	        contextTypes
+	      );
+	    },
+	    /**
+	     * Special case getDefaultProps which should move into statics but requires
+	     * automatic merging.
+	     */
+	    getDefaultProps: function(Constructor, getDefaultProps) {
+	      if (Constructor.getDefaultProps) {
+	        Constructor.getDefaultProps = createMergedResultFunction(
+	          Constructor.getDefaultProps,
+	          getDefaultProps
+	        );
+	      } else {
+	        Constructor.getDefaultProps = getDefaultProps;
+	      }
+	    },
+	    propTypes: function(Constructor, propTypes) {
+	      if (false) {}
+	      Constructor.propTypes = _assign({}, Constructor.propTypes, propTypes);
+	    },
+	    statics: function(Constructor, statics) {
+	      mixStaticSpecIntoComponent(Constructor, statics);
+	    },
+	    autobind: function() {}
+	  };
+
+	  function validateTypeDef(Constructor, typeDef, location) {
+	    for (var propName in typeDef) {
+	      if (typeDef.hasOwnProperty(propName)) {
+	        // use a warning instead of an _invariant so components
+	        // don't show up in prod but only in __DEV__
+	        if (false) {}
+	      }
+	    }
+	  }
+
+	  function validateMethodOverride(isAlreadyDefined, name) {
+	    var specPolicy = ReactClassInterface.hasOwnProperty(name)
+	      ? ReactClassInterface[name]
+	      : null;
+
+	    // Disallow overriding of base class methods unless explicitly allowed.
+	    if (ReactClassMixin.hasOwnProperty(name)) {
+	      _invariant(
+	        specPolicy === 'OVERRIDE_BASE',
+	        'ReactClassInterface: You are attempting to override ' +
+	          '`%s` from your class specification. Ensure that your method names ' +
+	          'do not overlap with React methods.',
+	        name
+	      );
+	    }
+
+	    // Disallow defining methods more than once unless explicitly allowed.
+	    if (isAlreadyDefined) {
+	      _invariant(
+	        specPolicy === 'DEFINE_MANY' || specPolicy === 'DEFINE_MANY_MERGED',
+	        'ReactClassInterface: You are attempting to define ' +
+	          '`%s` on your component more than once. This conflict may be due ' +
+	          'to a mixin.',
+	        name
+	      );
+	    }
+	  }
+
+	  /**
+	   * Mixin helper which handles policy validation and reserved
+	   * specification keys when building React classes.
+	   */
+	  function mixSpecIntoComponent(Constructor, spec) {
+	    if (!spec) {
+	      if (false) { var isMixinValid, typeofSpec; }
+
+	      return;
+	    }
+
+	    _invariant(
+	      typeof spec !== 'function',
+	      "ReactClass: You're attempting to " +
+	        'use a component class or function as a mixin. Instead, just use a ' +
+	        'regular object.'
+	    );
+	    _invariant(
+	      !isValidElement(spec),
+	      "ReactClass: You're attempting to " +
+	        'use a component as a mixin. Instead, just use a regular object.'
+	    );
+
+	    var proto = Constructor.prototype;
+	    var autoBindPairs = proto.__reactAutoBindPairs;
+
+	    // By handling mixins before any other properties, we ensure the same
+	    // chaining order is applied to methods with DEFINE_MANY policy, whether
+	    // mixins are listed before or after these methods in the spec.
+	    if (spec.hasOwnProperty(MIXINS_KEY)) {
+	      RESERVED_SPEC_KEYS.mixins(Constructor, spec.mixins);
+	    }
+
+	    for (var name in spec) {
+	      if (!spec.hasOwnProperty(name)) {
+	        continue;
+	      }
+
+	      if (name === MIXINS_KEY) {
+	        // We have already handled mixins in a special case above.
+	        continue;
+	      }
+
+	      var property = spec[name];
+	      var isAlreadyDefined = proto.hasOwnProperty(name);
+	      validateMethodOverride(isAlreadyDefined, name);
+
+	      if (RESERVED_SPEC_KEYS.hasOwnProperty(name)) {
+	        RESERVED_SPEC_KEYS[name](Constructor, property);
+	      } else {
+	        // Setup methods on prototype:
+	        // The following member methods should not be automatically bound:
+	        // 1. Expected ReactClass methods (in the "interface").
+	        // 2. Overridden methods (that were mixed in).
+	        var isReactClassMethod = ReactClassInterface.hasOwnProperty(name);
+	        var isFunction = typeof property === 'function';
+	        var shouldAutoBind =
+	          isFunction &&
+	          !isReactClassMethod &&
+	          !isAlreadyDefined &&
+	          spec.autobind !== false;
+
+	        if (shouldAutoBind) {
+	          autoBindPairs.push(name, property);
+	          proto[name] = property;
+	        } else {
+	          if (isAlreadyDefined) {
+	            var specPolicy = ReactClassInterface[name];
+
+	            // These cases should already be caught by validateMethodOverride.
+	            _invariant(
+	              isReactClassMethod &&
+	                (specPolicy === 'DEFINE_MANY_MERGED' ||
+	                  specPolicy === 'DEFINE_MANY'),
+	              'ReactClass: Unexpected spec policy %s for key %s ' +
+	                'when mixing in component specs.',
+	              specPolicy,
+	              name
+	            );
+
+	            // For methods which are defined more than once, call the existing
+	            // methods before calling the new property, merging if appropriate.
+	            if (specPolicy === 'DEFINE_MANY_MERGED') {
+	              proto[name] = createMergedResultFunction(proto[name], property);
+	            } else if (specPolicy === 'DEFINE_MANY') {
+	              proto[name] = createChainedFunction(proto[name], property);
+	            }
+	          } else {
+	            proto[name] = property;
+	            if (false) {}
+	          }
+	        }
+	      }
+	    }
+	  }
+
+	  function mixStaticSpecIntoComponent(Constructor, statics) {
+	    if (!statics) {
+	      return;
+	    }
+
+	    for (var name in statics) {
+	      var property = statics[name];
+	      if (!statics.hasOwnProperty(name)) {
+	        continue;
+	      }
+
+	      var isReserved = name in RESERVED_SPEC_KEYS;
+	      _invariant(
+	        !isReserved,
+	        'ReactClass: You are attempting to define a reserved ' +
+	          'property, `%s`, that shouldn\'t be on the "statics" key. Define it ' +
+	          'as an instance property instead; it will still be accessible on the ' +
+	          'constructor.',
+	        name
+	      );
+
+	      var isAlreadyDefined = name in Constructor;
+	      if (isAlreadyDefined) {
+	        var specPolicy = ReactClassStaticInterface.hasOwnProperty(name)
+	          ? ReactClassStaticInterface[name]
+	          : null;
+
+	        _invariant(
+	          specPolicy === 'DEFINE_MANY_MERGED',
+	          'ReactClass: You are attempting to define ' +
+	            '`%s` on your component more than once. This conflict may be ' +
+	            'due to a mixin.',
+	          name
+	        );
+
+	        Constructor[name] = createMergedResultFunction(Constructor[name], property);
+
+	        return;
+	      }
+
+	      Constructor[name] = property;
+	    }
+	  }
+
+	  /**
+	   * Merge two objects, but throw if both contain the same key.
+	   *
+	   * @param {object} one The first object, which is mutated.
+	   * @param {object} two The second object
+	   * @return {object} one after it has been mutated to contain everything in two.
+	   */
+	  function mergeIntoWithNoDuplicateKeys(one, two) {
+	    _invariant(
+	      one && two && typeof one === 'object' && typeof two === 'object',
+	      'mergeIntoWithNoDuplicateKeys(): Cannot merge non-objects.'
+	    );
+
+	    for (var key in two) {
+	      if (two.hasOwnProperty(key)) {
+	        _invariant(
+	          one[key] === undefined,
+	          'mergeIntoWithNoDuplicateKeys(): ' +
+	            'Tried to merge two objects with the same key: `%s`. This conflict ' +
+	            'may be due to a mixin; in particular, this may be caused by two ' +
+	            'getInitialState() or getDefaultProps() methods returning objects ' +
+	            'with clashing keys.',
+	          key
+	        );
+	        one[key] = two[key];
+	      }
+	    }
+	    return one;
+	  }
+
+	  /**
+	   * Creates a function that invokes two functions and merges their return values.
+	   *
+	   * @param {function} one Function to invoke first.
+	   * @param {function} two Function to invoke second.
+	   * @return {function} Function that invokes the two argument functions.
+	   * @private
+	   */
+	  function createMergedResultFunction(one, two) {
+	    return function mergedResult() {
+	      var a = one.apply(this, arguments);
+	      var b = two.apply(this, arguments);
+	      if (a == null) {
+	        return b;
+	      } else if (b == null) {
+	        return a;
+	      }
+	      var c = {};
+	      mergeIntoWithNoDuplicateKeys(c, a);
+	      mergeIntoWithNoDuplicateKeys(c, b);
+	      return c;
+	    };
+	  }
+
+	  /**
+	   * Creates a function that invokes two functions and ignores their return vales.
+	   *
+	   * @param {function} one Function to invoke first.
+	   * @param {function} two Function to invoke second.
+	   * @return {function} Function that invokes the two argument functions.
+	   * @private
+	   */
+	  function createChainedFunction(one, two) {
+	    return function chainedFunction() {
+	      one.apply(this, arguments);
+	      two.apply(this, arguments);
+	    };
+	  }
+
+	  /**
+	   * Binds a method to the component.
+	   *
+	   * @param {object} component Component whose method is going to be bound.
+	   * @param {function} method Method to be bound.
+	   * @return {function} The bound method.
+	   */
+	  function bindAutoBindMethod(component, method) {
+	    var boundMethod = method.bind(component);
+	    if (false) { var _bind, componentName; }
+	    return boundMethod;
+	  }
+
+	  /**
+	   * Binds all auto-bound methods in a component.
+	   *
+	   * @param {object} component Component whose method is going to be bound.
+	   */
+	  function bindAutoBindMethods(component) {
+	    var pairs = component.__reactAutoBindPairs;
+	    for (var i = 0; i < pairs.length; i += 2) {
+	      var autoBindKey = pairs[i];
+	      var method = pairs[i + 1];
+	      component[autoBindKey] = bindAutoBindMethod(component, method);
+	    }
+	  }
+
+	  var IsMountedPreMixin = {
+	    componentDidMount: function() {
+	      this.__isMounted = true;
+	    }
+	  };
+
+	  var IsMountedPostMixin = {
+	    componentWillUnmount: function() {
+	      this.__isMounted = false;
+	    }
+	  };
+
+	  /**
+	   * Add more to the ReactClass base class. These are all legacy features and
+	   * therefore not already part of the modern ReactComponent.
+	   */
+	  var ReactClassMixin = {
+	    /**
+	     * TODO: This will be deprecated because state should always keep a consistent
+	     * type signature and the only use case for this, is to avoid that.
+	     */
+	    replaceState: function(newState, callback) {
+	      this.updater.enqueueReplaceState(this, newState, callback);
+	    },
+
+	    /**
+	     * Checks whether or not this composite component is mounted.
+	     * @return {boolean} True if mounted, false otherwise.
+	     * @protected
+	     * @final
+	     */
+	    isMounted: function() {
+	      if (false) {}
+	      return !!this.__isMounted;
+	    }
+	  };
+
+	  var ReactClassComponent = function() {};
+	  _assign(
+	    ReactClassComponent.prototype,
+	    ReactComponent.prototype,
+	    ReactClassMixin
+	  );
+
+	  /**
+	   * Creates a composite component class given a class specification.
+	   * See https://facebook.github.io/react/docs/top-level-api.html#react.createclass
+	   *
+	   * @param {object} spec Class specification (which must define `render`).
+	   * @return {function} Component constructor function.
+	   * @public
+	   */
+	  function createClass(spec) {
+	    // To keep our warnings more understandable, we'll use a little hack here to
+	    // ensure that Constructor.name !== 'Constructor'. This makes sure we don't
+	    // unnecessarily identify a class without displayName as 'Constructor'.
+	    var Constructor = identity(function(props, context, updater) {
+	      // This constructor gets overridden by mocks. The argument is used
+	      // by mocks to assert on what gets mounted.
+
+	      if (false) {}
+
+	      // Wire up auto-binding
+	      if (this.__reactAutoBindPairs.length) {
+	        bindAutoBindMethods(this);
+	      }
+
+	      this.props = props;
+	      this.context = context;
+	      this.refs = emptyObject;
+	      this.updater = updater || ReactNoopUpdateQueue;
+
+	      this.state = null;
+
+	      // ReactClasses doesn't have constructors. Instead, they use the
+	      // getInitialState and componentWillMount methods for initialization.
+
+	      var initialState = this.getInitialState ? this.getInitialState() : null;
+	      if (false) {}
+	      _invariant(
+	        typeof initialState === 'object' && !Array.isArray(initialState),
+	        '%s.getInitialState(): must return an object or null',
+	        Constructor.displayName || 'ReactCompositeComponent'
+	      );
+
+	      this.state = initialState;
+	    });
+	    Constructor.prototype = new ReactClassComponent();
+	    Constructor.prototype.constructor = Constructor;
+	    Constructor.prototype.__reactAutoBindPairs = [];
+
+	    injectedMixins.forEach(mixSpecIntoComponent.bind(null, Constructor));
+
+	    mixSpecIntoComponent(Constructor, IsMountedPreMixin);
+	    mixSpecIntoComponent(Constructor, spec);
+	    mixSpecIntoComponent(Constructor, IsMountedPostMixin);
+
+	    // Initialize the defaultProps property after all mixins have been merged.
+	    if (Constructor.getDefaultProps) {
+	      Constructor.defaultProps = Constructor.getDefaultProps();
+	    }
+
+	    if (false) {}
+
+	    _invariant(
+	      Constructor.prototype.render,
+	      'createClass(...): Class specification must implement a `render` method.'
+	    );
+
+	    if (false) {}
+
+	    // Reduce time spent doing lookups by setting these on the prototype.
+	    for (var methodName in ReactClassInterface) {
+	      if (!Constructor.prototype[methodName]) {
+	        Constructor.prototype[methodName] = null;
+	      }
+	    }
+
+	    return Constructor;
+	  }
+
+	  return createClass;
+	}
+
+	module.exports = factory;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+	/*
+	object-assign
+	(c) Sindre Sorhus
+	@license MIT
+	*/
+
+	'use strict';
+	/* eslint-disable no-unused-vars */
+	var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+	function toObject(val) {
+		if (val === null || val === undefined) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+
+		return Object(val);
+	}
+
+	function shouldUseNative() {
+		try {
+			if (!Object.assign) {
+				return false;
+			}
+
+			// Detect buggy property enumeration order in older V8 versions.
+
+			// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+			var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+			test1[5] = 'de';
+			if (Object.getOwnPropertyNames(test1)[0] === '5') {
+				return false;
+			}
+
+			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+			var test2 = {};
+			for (var i = 0; i < 10; i++) {
+				test2['_' + String.fromCharCode(i)] = i;
+			}
+			var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+				return test2[n];
+			});
+			if (order2.join('') !== '0123456789') {
+				return false;
+			}
+
+			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+			var test3 = {};
+			'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+				test3[letter] = letter;
+			});
+			if (Object.keys(Object.assign({}, test3)).join('') !==
+					'abcdefghijklmnopqrst') {
+				return false;
+			}
+
+			return true;
+		} catch (err) {
+			// We don't expect any of the above to throw, but better to be safe.
+			return false;
+		}
+	}
+
+	module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+		var from;
+		var to = toObject(target);
+		var symbols;
+
+		for (var s = 1; s < arguments.length; s++) {
+			from = Object(arguments[s]);
+
+			for (var key in from) {
+				if (hasOwnProperty.call(from, key)) {
+					to[key] = from[key];
+				}
+			}
+
+			if (getOwnPropertySymbols) {
+				symbols = getOwnPropertySymbols(from);
+				for (var i = 0; i < symbols.length; i++) {
+					if (propIsEnumerable.call(from, symbols[i])) {
+						to[symbols[i]] = from[symbols[i]];
+					}
+				}
+			}
+		}
+
+		return to;
+	};
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 *
+	 */
+
+	'use strict';
+
+	var emptyObject = {};
+
+	if (false) {}
+
+	module.exports = emptyObject;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 *
+	 */
+
+	'use strict';
+
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+
+	var validateFormat = function validateFormat(format) {};
+
+	if (false) {}
+
+	function invariant(condition, format, a, b, c, d, e, f) {
+	  validateFormat(format);
+
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error(format.replace(/%s/g, function () {
+	        return args[argIndex++];
+	      }));
+	      error.name = 'Invariant Violation';
+	    }
+
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	}
+
+	module.exports = invariant;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __nested_webpack_require_54526__) {
+
+	/**
+	 * Copyright (c) 2014-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 *
+	 */
+
+	'use strict';
+
+	var emptyFunction = __nested_webpack_require_54526__(8);
+
+	/**
+	 * Similar to invariant but only logs a warning if the condition is not met.
+	 * This can be used to log issues in development environments in critical
+	 * paths. Removing the logging code for production environments will keep the
+	 * same logic and follow the same code paths.
+	 */
+
+	var warning = emptyFunction;
+
+	if (false) { var printWarning; }
+
+	module.exports = warning;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 *
+	 * 
+	 */
+
+	function makeEmptyFunction(arg) {
+	  return function () {
+	    return arg;
+	  };
+	}
+
+	/**
+	 * This function accepts and discards inputs; it has no side effects. This is
+	 * primarily useful idiomatically for overridable function endpoints which
+	 * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
+	 */
+	var emptyFunction = function emptyFunction() {};
+
+	emptyFunction.thatReturns = makeEmptyFunction;
+	emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
+	emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
+	emptyFunction.thatReturnsNull = makeEmptyFunction(null);
+	emptyFunction.thatReturnsThis = function () {
+	  return this;
+	};
+	emptyFunction.thatReturnsArgument = function (arg) {
+	  return arg;
+	};
+
+	module.exports = emptyFunction;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	var NumeralFormatter = function NumeralFormatter(numeralDecimalMark, numeralIntegerScale, numeralDecimalScale, numeralThousandsGroupStyle, numeralPositiveOnly, stripLeadingZeroes, prefix, signBeforePrefix, tailPrefix, delimiter) {
+	    var owner = this;
+
+	    owner.numeralDecimalMark = numeralDecimalMark || '.';
+	    owner.numeralIntegerScale = numeralIntegerScale > 0 ? numeralIntegerScale : 0;
+	    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
+	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
+	    owner.numeralPositiveOnly = !!numeralPositiveOnly;
+	    owner.stripLeadingZeroes = stripLeadingZeroes !== false;
+	    owner.prefix = prefix || prefix === '' ? prefix : '';
+	    owner.signBeforePrefix = !!signBeforePrefix;
+	    owner.tailPrefix = !!tailPrefix;
+	    owner.delimiter = delimiter || delimiter === '' ? delimiter : ',';
+	    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+	};
+
+	NumeralFormatter.groupStyle = {
+	    thousand: 'thousand',
+	    lakh: 'lakh',
+	    wan: 'wan',
+	    none: 'none'
+	};
+
+	NumeralFormatter.prototype = {
+	    getRawValue: function getRawValue(value) {
+	        return value.replace(this.delimiterRE, '').replace(this.numeralDecimalMark, '.');
+	    },
+
+	    format: function format(value) {
+	        var owner = this,
+	            parts,
+	            partSign,
+	            partSignAndPrefix,
+	            partInteger,
+	            partDecimal = '';
+
+	        // strip alphabet letters
+	        value = value.replace(/[A-Za-z]/g, '')
+	        // replace the first decimal mark with reserved placeholder
+	        .replace(owner.numeralDecimalMark, 'M')
+
+	        // strip non numeric letters except minus and "M"
+	        // this is to ensure prefix has been stripped
+	        .replace(/[^\dM-]/g, '')
+
+	        // replace the leading minus with reserved placeholder
+	        .replace(/^\-/, 'N')
+
+	        // strip the other minus sign (if present)
+	        .replace(/\-/g, '')
+
+	        // replace the minus sign (if present)
+	        .replace('N', owner.numeralPositiveOnly ? '' : '-')
+
+	        // replace decimal mark
+	        .replace('M', owner.numeralDecimalMark);
+
+	        // strip any leading zeros
+	        if (owner.stripLeadingZeroes) {
+	            value = value.replace(/^(-)?0+(?=\d)/, '$1');
+	        }
+
+	        partSign = value.slice(0, 1) === '-' ? '-' : '';
+	        if (typeof owner.prefix != 'undefined') {
+	            if (owner.signBeforePrefix) {
+	                partSignAndPrefix = partSign + owner.prefix;
+	            } else {
+	                partSignAndPrefix = owner.prefix + partSign;
+	            }
+	        } else {
+	            partSignAndPrefix = partSign;
+	        }
+
+	        partInteger = value;
+
+	        if (value.indexOf(owner.numeralDecimalMark) >= 0) {
+	            parts = value.split(owner.numeralDecimalMark);
+	            partInteger = parts[0];
+	            partDecimal = owner.numeralDecimalMark + parts[1].slice(0, owner.numeralDecimalScale);
+	        }
+
+	        if (partSign === '-') {
+	            partInteger = partInteger.slice(1);
+	        }
+
+	        if (owner.numeralIntegerScale > 0) {
+	            partInteger = partInteger.slice(0, owner.numeralIntegerScale);
+	        }
+
+	        switch (owner.numeralThousandsGroupStyle) {
+	            case NumeralFormatter.groupStyle.lakh:
+	                partInteger = partInteger.replace(/(\d)(?=(\d\d)+\d$)/g, '$1' + owner.delimiter);
+
+	                break;
+
+	            case NumeralFormatter.groupStyle.wan:
+	                partInteger = partInteger.replace(/(\d)(?=(\d{4})+$)/g, '$1' + owner.delimiter);
+
+	                break;
+
+	            case NumeralFormatter.groupStyle.thousand:
+	                partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
+
+	                break;
+	        }
+
+	        if (owner.tailPrefix) {
+	            return partSign + partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '') + owner.prefix;
+	        }
+
+	        return partSignAndPrefix + partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
+	    }
+	};
+
+	module.exports = NumeralFormatter;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	var DateFormatter = function DateFormatter(datePattern, dateMin, dateMax) {
+	    var owner = this;
+
+	    owner.date = [];
+	    owner.blocks = [];
+	    owner.datePattern = datePattern;
+	    owner.dateMin = dateMin.split('-').reverse().map(function (x) {
+	        return parseInt(x, 10);
+	    });
+	    if (owner.dateMin.length === 2) owner.dateMin.unshift(0);
+
+	    owner.dateMax = dateMax.split('-').reverse().map(function (x) {
+	        return parseInt(x, 10);
+	    });
+	    if (owner.dateMax.length === 2) owner.dateMax.unshift(0);
+
+	    owner.initBlocks();
+	};
+
+	DateFormatter.prototype = {
+	    initBlocks: function initBlocks() {
+	        var owner = this;
+	        owner.datePattern.forEach(function (value) {
+	            if (value === 'Y') {
+	                owner.blocks.push(4);
+	            } else {
+	                owner.blocks.push(2);
+	            }
+	        });
+	    },
+
+	    getISOFormatDate: function getISOFormatDate() {
+	        var owner = this,
+	            date = owner.date;
+
+	        return date[2] ? date[2] + '-' + owner.addLeadingZero(date[1]) + '-' + owner.addLeadingZero(date[0]) : '';
+	    },
+
+	    getBlocks: function getBlocks() {
+	        return this.blocks;
+	    },
+
+	    getValidatedDate: function getValidatedDate(value) {
+	        var owner = this,
+	            result = '';
+
+	        value = value.replace(/[^\d]/g, '');
+
+	        owner.blocks.forEach(function (length, index) {
+	            if (value.length > 0) {
+	                var sub = value.slice(0, length),
+	                    sub0 = sub.slice(0, 1),
+	                    rest = value.slice(length);
+
+	                switch (owner.datePattern[index]) {
+	                    case 'd':
+	                        if (sub === '00') {
+	                            sub = '01';
+	                        } else if (parseInt(sub0, 10) > 3) {
+	                            sub = '0' + sub0;
+	                        } else if (parseInt(sub, 10) > 31) {
+	                            sub = '31';
+	                        }
+
+	                        break;
+
+	                    case 'm':
+	                        if (sub === '00') {
+	                            sub = '01';
+	                        } else if (parseInt(sub0, 10) > 1) {
+	                            sub = '0' + sub0;
+	                        } else if (parseInt(sub, 10) > 12) {
+	                            sub = '12';
+	                        }
+
+	                        break;
+	                }
+
+	                result += sub;
+
+	                // update remaining string
+	                value = rest;
+	            }
+	        });
+
+	        return this.getFixedDateString(result);
+	    },
+
+	    getFixedDateString: function getFixedDateString(value) {
+	        var owner = this,
+	            datePattern = owner.datePattern,
+	            date = [],
+	            dayIndex = 0,
+	            monthIndex = 0,
+	            yearIndex = 0,
+	            dayStartIndex = 0,
+	            monthStartIndex = 0,
+	            yearStartIndex = 0,
+	            day,
+	            month,
+	            year,
+	            fullYearDone = false;
+
+	        // mm-dd || dd-mm
+	        if (value.length === 4 && datePattern[0].toLowerCase() !== 'y' && datePattern[1].toLowerCase() !== 'y') {
+	            dayStartIndex = datePattern[0] === 'd' ? 0 : 2;
+	            monthStartIndex = 2 - dayStartIndex;
+	            day = parseInt(value.slice(dayStartIndex, dayStartIndex + 2), 10);
+	            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+
+	            date = this.getFixedDate(day, month, 0);
+	        }
+
+	        // yyyy-mm-dd || yyyy-dd-mm || mm-dd-yyyy || dd-mm-yyyy || dd-yyyy-mm || mm-yyyy-dd
+	        if (value.length === 8) {
+	            datePattern.forEach(function (type, index) {
+	                switch (type) {
+	                    case 'd':
+	                        dayIndex = index;
+	                        break;
+	                    case 'm':
+	                        monthIndex = index;
+	                        break;
+	                    default:
+	                        yearIndex = index;
+	                        break;
+	                }
+	            });
+
+	            yearStartIndex = yearIndex * 2;
+	            dayStartIndex = dayIndex <= yearIndex ? dayIndex * 2 : dayIndex * 2 + 2;
+	            monthStartIndex = monthIndex <= yearIndex ? monthIndex * 2 : monthIndex * 2 + 2;
+
+	            day = parseInt(value.slice(dayStartIndex, dayStartIndex + 2), 10);
+	            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+	            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 4), 10);
+
+	            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 4).length === 4;
+
+	            date = this.getFixedDate(day, month, year);
+	        }
+
+	        // mm-yy || yy-mm
+	        if (value.length === 4 && (datePattern[0] === 'y' || datePattern[1] === 'y')) {
+	            monthStartIndex = datePattern[0] === 'm' ? 0 : 2;
+	            yearStartIndex = 2 - monthStartIndex;
+	            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+	            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 2), 10);
+
+	            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 2).length === 2;
+
+	            date = [0, month, year];
+	        }
+
+	        // mm-yyyy || yyyy-mm
+	        if (value.length === 6 && (datePattern[0] === 'Y' || datePattern[1] === 'Y')) {
+	            monthStartIndex = datePattern[0] === 'm' ? 0 : 4;
+	            yearStartIndex = 2 - 0.5 * monthStartIndex;
+	            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+	            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 4), 10);
+
+	            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 4).length === 4;
+
+	            date = [0, month, year];
+	        }
+
+	        date = owner.getRangeFixedDate(date);
+	        owner.date = date;
+
+	        var result = date.length === 0 ? value : datePattern.reduce(function (previous, current) {
+	            switch (current) {
+	                case 'd':
+	                    return previous + (date[0] === 0 ? '' : owner.addLeadingZero(date[0]));
+	                case 'm':
+	                    return previous + (date[1] === 0 ? '' : owner.addLeadingZero(date[1]));
+	                case 'y':
+	                    return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2], false) : '');
+	                case 'Y':
+	                    return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2], true) : '');
+	            }
+	        }, '');
+
+	        return result;
+	    },
+
+	    getRangeFixedDate: function getRangeFixedDate(date) {
+	        var owner = this,
+	            datePattern = owner.datePattern,
+	            dateMin = owner.dateMin || [],
+	            dateMax = owner.dateMax || [];
+
+	        if (!date.length || dateMin.length < 3 && dateMax.length < 3) return date;
+
+	        if (datePattern.find(function (x) {
+	            return x.toLowerCase() === 'y';
+	        }) && date[2] === 0) return date;
+
+	        if (dateMax.length && (dateMax[2] < date[2] || dateMax[2] === date[2] && (dateMax[1] < date[1] || dateMax[1] === date[1] && dateMax[0] < date[0]))) return dateMax;
+
+	        if (dateMin.length && (dateMin[2] > date[2] || dateMin[2] === date[2] && (dateMin[1] > date[1] || dateMin[1] === date[1] && dateMin[0] > date[0]))) return dateMin;
+
+	        return date;
+	    },
+
+	    getFixedDate: function getFixedDate(day, month, year) {
+	        day = Math.min(day, 31);
+	        month = Math.min(month, 12);
+	        year = parseInt(year || 0, 10);
+
+	        if (month < 7 && month % 2 === 0 || month > 8 && month % 2 === 1) {
+	            day = Math.min(day, month === 2 ? this.isLeapYear(year) ? 29 : 28 : 30);
+	        }
+
+	        return [day, month, year];
+	    },
+
+	    isLeapYear: function isLeapYear(year) {
+	        return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
+	    },
+
+	    addLeadingZero: function addLeadingZero(number) {
+	        return (number < 10 ? '0' : '') + number;
+	    },
+
+	    addLeadingZeroForYear: function addLeadingZeroForYear(number, fullYearMode) {
+	        if (fullYearMode) {
+	            return (number < 10 ? '000' : number < 100 ? '00' : number < 1000 ? '0' : '') + number;
+	        }
+
+	        return (number < 10 ? '0' : '') + number;
+	    }
+	};
+
+	module.exports = DateFormatter;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	var TimeFormatter = function TimeFormatter(timePattern, timeFormat) {
+	    var owner = this;
+
+	    owner.time = [];
+	    owner.blocks = [];
+	    owner.timePattern = timePattern;
+	    owner.timeFormat = timeFormat;
+	    owner.initBlocks();
+	};
+
+	TimeFormatter.prototype = {
+	    initBlocks: function initBlocks() {
+	        var owner = this;
+	        owner.timePattern.forEach(function () {
+	            owner.blocks.push(2);
+	        });
+	    },
+
+	    getISOFormatTime: function getISOFormatTime() {
+	        var owner = this,
+	            time = owner.time;
+
+	        return time[2] ? owner.addLeadingZero(time[0]) + ':' + owner.addLeadingZero(time[1]) + ':' + owner.addLeadingZero(time[2]) : '';
+	    },
+
+	    getBlocks: function getBlocks() {
+	        return this.blocks;
+	    },
+
+	    getTimeFormatOptions: function getTimeFormatOptions() {
+	        var owner = this;
+	        if (String(owner.timeFormat) === '12') {
+	            return {
+	                maxHourFirstDigit: 1,
+	                maxHours: 12,
+	                maxMinutesFirstDigit: 5,
+	                maxMinutes: 60
+	            };
+	        }
+
+	        return {
+	            maxHourFirstDigit: 2,
+	            maxHours: 23,
+	            maxMinutesFirstDigit: 5,
+	            maxMinutes: 60
+	        };
+	    },
+
+	    getValidatedTime: function getValidatedTime(value) {
+	        var owner = this,
+	            result = '';
+
+	        value = value.replace(/[^\d]/g, '');
+
+	        var timeFormatOptions = owner.getTimeFormatOptions();
+
+	        owner.blocks.forEach(function (length, index) {
+	            if (value.length > 0) {
+	                var sub = value.slice(0, length),
+	                    sub0 = sub.slice(0, 1),
+	                    rest = value.slice(length);
+
+	                switch (owner.timePattern[index]) {
+
+	                    case 'h':
+	                        if (parseInt(sub0, 10) > timeFormatOptions.maxHourFirstDigit) {
+	                            sub = '0' + sub0;
+	                        } else if (parseInt(sub, 10) > timeFormatOptions.maxHours) {
+	                            sub = timeFormatOptions.maxHours + '';
+	                        }
+
+	                        break;
+
+	                    case 'm':
+	                    case 's':
+	                        if (parseInt(sub0, 10) > timeFormatOptions.maxMinutesFirstDigit) {
+	                            sub = '0' + sub0;
+	                        } else if (parseInt(sub, 10) > timeFormatOptions.maxMinutes) {
+	                            sub = timeFormatOptions.maxMinutes + '';
+	                        }
+	                        break;
+	                }
+
+	                result += sub;
+
+	                // update remaining string
+	                value = rest;
+	            }
+	        });
+
+	        return this.getFixedTimeString(result);
+	    },
+
+	    getFixedTimeString: function getFixedTimeString(value) {
+	        var owner = this,
+	            timePattern = owner.timePattern,
+	            time = [],
+	            secondIndex = 0,
+	            minuteIndex = 0,
+	            hourIndex = 0,
+	            secondStartIndex = 0,
+	            minuteStartIndex = 0,
+	            hourStartIndex = 0,
+	            second,
+	            minute,
+	            hour;
+
+	        if (value.length === 6) {
+	            timePattern.forEach(function (type, index) {
+	                switch (type) {
+	                    case 's':
+	                        secondIndex = index * 2;
+	                        break;
+	                    case 'm':
+	                        minuteIndex = index * 2;
+	                        break;
+	                    case 'h':
+	                        hourIndex = index * 2;
+	                        break;
+	                }
+	            });
+
+	            hourStartIndex = hourIndex;
+	            minuteStartIndex = minuteIndex;
+	            secondStartIndex = secondIndex;
+
+	            second = parseInt(value.slice(secondStartIndex, secondStartIndex + 2), 10);
+	            minute = parseInt(value.slice(minuteStartIndex, minuteStartIndex + 2), 10);
+	            hour = parseInt(value.slice(hourStartIndex, hourStartIndex + 2), 10);
+
+	            time = this.getFixedTime(hour, minute, second);
+	        }
+
+	        if (value.length === 4 && owner.timePattern.indexOf('s') < 0) {
+	            timePattern.forEach(function (type, index) {
+	                switch (type) {
+	                    case 'm':
+	                        minuteIndex = index * 2;
+	                        break;
+	                    case 'h':
+	                        hourIndex = index * 2;
+	                        break;
+	                }
+	            });
+
+	            hourStartIndex = hourIndex;
+	            minuteStartIndex = minuteIndex;
+
+	            second = 0;
+	            minute = parseInt(value.slice(minuteStartIndex, minuteStartIndex + 2), 10);
+	            hour = parseInt(value.slice(hourStartIndex, hourStartIndex + 2), 10);
+
+	            time = this.getFixedTime(hour, minute, second);
+	        }
+
+	        owner.time = time;
+
+	        return time.length === 0 ? value : timePattern.reduce(function (previous, current) {
+	            switch (current) {
+	                case 's':
+	                    return previous + owner.addLeadingZero(time[2]);
+	                case 'm':
+	                    return previous + owner.addLeadingZero(time[1]);
+	                case 'h':
+	                    return previous + owner.addLeadingZero(time[0]);
+	            }
+	        }, '');
+	    },
+
+	    getFixedTime: function getFixedTime(hour, minute, second) {
+	        second = Math.min(parseInt(second || 0, 10), 60);
+	        minute = Math.min(minute, 60);
+	        hour = Math.min(hour, 60);
+
+	        return [hour, minute, second];
+	    },
+
+	    addLeadingZero: function addLeadingZero(number) {
+	        return (number < 10 ? '0' : '') + number;
+	    }
+	};
+
+	module.exports = TimeFormatter;
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	var PhoneFormatter = function PhoneFormatter(formatter, delimiter) {
+	    var owner = this;
+
+	    owner.delimiter = delimiter || delimiter === '' ? delimiter : ' ';
+	    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+
+	    owner.formatter = formatter;
+	};
+
+	PhoneFormatter.prototype = {
+	    setFormatter: function setFormatter(formatter) {
+	        this.formatter = formatter;
+	    },
+
+	    format: function format(phoneNumber) {
+	        var owner = this;
+
+	        owner.formatter.clear();
+
+	        // only keep number and +
+	        phoneNumber = phoneNumber.replace(/[^\d+]/g, '');
+
+	        // strip non-leading +
+	        phoneNumber = phoneNumber.replace(/^\+/, 'B').replace(/\+/g, '').replace('B', '+');
+
+	        // strip delimiter
+	        phoneNumber = phoneNumber.replace(owner.delimiterRE, '');
+
+	        var result = '',
+	            current,
+	            validated = false;
+
+	        for (var i = 0, iMax = phoneNumber.length; i < iMax; i++) {
+	            current = owner.formatter.inputDigit(phoneNumber.charAt(i));
+
+	            // has ()- or space inside
+	            if (/[\s()-]/g.test(current)) {
+	                result = current;
+
+	                validated = true;
+	            } else {
+	                if (!validated) {
+	                    result = current;
+	                }
+	                // else: over length input
+	                // it turns to invalid number again
+	            }
+	        }
+
+	        // strip ()
+	        // e.g. US: 7161234567 returns (716) 123-4567
+	        result = result.replace(/[()]/g, '');
+	        // replace library delimiter with user customized delimiter
+	        result = result.replace(/[\s-]/g, owner.delimiter);
+
+	        return result;
+	    }
+	};
+
+	module.exports = PhoneFormatter;
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	var CreditCardDetector = {
+	    blocks: {
+	        uatp: [4, 5, 6],
+	        amex: [4, 6, 5],
+	        diners: [4, 6, 4],
+	        discover: [4, 4, 4, 4],
+	        mastercard: [4, 4, 4, 4],
+	        dankort: [4, 4, 4, 4],
+	        instapayment: [4, 4, 4, 4],
+	        jcb15: [4, 6, 5],
+	        jcb: [4, 4, 4, 4],
+	        maestro: [4, 4, 4, 4],
+	        visa: [4, 4, 4, 4],
+	        mir: [4, 4, 4, 4],
+	        unionPay: [4, 4, 4, 4],
+	        general: [4, 4, 4, 4]
+	    },
+
+	    re: {
+	        // starts with 1; 15 digits, not starts with 1800 (jcb card)
+	        uatp: /^(?!1800)1\d{0,14}/,
+
+	        // starts with 34/37; 15 digits
+	        amex: /^3[47]\d{0,13}/,
+
+	        // starts with 6011/65/644-649; 16 digits
+	        discover: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
+
+	        // starts with 300-305/309 or 36/38/39; 14 digits
+	        diners: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
+
+	        // starts with 51-55/2221–2720; 16 digits
+	        mastercard: /^(5[1-5]\d{0,2}|22[2-9]\d{0,1}|2[3-7]\d{0,2})\d{0,12}/,
+
+	        // starts with 5019/4175/4571; 16 digits
+	        dankort: /^(5019|4175|4571)\d{0,12}/,
+
+	        // starts with 637-639; 16 digits
+	        instapayment: /^63[7-9]\d{0,13}/,
+
+	        // starts with 2131/1800; 15 digits
+	        jcb15: /^(?:2131|1800)\d{0,11}/,
+
+	        // starts with 2131/1800/35; 16 digits
+	        jcb: /^(?:35\d{0,2})\d{0,12}/,
+
+	        // starts with 50/56-58/6304/67; 16 digits
+	        maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
+
+	        // starts with 22; 16 digits
+	        mir: /^220[0-4]\d{0,12}/,
+
+	        // starts with 4; 16 digits
+	        visa: /^4\d{0,15}/,
+
+	        // starts with 62/81; 16 digits
+	        unionPay: /^(62|81)\d{0,14}/
+	    },
+
+	    getStrictBlocks: function getStrictBlocks(block) {
+	        var total = block.reduce(function (prev, current) {
+	            return prev + current;
+	        }, 0);
+
+	        return block.concat(19 - total);
+	    },
+
+	    getInfo: function getInfo(value, strictMode) {
+	        var blocks = CreditCardDetector.blocks,
+	            re = CreditCardDetector.re;
+
+	        // Some credit card can have up to 19 digits number.
+	        // Set strictMode to true will remove the 16 max-length restrain,
+	        // however, I never found any website validate card number like
+	        // this, hence probably you don't want to enable this option.
+	        strictMode = !!strictMode;
+
+	        for (var key in re) {
+	            if (re[key].test(value)) {
+	                var matchedBlocks = blocks[key];
+	                return {
+	                    type: key,
+	                    blocks: strictMode ? this.getStrictBlocks(matchedBlocks) : matchedBlocks
+	                };
+	            }
+	        }
+
+	        return {
+	            type: 'unknown',
+	            blocks: strictMode ? this.getStrictBlocks(blocks.general) : blocks.general
+	        };
+	    }
+	};
+
+	module.exports = CreditCardDetector;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	var Util = {
+	    noop: function noop() {},
+
+	    strip: function strip(value, re) {
+	        return value.replace(re, '');
+	    },
+
+	    getPostDelimiter: function getPostDelimiter(value, delimiter, delimiters) {
+	        // single delimiter
+	        if (delimiters.length === 0) {
+	            return value.slice(-delimiter.length) === delimiter ? delimiter : '';
+	        }
+
+	        // multiple delimiters
+	        var matchedDelimiter = '';
+	        delimiters.forEach(function (current) {
+	            if (value.slice(-current.length) === current) {
+	                matchedDelimiter = current;
+	            }
+	        });
+
+	        return matchedDelimiter;
+	    },
+
+	    getDelimiterREByDelimiter: function getDelimiterREByDelimiter(delimiter) {
+	        return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
+	    },
+
+	    getNextCursorPosition: function getNextCursorPosition(prevPos, oldValue, newValue, delimiter, delimiters) {
+	        // If cursor was at the end of value, just place it back.
+	        // Because new value could contain additional chars.
+	        if (oldValue.length === prevPos) {
+	            return newValue.length;
+	        }
+
+	        return prevPos + this.getPositionOffset(prevPos, oldValue, newValue, delimiter, delimiters);
+	    },
+
+	    getPositionOffset: function getPositionOffset(prevPos, oldValue, newValue, delimiter, delimiters) {
+	        var oldRawValue, newRawValue, lengthOffset;
+
+	        oldRawValue = this.stripDelimiters(oldValue.slice(0, prevPos), delimiter, delimiters);
+	        newRawValue = this.stripDelimiters(newValue.slice(0, prevPos), delimiter, delimiters);
+	        lengthOffset = oldRawValue.length - newRawValue.length;
+
+	        return lengthOffset !== 0 ? lengthOffset / Math.abs(lengthOffset) : 0;
+	    },
+
+	    stripDelimiters: function stripDelimiters(value, delimiter, delimiters) {
+	        var owner = this;
+
+	        // single delimiter
+	        if (delimiters.length === 0) {
+	            var delimiterRE = delimiter ? owner.getDelimiterREByDelimiter(delimiter) : '';
+
+	            return value.replace(delimiterRE, '');
+	        }
+
+	        // multiple delimiters
+	        delimiters.forEach(function (current) {
+	            current.split('').forEach(function (letter) {
+	                value = value.replace(owner.getDelimiterREByDelimiter(letter), '');
+	            });
+	        });
+
+	        return value;
+	    },
+
+	    headStr: function headStr(str, length) {
+	        return str.slice(0, length);
+	    },
+
+	    getMaxLength: function getMaxLength(blocks) {
+	        return blocks.reduce(function (previous, current) {
+	            return previous + current;
+	        }, 0);
+	    },
+
+	    // strip prefix
+	    // Before type  |   After type    |     Return value
+	    // PEFIX-...    |   PEFIX-...     |     ''
+	    // PREFIX-123   |   PEFIX-123     |     123
+	    // PREFIX-123   |   PREFIX-23     |     23
+	    // PREFIX-123   |   PREFIX-1234   |     1234
+	    getPrefixStrippedValue: function getPrefixStrippedValue(value, prefix, prefixLength, prevResult, delimiter, delimiters, noImmediatePrefix, tailPrefix, signBeforePrefix) {
+	        // No prefix
+	        if (prefixLength === 0) {
+	            return value;
+	        }
+
+	        // Value is prefix
+	        if (value === prefix && value !== '') {
+	            return '';
+	        }
+
+	        if (signBeforePrefix && value.slice(0, 1) == '-') {
+	            var prev = prevResult.slice(0, 1) == '-' ? prevResult.slice(1) : prevResult;
+	            return '-' + this.getPrefixStrippedValue(value.slice(1), prefix, prefixLength, prev, delimiter, delimiters, noImmediatePrefix, tailPrefix, signBeforePrefix);
+	        }
+
+	        // Pre result prefix string does not match pre-defined prefix
+	        if (prevResult.slice(0, prefixLength) !== prefix && !tailPrefix) {
+	            // Check if the first time user entered something
+	            if (noImmediatePrefix && !prevResult && value) return value;
+	            return '';
+	        } else if (prevResult.slice(-prefixLength) !== prefix && tailPrefix) {
+	            // Check if the first time user entered something
+	            if (noImmediatePrefix && !prevResult && value) return value;
+	            return '';
+	        }
+
+	        var prevValue = this.stripDelimiters(prevResult, delimiter, delimiters);
+
+	        // New value has issue, someone typed in between prefix letters
+	        // Revert to pre value
+	        if (value.slice(0, prefixLength) !== prefix && !tailPrefix) {
+	            return prevValue.slice(prefixLength);
+	        } else if (value.slice(-prefixLength) !== prefix && tailPrefix) {
+	            return prevValue.slice(0, -prefixLength - 1);
+	        }
+
+	        // No issue, strip prefix for new value
+	        return tailPrefix ? value.slice(0, -prefixLength) : value.slice(prefixLength);
+	    },
+
+	    getFirstDiffIndex: function getFirstDiffIndex(prev, current) {
+	        var index = 0;
+
+	        while (prev.charAt(index) === current.charAt(index)) {
+	            if (prev.charAt(index++) === '') {
+	                return -1;
+	            }
+	        }
+
+	        return index;
+	    },
+
+	    getFormattedValue: function getFormattedValue(value, blocks, blocksLength, delimiter, delimiters, delimiterLazyShow) {
+	        var result = '',
+	            multipleDelimiters = delimiters.length > 0,
+	            currentDelimiter = '';
+
+	        // no options, normal input
+	        if (blocksLength === 0) {
+	            return value;
+	        }
+
+	        blocks.forEach(function (length, index) {
+	            if (value.length > 0) {
+	                var sub = value.slice(0, length),
+	                    rest = value.slice(length);
+
+	                if (multipleDelimiters) {
+	                    currentDelimiter = delimiters[delimiterLazyShow ? index - 1 : index] || currentDelimiter;
+	                } else {
+	                    currentDelimiter = delimiter;
+	                }
+
+	                if (delimiterLazyShow) {
+	                    if (index > 0) {
+	                        result += currentDelimiter;
+	                    }
+
+	                    result += sub;
+	                } else {
+	                    result += sub;
+
+	                    if (sub.length === length && index < blocksLength - 1) {
+	                        result += currentDelimiter;
+	                    }
+	                }
+
+	                // update remaining string
+	                value = rest;
+	            }
+	        });
+
+	        return result;
+	    },
+
+	    // move cursor to the end
+	    // the first time user focuses on an input with prefix
+	    fixPrefixCursor: function fixPrefixCursor(el, prefix, delimiter, delimiters) {
+	        if (!el) {
+	            return;
+	        }
+
+	        var val = el.value,
+	            appendix = delimiter || delimiters[0] || ' ';
+
+	        if (!el.setSelectionRange || !prefix || prefix.length + appendix.length <= val.length) {
+	            return;
+	        }
+
+	        var len = val.length * 2;
+
+	        // set timeout to avoid blink
+	        setTimeout(function () {
+	            el.setSelectionRange(len, len);
+	        }, 1);
+	    },
+
+	    // Check if input field is fully selected
+	    checkFullSelection: function checkFullSelection(value) {
+	        try {
+	            var selection = window.getSelection() || document.getSelection() || {};
+	            return selection.toString().length === value.length;
+	        } catch (ex) {
+	            // Ignore
+	        }
+
+	        return false;
+	    },
+
+	    setSelection: function setSelection(element, position, doc) {
+	        if (element !== this.getActiveElement(doc)) {
+	            return;
+	        }
+
+	        // cursor is already in the end
+	        if (element && element.value.length <= position) {
+	            return;
+	        }
+
+	        if (element.createTextRange) {
+	            var range = element.createTextRange();
+
+	            range.move('character', position);
+	            range.select();
+	        } else {
+	            try {
+	                element.setSelectionRange(position, position);
+	            } catch (e) {
+	                // eslint-disable-next-line
+	                console.warn('The input element type does not support selection');
+	            }
+	        }
+	    },
+
+	    getActiveElement: function getActiveElement(parent) {
+	        var activeElement = parent.activeElement;
+	        if (activeElement && activeElement.shadowRoot) {
+	            return this.getActiveElement(activeElement.shadowRoot);
+	        }
+	        return activeElement;
+	    },
+
+	    isAndroid: function isAndroid() {
+	        return navigator && /android/i.test(navigator.userAgent);
+	    },
+
+	    // On Android chrome, the keyup and keydown events
+	    // always return key code 229 as a composition that
+	    // buffers the user’s keystrokes
+	    // see https://github.com/nosir/cleave.js/issues/147
+	    isAndroidBackspaceKeydown: function isAndroidBackspaceKeydown(lastInputValue, currentInputValue) {
+	        if (!this.isAndroid() || !lastInputValue || !currentInputValue) {
+	            return false;
+	        }
+
+	        return currentInputValue === lastInputValue.slice(0, -1);
+	    }
+	};
+
+	module.exports = Util;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * Props Assignment
+	 *
+	 * Separate this, so react module can share the usage
+	 */
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var DefaultProperties = {
+	    // Maybe change to object-assign
+	    // for now just keep it as simple
+	    assign: function assign(target, opts) {
+	        target = target || {};
+	        opts = opts || {};
+
+	        // credit card
+	        target.creditCard = !!opts.creditCard;
+	        target.creditCardStrictMode = !!opts.creditCardStrictMode;
+	        target.creditCardType = '';
+	        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || function () {};
+
+	        // phone
+	        target.phone = !!opts.phone;
+	        target.phoneRegionCode = opts.phoneRegionCode || 'AU';
+	        target.phoneFormatter = {};
+
+	        // time
+	        target.time = !!opts.time;
+	        target.timePattern = opts.timePattern || ['h', 'm', 's'];
+	        target.timeFormat = opts.timeFormat || '24';
+	        target.timeFormatter = {};
+
+	        // date
+	        target.date = !!opts.date;
+	        target.datePattern = opts.datePattern || ['d', 'm', 'Y'];
+	        target.dateMin = opts.dateMin || '';
+	        target.dateMax = opts.dateMax || '';
+	        target.dateFormatter = {};
+
+	        // numeral
+	        target.numeral = !!opts.numeral;
+	        target.numeralIntegerScale = opts.numeralIntegerScale > 0 ? opts.numeralIntegerScale : 0;
+	        target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
+	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
+	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
+	        target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
+	        target.signBeforePrefix = !!opts.signBeforePrefix;
+	        target.tailPrefix = !!opts.tailPrefix;
+
+	        // others
+	        target.swapHiddenInput = !!opts.swapHiddenInput;
+
+	        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
+
+	        target.uppercase = !!opts.uppercase;
+	        target.lowercase = !!opts.lowercase;
+
+	        target.prefix = target.creditCard || target.date ? '' : opts.prefix || '';
+	        target.noImmediatePrefix = !!opts.noImmediatePrefix;
+	        target.prefixLength = target.prefix.length;
+	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
+	        target.copyDelimiter = !!opts.copyDelimiter;
+
+	        target.initValue = opts.initValue !== undefined && opts.initValue !== null ? opts.initValue.toString() : '';
+
+	        target.delimiter = opts.delimiter || opts.delimiter === '' ? opts.delimiter : opts.date ? '/' : opts.time ? ':' : opts.numeral ? ',' : opts.phone ? ' ' : ' ';
+	        target.delimiterLength = target.delimiter.length;
+	        target.delimiterLazyShow = !!opts.delimiterLazyShow;
+	        target.delimiters = opts.delimiters || [];
+
+	        target.blocks = opts.blocks || [];
+	        target.blocksLength = target.blocks.length;
+
+	        target.root = (typeof __webpack_require__.g === 'undefined' ? 'undefined' : _typeof(__webpack_require__.g)) === 'object' && __webpack_require__.g ? __webpack_require__.g : window;
+	        target.document = opts.document || target.root.document;
+
+	        target.maxLength = 0;
+
+	        target.backspace = false;
+	        target.result = '';
+
+	        target.onValueChanged = opts.onValueChanged || function () {};
+
+	        return target;
+	    }
+	};
+
+	module.exports = DefaultProperties;
+
+/***/ })
+/******/ ])
+});
+;
+
+/***/ }),
+
+/***/ 34:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__(38);
+
+
+/***/ }),
 
 /***/ 484:
 /***/ (function(module) {
 
-!function(t,n){ true?module.exports=n():0}(this,function(){"use strict";var t="millisecond",n="second",e="minute",r="hour",i="day",s="week",u="month",o="quarter",a="year",h=/^(\d{4})-?(\d{1,2})-?(\d{0,2})[^0-9]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?.?(\d{1,3})?$/,f=/\[([^\]]+)]|Y{2,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,c=function(t,n,e){var r=String(t);return!r||r.length>=n?t:""+Array(n+1-r.length).join(e)+t},d={s:c,z:function(t){var n=-t.utcOffset(),e=Math.abs(n),r=Math.floor(e/60),i=e%60;return(n<=0?"+":"-")+c(r,2,"0")+":"+c(i,2,"0")},m:function(t,n){var e=12*(n.year()-t.year())+(n.month()-t.month()),r=t.clone().add(e,u),i=n-r<0,s=t.clone().add(e+(i?-1:1),u);return Number(-(e+(n-r)/(i?r-s:s-r))||0)},a:function(t){return t<0?Math.ceil(t)||0:Math.floor(t)},p:function(h){return{M:u,y:a,w:s,d:i,h:r,m:e,s:n,ms:t,Q:o}[h]||String(h||"").toLowerCase().replace(/s$/,"")},u:function(t){return void 0===t}},$={name:"en",weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_")},l="en",m={};m[l]=$;var y=function(t){return t instanceof v},M=function(t,n,e){var r;if(!t)return null;if("string"==typeof t)m[t]&&(r=t),n&&(m[t]=n,r=t);else{var i=t.name;m[i]=t,r=i}return e||(l=r),r},g=function(t,n,e){if(y(t))return t.clone();var r=n?"string"==typeof n?{format:n,pl:e}:n:{};return r.date=t,new v(r)},D=d;D.l=M,D.i=y,D.w=function(t,n){return g(t,{locale:n.$L,utc:n.$u})};var v=function(){function c(t){this.$L=this.$L||M(t.locale,null,!0)||l,this.parse(t)}var d=c.prototype;return d.parse=function(t){this.$d=function(t){var n=t.date,e=t.utc;if(null===n)return new Date(NaN);if(D.u(n))return new Date;if(n instanceof Date)return new Date(n);if("string"==typeof n&&!/Z$/i.test(n)){var r=n.match(h);if(r)return e?new Date(Date.UTC(r[1],r[2]-1,r[3]||1,r[4]||0,r[5]||0,r[6]||0,r[7]||0)):new Date(r[1],r[2]-1,r[3]||1,r[4]||0,r[5]||0,r[6]||0,r[7]||0)}return new Date(n)}(t),this.init()},d.init=function(){var t=this.$d;this.$y=t.getFullYear(),this.$M=t.getMonth(),this.$D=t.getDate(),this.$W=t.getDay(),this.$H=t.getHours(),this.$m=t.getMinutes(),this.$s=t.getSeconds(),this.$ms=t.getMilliseconds()},d.$utils=function(){return D},d.isValid=function(){return!("Invalid Date"===this.$d.toString())},d.isSame=function(t,n){var e=g(t);return this.startOf(n)<=e&&e<=this.endOf(n)},d.isAfter=function(t,n){return g(t)<this.startOf(n)},d.isBefore=function(t,n){return this.endOf(n)<g(t)},d.$g=function(t,n,e){return D.u(t)?this[n]:this.set(e,t)},d.year=function(t){return this.$g(t,"$y",a)},d.month=function(t){return this.$g(t,"$M",u)},d.day=function(t){return this.$g(t,"$W",i)},d.date=function(t){return this.$g(t,"$D","date")},d.hour=function(t){return this.$g(t,"$H",r)},d.minute=function(t){return this.$g(t,"$m",e)},d.second=function(t){return this.$g(t,"$s",n)},d.millisecond=function(n){return this.$g(n,"$ms",t)},d.unix=function(){return Math.floor(this.valueOf()/1e3)},d.valueOf=function(){return this.$d.getTime()},d.startOf=function(t,o){var h=this,f=!!D.u(o)||o,c=D.p(t),d=function(t,n){var e=D.w(h.$u?Date.UTC(h.$y,n,t):new Date(h.$y,n,t),h);return f?e:e.endOf(i)},$=function(t,n){return D.w(h.toDate()[t].apply(h.toDate(),(f?[0,0,0,0]:[23,59,59,999]).slice(n)),h)},l=this.$W,m=this.$M,y=this.$D,M="set"+(this.$u?"UTC":"");switch(c){case a:return f?d(1,0):d(31,11);case u:return f?d(1,m):d(0,m+1);case s:var g=this.$locale().weekStart||0,v=(l<g?l+7:l)-g;return d(f?y-v:y+(6-v),m);case i:case"date":return $(M+"Hours",0);case r:return $(M+"Minutes",1);case e:return $(M+"Seconds",2);case n:return $(M+"Milliseconds",3);default:return this.clone()}},d.endOf=function(t){return this.startOf(t,!1)},d.$set=function(s,o){var h,f=D.p(s),c="set"+(this.$u?"UTC":""),d=(h={},h[i]=c+"Date",h.date=c+"Date",h[u]=c+"Month",h[a]=c+"FullYear",h[r]=c+"Hours",h[e]=c+"Minutes",h[n]=c+"Seconds",h[t]=c+"Milliseconds",h)[f],$=f===i?this.$D+(o-this.$W):o;if(f===u||f===a){var l=this.clone().set("date",1);l.$d[d]($),l.init(),this.$d=l.set("date",Math.min(this.$D,l.daysInMonth())).toDate()}else d&&this.$d[d]($);return this.init(),this},d.set=function(t,n){return this.clone().$set(t,n)},d.get=function(t){return this[D.p(t)]()},d.add=function(t,o){var h,f=this;t=Number(t);var c=D.p(o),d=function(n){var e=g(f);return D.w(e.date(e.date()+Math.round(n*t)),f)};if(c===u)return this.set(u,this.$M+t);if(c===a)return this.set(a,this.$y+t);if(c===i)return d(1);if(c===s)return d(7);var $=(h={},h[e]=6e4,h[r]=36e5,h[n]=1e3,h)[c]||1,l=this.valueOf()+t*$;return D.w(l,this)},d.subtract=function(t,n){return this.add(-1*t,n)},d.format=function(t){var n=this;if(!this.isValid())return"Invalid Date";var e=t||"YYYY-MM-DDTHH:mm:ssZ",r=D.z(this),i=this.$locale(),s=this.$H,u=this.$m,o=this.$M,a=i.weekdays,h=i.months,c=function(t,r,i,s){return t&&(t[r]||t(n,e))||i[r].substr(0,s)},d=function(t){return D.s(s%12||12,t,"0")},$=i.meridiem||function(t,n,e){var r=t<12?"AM":"PM";return e?r.toLowerCase():r},l={YY:String(this.$y).slice(-2),YYYY:this.$y,M:o+1,MM:D.s(o+1,2,"0"),MMM:c(i.monthsShort,o,h,3),MMMM:h[o]||h(this,e),D:this.$D,DD:D.s(this.$D,2,"0"),d:String(this.$W),dd:c(i.weekdaysMin,this.$W,a,2),ddd:c(i.weekdaysShort,this.$W,a,3),dddd:a[this.$W],H:String(s),HH:D.s(s,2,"0"),h:d(1),hh:d(2),a:$(s,u,!0),A:$(s,u,!1),m:String(u),mm:D.s(u,2,"0"),s:String(this.$s),ss:D.s(this.$s,2,"0"),SSS:D.s(this.$ms,3,"0"),Z:r};return e.replace(f,function(t,n){return n||l[t]||r.replace(":","")})},d.utcOffset=function(){return 15*-Math.round(this.$d.getTimezoneOffset()/15)},d.diff=function(t,h,f){var c,d=D.p(h),$=g(t),l=6e4*($.utcOffset()-this.utcOffset()),m=this-$,y=D.m(this,$);return y=(c={},c[a]=y/12,c[u]=y,c[o]=y/3,c[s]=(m-l)/6048e5,c[i]=(m-l)/864e5,c[r]=m/36e5,c[e]=m/6e4,c[n]=m/1e3,c)[d]||m,f?y:D.a(y)},d.daysInMonth=function(){return this.endOf(u).$D},d.$locale=function(){return m[this.$L]},d.locale=function(t,n){if(!t)return this.$L;var e=this.clone();return e.$L=M(t,n,!0),e},d.clone=function(){return D.w(this.toDate(),this)},d.toDate=function(){return new Date(this.$d)},d.toJSON=function(){return this.toISOString()},d.toISOString=function(){return this.$d.toISOString()},d.toString=function(){return this.$d.toUTCString()},c}();return g.prototype=v.prototype,g.extend=function(t,n){return t(n,v,g),g},g.locale=M,g.isDayjs=y,g.unix=function(t){return g(1e3*t)},g.en=m[l],g.Ls=m,g});
-
+!function(t,e){ true?module.exports=e():0}(this,(function(){"use strict";var t=1e3,e=6e4,n=36e5,r="millisecond",i="second",s="minute",u="hour",a="day",o="week",f="month",h="quarter",c="year",d="date",$="Invalid Date",l=/^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/,y=/\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,M={name:"en",weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_")},m=function(t,e,n){var r=String(t);return!r||r.length>=e?t:""+Array(e+1-r.length).join(n)+t},g={s:m,z:function(t){var e=-t.utcOffset(),n=Math.abs(e),r=Math.floor(n/60),i=n%60;return(e<=0?"+":"-")+m(r,2,"0")+":"+m(i,2,"0")},m:function t(e,n){if(e.date()<n.date())return-t(n,e);var r=12*(n.year()-e.year())+(n.month()-e.month()),i=e.clone().add(r,f),s=n-i<0,u=e.clone().add(r+(s?-1:1),f);return+(-(r+(n-i)/(s?i-u:u-i))||0)},a:function(t){return t<0?Math.ceil(t)||0:Math.floor(t)},p:function(t){return{M:f,y:c,w:o,d:a,D:d,h:u,m:s,s:i,ms:r,Q:h}[t]||String(t||"").toLowerCase().replace(/s$/,"")},u:function(t){return void 0===t}},v="en",D={};D[v]=M;var p=function(t){return t instanceof _},S=function t(e,n,r){var i;if(!e)return v;if("string"==typeof e){var s=e.toLowerCase();D[s]&&(i=s),n&&(D[s]=n,i=s);var u=e.split("-");if(!i&&u.length>1)return t(u[0])}else{var a=e.name;D[a]=e,i=a}return!r&&i&&(v=i),i||!r&&v},w=function(t,e){if(p(t))return t.clone();var n="object"==typeof e?e:{};return n.date=t,n.args=arguments,new _(n)},O=g;O.l=S,O.i=p,O.w=function(t,e){return w(t,{locale:e.$L,utc:e.$u,x:e.$x,$offset:e.$offset})};var _=function(){function M(t){this.$L=S(t.locale,null,!0),this.parse(t)}var m=M.prototype;return m.parse=function(t){this.$d=function(t){var e=t.date,n=t.utc;if(null===e)return new Date(NaN);if(O.u(e))return new Date;if(e instanceof Date)return new Date(e);if("string"==typeof e&&!/Z$/i.test(e)){var r=e.match(l);if(r){var i=r[2]-1||0,s=(r[7]||"0").substring(0,3);return n?new Date(Date.UTC(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)):new Date(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)}}return new Date(e)}(t),this.$x=t.x||{},this.init()},m.init=function(){var t=this.$d;this.$y=t.getFullYear(),this.$M=t.getMonth(),this.$D=t.getDate(),this.$W=t.getDay(),this.$H=t.getHours(),this.$m=t.getMinutes(),this.$s=t.getSeconds(),this.$ms=t.getMilliseconds()},m.$utils=function(){return O},m.isValid=function(){return!(this.$d.toString()===$)},m.isSame=function(t,e){var n=w(t);return this.startOf(e)<=n&&n<=this.endOf(e)},m.isAfter=function(t,e){return w(t)<this.startOf(e)},m.isBefore=function(t,e){return this.endOf(e)<w(t)},m.$g=function(t,e,n){return O.u(t)?this[e]:this.set(n,t)},m.unix=function(){return Math.floor(this.valueOf()/1e3)},m.valueOf=function(){return this.$d.getTime()},m.startOf=function(t,e){var n=this,r=!!O.u(e)||e,h=O.p(t),$=function(t,e){var i=O.w(n.$u?Date.UTC(n.$y,e,t):new Date(n.$y,e,t),n);return r?i:i.endOf(a)},l=function(t,e){return O.w(n.toDate()[t].apply(n.toDate("s"),(r?[0,0,0,0]:[23,59,59,999]).slice(e)),n)},y=this.$W,M=this.$M,m=this.$D,g="set"+(this.$u?"UTC":"");switch(h){case c:return r?$(1,0):$(31,11);case f:return r?$(1,M):$(0,M+1);case o:var v=this.$locale().weekStart||0,D=(y<v?y+7:y)-v;return $(r?m-D:m+(6-D),M);case a:case d:return l(g+"Hours",0);case u:return l(g+"Minutes",1);case s:return l(g+"Seconds",2);case i:return l(g+"Milliseconds",3);default:return this.clone()}},m.endOf=function(t){return this.startOf(t,!1)},m.$set=function(t,e){var n,o=O.p(t),h="set"+(this.$u?"UTC":""),$=(n={},n[a]=h+"Date",n[d]=h+"Date",n[f]=h+"Month",n[c]=h+"FullYear",n[u]=h+"Hours",n[s]=h+"Minutes",n[i]=h+"Seconds",n[r]=h+"Milliseconds",n)[o],l=o===a?this.$D+(e-this.$W):e;if(o===f||o===c){var y=this.clone().set(d,1);y.$d[$](l),y.init(),this.$d=y.set(d,Math.min(this.$D,y.daysInMonth())).$d}else $&&this.$d[$](l);return this.init(),this},m.set=function(t,e){return this.clone().$set(t,e)},m.get=function(t){return this[O.p(t)]()},m.add=function(r,h){var d,$=this;r=Number(r);var l=O.p(h),y=function(t){var e=w($);return O.w(e.date(e.date()+Math.round(t*r)),$)};if(l===f)return this.set(f,this.$M+r);if(l===c)return this.set(c,this.$y+r);if(l===a)return y(1);if(l===o)return y(7);var M=(d={},d[s]=e,d[u]=n,d[i]=t,d)[l]||1,m=this.$d.getTime()+r*M;return O.w(m,this)},m.subtract=function(t,e){return this.add(-1*t,e)},m.format=function(t){var e=this,n=this.$locale();if(!this.isValid())return n.invalidDate||$;var r=t||"YYYY-MM-DDTHH:mm:ssZ",i=O.z(this),s=this.$H,u=this.$m,a=this.$M,o=n.weekdays,f=n.months,h=function(t,n,i,s){return t&&(t[n]||t(e,r))||i[n].slice(0,s)},c=function(t){return O.s(s%12||12,t,"0")},d=n.meridiem||function(t,e,n){var r=t<12?"AM":"PM";return n?r.toLowerCase():r},l={YY:String(this.$y).slice(-2),YYYY:this.$y,M:a+1,MM:O.s(a+1,2,"0"),MMM:h(n.monthsShort,a,f,3),MMMM:h(f,a),D:this.$D,DD:O.s(this.$D,2,"0"),d:String(this.$W),dd:h(n.weekdaysMin,this.$W,o,2),ddd:h(n.weekdaysShort,this.$W,o,3),dddd:o[this.$W],H:String(s),HH:O.s(s,2,"0"),h:c(1),hh:c(2),a:d(s,u,!0),A:d(s,u,!1),m:String(u),mm:O.s(u,2,"0"),s:String(this.$s),ss:O.s(this.$s,2,"0"),SSS:O.s(this.$ms,3,"0"),Z:i};return r.replace(y,(function(t,e){return e||l[t]||i.replace(":","")}))},m.utcOffset=function(){return 15*-Math.round(this.$d.getTimezoneOffset()/15)},m.diff=function(r,d,$){var l,y=O.p(d),M=w(r),m=(M.utcOffset()-this.utcOffset())*e,g=this-M,v=O.m(this,M);return v=(l={},l[c]=v/12,l[f]=v,l[h]=v/3,l[o]=(g-m)/6048e5,l[a]=(g-m)/864e5,l[u]=g/n,l[s]=g/e,l[i]=g/t,l)[y]||g,$?v:O.a(v)},m.daysInMonth=function(){return this.endOf(f).$D},m.$locale=function(){return D[this.$L]},m.locale=function(t,e){if(!t)return this.$L;var n=this.clone(),r=S(t,e,!0);return r&&(n.$L=r),n},m.clone=function(){return O.w(this.$d,this)},m.toDate=function(){return new Date(this.valueOf())},m.toJSON=function(){return this.isValid()?this.toISOString():null},m.toISOString=function(){return this.$d.toISOString()},m.toString=function(){return this.$d.toUTCString()},M}(),T=_.prototype;return w.prototype=T,[["$ms",r],["$s",i],["$m",s],["$H",u],["$W",a],["$M",f],["$y",c],["$D",d]].forEach((function(t){T[t[1]]=function(e){return this.$g(e,t[0],t[1])}})),w.extend=function(t,e){return t.$i||(t(e,_,w),t.$i=!0),w},w.locale=S,w.isDayjs=p,w.unix=function(t){return w(1e3*t)},w.en=D[v],w.Ls=D,w.p={},w}));
 
 /***/ }),
 
 /***/ 285:
 /***/ (function(module) {
 
-!function(t,n){ true?module.exports=n():0}(this,function(){"use strict";var t,n=/(\[[^[]*\])|([-:/.()\s]+)|(A|a|YYYY|YY?|MM?M?M?|Do|DD?|hh?|HH?|mm?|ss?|S{1,3}|z|ZZ?)/g,e=/\d\d/,r=/\d\d?/,o=/\d*[^\s\d-:/.()]+/;var s=function(t){return function(n){this[t]=+n}},i=[/[+-]\d\d:?\d\d/,function(t){var n,e;(this.zone||(this.zone={})).offset=(n=t.match(/([+-]|\d\d)/g),0===(e=60*n[1]+ +n[2])?0:"+"===n[0]?-e:e)}],a={A:[/[AP]M/,function(t){this.afternoon="PM"===t}],a:[/[ap]m/,function(t){this.afternoon="pm"===t}],S:[/\d/,function(t){this.milliseconds=100*+t}],SS:[e,function(t){this.milliseconds=10*+t}],SSS:[/\d{3}/,function(t){this.milliseconds=+t}],s:[r,s("seconds")],ss:[r,s("seconds")],m:[r,s("minutes")],mm:[r,s("minutes")],H:[r,s("hours")],h:[r,s("hours")],HH:[r,s("hours")],hh:[r,s("hours")],D:[r,s("day")],DD:[e,s("day")],Do:[o,function(n){var e=t.ordinal,r=n.match(/\d+/);if(this.day=r[0],e)for(var o=1;o<=31;o+=1)e(o).replace(/\[|\]/g,"")===n&&(this.day=o)}],M:[r,s("month")],MM:[e,s("month")],MMM:[o,function(n){var e=t,r=e.months,o=e.monthsShort,s=o?o.findIndex(function(t){return t===n}):r.findIndex(function(t){return t.substr(0,3)===n});if(s<0)throw new Error;this.month=s+1}],MMMM:[o,function(n){var e=t.months.indexOf(n);if(e<0)throw new Error;this.month=e+1}],Y:[/[+-]?\d+/,s("year")],YY:[e,function(t){t=+t,this.year=t+(t>68?1900:2e3)}],YYYY:[/\d{4}/,s("year")],Z:i,ZZ:i};var u=function(t,e,r){try{var o=function(t){for(var e=t.match(n),r=e.length,o=0;o<r;o+=1){var s=e[o],i=a[s],u=i&&i[0],f=i&&i[1];e[o]=f?{regex:u,parser:f}:s.replace(/^\[|\]$/g,"")}return function(t){for(var n={},o=0,s=0;o<r;o+=1){var i=e[o];if("string"==typeof i)s+=i.length;else{var a=i.regex,u=i.parser,f=t.substr(s),h=a.exec(f)[0];u.call(n,h),t=t.replace(h,"")}}return function(t){var n=t.afternoon;if(void 0!==n){var e=t.hours;n?e<12&&(t.hours+=12):12===e&&(t.hours=0),delete t.afternoon}}(n),n}}(e)(t),s=o.year,i=o.month,u=o.day,f=o.hours,h=o.minutes,d=o.seconds,c=o.milliseconds,m=o.zone;if(m)return new Date(Date.UTC(s,i-1,u,f||0,h||0,d||0,c||0)+60*m.offset*1e3);var l=new Date,v=s||l.getFullYear(),p=i>0?i-1:l.getMonth(),M=u||l.getDate(),y=f||0,D=h||0,Y=d||0,g=c||0;return r?new Date(Date.UTC(v,p,M,y,D,Y,g)):new Date(v,p,M,y,D,Y,g)}catch(t){return new Date("")}};return function(n,e,r){var o=e.prototype,s=o.parse;o.parse=function(n){var e=n.date,o=n.format,i=n.pl,a=n.utc;this.$u=a,o?(t=i?r.Ls[i]:this.$locale(),this.$d=u(e,o,a),this.init(n)):s.call(this,n)}}});
-
+!function(e,t){ true?module.exports=t():0}(this,(function(){"use strict";var e={LTS:"h:mm:ss A",LT:"h:mm A",L:"MM/DD/YYYY",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY h:mm A",LLLL:"dddd, MMMM D, YYYY h:mm A"},t=/(\[[^[]*\])|([-_:/.,()\s]+)|(A|a|YYYY|YY?|MM?M?M?|Do|DD?|hh?|HH?|mm?|ss?|S{1,3}|z|ZZ?)/g,n=/\d\d/,r=/\d\d?/,i=/\d*[^-_:/,()\s\d]+/,o={},s=function(e){return(e=+e)+(e>68?1900:2e3)};var a=function(e){return function(t){this[e]=+t}},f=[/[+-]\d\d:?(\d\d)?|Z/,function(e){(this.zone||(this.zone={})).offset=function(e){if(!e)return 0;if("Z"===e)return 0;var t=e.match(/([+-]|\d\d)/g),n=60*t[1]+(+t[2]||0);return 0===n?0:"+"===t[0]?-n:n}(e)}],h=function(e){var t=o[e];return t&&(t.indexOf?t:t.s.concat(t.f))},u=function(e,t){var n,r=o.meridiem;if(r){for(var i=1;i<=24;i+=1)if(e.indexOf(r(i,0,t))>-1){n=i>12;break}}else n=e===(t?"pm":"PM");return n},d={A:[i,function(e){this.afternoon=u(e,!1)}],a:[i,function(e){this.afternoon=u(e,!0)}],S:[/\d/,function(e){this.milliseconds=100*+e}],SS:[n,function(e){this.milliseconds=10*+e}],SSS:[/\d{3}/,function(e){this.milliseconds=+e}],s:[r,a("seconds")],ss:[r,a("seconds")],m:[r,a("minutes")],mm:[r,a("minutes")],H:[r,a("hours")],h:[r,a("hours")],HH:[r,a("hours")],hh:[r,a("hours")],D:[r,a("day")],DD:[n,a("day")],Do:[i,function(e){var t=o.ordinal,n=e.match(/\d+/);if(this.day=n[0],t)for(var r=1;r<=31;r+=1)t(r).replace(/\[|\]/g,"")===e&&(this.day=r)}],M:[r,a("month")],MM:[n,a("month")],MMM:[i,function(e){var t=h("months"),n=(h("monthsShort")||t.map((function(e){return e.slice(0,3)}))).indexOf(e)+1;if(n<1)throw new Error;this.month=n%12||n}],MMMM:[i,function(e){var t=h("months").indexOf(e)+1;if(t<1)throw new Error;this.month=t%12||t}],Y:[/[+-]?\d+/,a("year")],YY:[n,function(e){this.year=s(e)}],YYYY:[/\d{4}/,a("year")],Z:f,ZZ:f};function c(n){var r,i;r=n,i=o&&o.formats;for(var s=(n=r.replace(/(\[[^\]]+])|(LTS?|l{1,4}|L{1,4})/g,(function(t,n,r){var o=r&&r.toUpperCase();return n||i[r]||e[r]||i[o].replace(/(\[[^\]]+])|(MMMM|MM|DD|dddd)/g,(function(e,t,n){return t||n.slice(1)}))}))).match(t),a=s.length,f=0;f<a;f+=1){var h=s[f],u=d[h],c=u&&u[0],l=u&&u[1];s[f]=l?{regex:c,parser:l}:h.replace(/^\[|\]$/g,"")}return function(e){for(var t={},n=0,r=0;n<a;n+=1){var i=s[n];if("string"==typeof i)r+=i.length;else{var o=i.regex,f=i.parser,h=e.slice(r),u=o.exec(h)[0];f.call(t,u),e=e.replace(u,"")}}return function(e){var t=e.afternoon;if(void 0!==t){var n=e.hours;t?n<12&&(e.hours+=12):12===n&&(e.hours=0),delete e.afternoon}}(t),t}}return function(e,t,n){n.p.customParseFormat=!0,e&&e.parseTwoDigitYear&&(s=e.parseTwoDigitYear);var r=t.prototype,i=r.parse;r.parse=function(e){var t=e.date,r=e.utc,s=e.args;this.$u=r;var a=s[1];if("string"==typeof a){var f=!0===s[2],h=!0===s[3],u=f||h,d=s[2];h&&(d=s[2]),o=this.$locale(),!f&&d&&(o=n.Ls[d]),this.$d=function(e,t,n){try{if(["x","X"].indexOf(t)>-1)return new Date(("X"===t?1e3:1)*e);var r=c(t)(e),i=r.year,o=r.month,s=r.day,a=r.hours,f=r.minutes,h=r.seconds,u=r.milliseconds,d=r.zone,l=new Date,m=s||(i||o?1:l.getDate()),M=i||l.getFullYear(),Y=0;i&&!o||(Y=o>0?o-1:l.getMonth());var p=a||0,v=f||0,D=h||0,g=u||0;return d?new Date(Date.UTC(M,Y,m,p,v,D,g+60*d.offset*1e3)):n?new Date(Date.UTC(M,Y,m,p,v,D,g)):new Date(M,Y,m,p,v,D,g)}catch(e){return new Date("")}}(t,a,r),this.init(),d&&!0!==d&&(this.$L=this.locale(d).$L),u&&t!=this.format(a)&&(this.$d=new Date("")),o={}}else if(a instanceof Array)for(var l=a.length,m=1;m<=l;m+=1){s[1]=a[m-1];var M=n.apply(this,s);if(M.isValid()){this.$d=M.$d,this.$L=M.$L,this.init();break}m===l&&(this.$d=new Date(""))}else i.call(this,e)}}}));
 
 /***/ }),
 
 /***/ 607:
 /***/ (function(module) {
 
-!function(e,t){ true?module.exports=t():0}(this,function(){"use strict";return function(e,t,i){t.prototype.isBetween=function(e,t,s,f){var n=i(e),o=i(t),r="("===(f=f||"()")[0],u=")"===f[1];return(r?this.isAfter(n,s):!this.isBefore(n,s))&&(u?this.isBefore(o,s):!this.isAfter(o,s))||(r?this.isBefore(n,s):!this.isAfter(n,s))&&(u?this.isAfter(o,s):!this.isBefore(o,s))}}});
-
+!function(e,i){ true?module.exports=i():0}(this,(function(){"use strict";return function(e,i,t){i.prototype.isBetween=function(e,i,s,f){var n=t(e),o=t(i),r="("===(f=f||"()")[0],u=")"===f[1];return(r?this.isAfter(n,s):!this.isBefore(n,s))&&(u?this.isBefore(o,s):!this.isAfter(o,s))||(r?this.isBefore(n,s):!this.isAfter(n,s))&&(u?this.isAfter(o,s):!this.isBefore(o,s))}}}));
 
 /***/ }),
 
 /***/ 212:
 /***/ (function(module) {
 
-!function(e,t){ true?module.exports=t():0}(this,function(){"use strict";return function(e,t){t.prototype.isSameOrAfter=function(e,t){return this.isSame(e,t)||this.isAfter(e,t)}}});
-
+!function(e,t){ true?module.exports=t():0}(this,(function(){"use strict";return function(e,t){t.prototype.isSameOrAfter=function(e,t){return this.isSame(e,t)||this.isAfter(e,t)}}}));
 
 /***/ }),
 
 /***/ 412:
 /***/ (function(module) {
 
-!function(e,t){ true?module.exports=t():0}(this,function(){"use strict";return function(e,t){t.prototype.isSameOrBefore=function(e,t){return this.isSame(e,t)||this.isBefore(e,t)}}});
-
+!function(e,i){ true?module.exports=i():0}(this,(function(){"use strict";return function(e,i){i.prototype.isSameOrBefore=function(e,i){return this.isSame(e,i)||this.isBefore(e,i)}}}));
 
 /***/ }),
 
@@ -92,6 +2791,7 @@ module.exports = function() {
   // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
   var ReactPropTypes = {
     array: shim,
+    bigint: shim,
     bool: shim,
     func: shim,
     number: shim,
@@ -162,12 +2862,12 @@ module.exports = ReactPropTypesSecret;
 
 /***/ }),
 
-/***/ 680:
+/***/ 921:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 var __webpack_unused_export__;
-/** @license React v16.8.6
+/** @license React v16.13.1
  * react-is.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -176,24 +2876,24 @@ var __webpack_unused_export__;
  * LICENSE file in the root directory of this source tree.
  */
 
-__webpack_unused_export__ = ({value:!0});
-var b="function"===typeof Symbol&&Symbol.for,c=b?Symbol.for("react.element"):60103,d=b?Symbol.for("react.portal"):60106,e=b?Symbol.for("react.fragment"):60107,f=b?Symbol.for("react.strict_mode"):60108,g=b?Symbol.for("react.profiler"):60114,h=b?Symbol.for("react.provider"):60109,k=b?Symbol.for("react.context"):60110,l=b?Symbol.for("react.async_mode"):60111,m=b?Symbol.for("react.concurrent_mode"):60111,n=b?Symbol.for("react.forward_ref"):60112,p=b?Symbol.for("react.suspense"):60113,q=b?Symbol.for("react.memo"):
-60115,r=b?Symbol.for("react.lazy"):60116;function t(a){if("object"===typeof a&&null!==a){var u=a.$$typeof;switch(u){case c:switch(a=a.type,a){case l:case m:case e:case g:case f:case p:return a;default:switch(a=a&&a.$$typeof,a){case k:case n:case h:return a;default:return u}}case r:case q:case d:return u}}}function v(a){return t(a)===m}__webpack_unused_export__=t;__webpack_unused_export__=l;__webpack_unused_export__=m;__webpack_unused_export__=k;__webpack_unused_export__=h;__webpack_unused_export__=c;exports.ForwardRef=n;
-__webpack_unused_export__=e;__webpack_unused_export__=r;__webpack_unused_export__=q;__webpack_unused_export__=d;__webpack_unused_export__=g;__webpack_unused_export__=f;__webpack_unused_export__=p;exports.isValidElementType=function(a){return"string"===typeof a||"function"===typeof a||a===e||a===m||a===g||a===f||a===p||"object"===typeof a&&null!==a&&(a.$$typeof===r||a.$$typeof===q||a.$$typeof===h||a.$$typeof===k||a.$$typeof===n)};__webpack_unused_export__=function(a){return v(a)||t(a)===l};__webpack_unused_export__=v;__webpack_unused_export__=function(a){return t(a)===k};
-__webpack_unused_export__=function(a){return t(a)===h};__webpack_unused_export__=function(a){return"object"===typeof a&&null!==a&&a.$$typeof===c};__webpack_unused_export__=function(a){return t(a)===n};__webpack_unused_export__=function(a){return t(a)===e};__webpack_unused_export__=function(a){return t(a)===r};__webpack_unused_export__=function(a){return t(a)===q};__webpack_unused_export__=function(a){return t(a)===d};__webpack_unused_export__=function(a){return t(a)===g};__webpack_unused_export__=function(a){return t(a)===f};
-__webpack_unused_export__=function(a){return t(a)===p};
+var b="function"===typeof Symbol&&Symbol.for,c=b?Symbol.for("react.element"):60103,d=b?Symbol.for("react.portal"):60106,e=b?Symbol.for("react.fragment"):60107,f=b?Symbol.for("react.strict_mode"):60108,g=b?Symbol.for("react.profiler"):60114,h=b?Symbol.for("react.provider"):60109,k=b?Symbol.for("react.context"):60110,l=b?Symbol.for("react.async_mode"):60111,m=b?Symbol.for("react.concurrent_mode"):60111,n=b?Symbol.for("react.forward_ref"):60112,p=b?Symbol.for("react.suspense"):60113,q=b?
+Symbol.for("react.suspense_list"):60120,r=b?Symbol.for("react.memo"):60115,t=b?Symbol.for("react.lazy"):60116,v=b?Symbol.for("react.block"):60121,w=b?Symbol.for("react.fundamental"):60117,x=b?Symbol.for("react.responder"):60118,y=b?Symbol.for("react.scope"):60119;
+function z(a){if("object"===typeof a&&null!==a){var u=a.$$typeof;switch(u){case c:switch(a=a.type,a){case l:case m:case e:case g:case f:case p:return a;default:switch(a=a&&a.$$typeof,a){case k:case n:case t:case r:case h:return a;default:return u}}case d:return u}}}function A(a){return z(a)===m}__webpack_unused_export__=l;__webpack_unused_export__=m;__webpack_unused_export__=k;__webpack_unused_export__=h;__webpack_unused_export__=c;exports.ForwardRef=n;__webpack_unused_export__=e;__webpack_unused_export__=t;__webpack_unused_export__=r;__webpack_unused_export__=d;
+__webpack_unused_export__=g;__webpack_unused_export__=f;__webpack_unused_export__=p;__webpack_unused_export__=function(a){return A(a)||z(a)===l};__webpack_unused_export__=A;__webpack_unused_export__=function(a){return z(a)===k};__webpack_unused_export__=function(a){return z(a)===h};__webpack_unused_export__=function(a){return"object"===typeof a&&null!==a&&a.$$typeof===c};__webpack_unused_export__=function(a){return z(a)===n};__webpack_unused_export__=function(a){return z(a)===e};__webpack_unused_export__=function(a){return z(a)===t};
+__webpack_unused_export__=function(a){return z(a)===r};__webpack_unused_export__=function(a){return z(a)===d};__webpack_unused_export__=function(a){return z(a)===g};__webpack_unused_export__=function(a){return z(a)===f};__webpack_unused_export__=function(a){return z(a)===p};
+exports.isValidElementType=function(a){return"string"===typeof a||"function"===typeof a||a===e||a===m||a===g||a===f||a===p||a===q||"object"===typeof a&&null!==a&&(a.$$typeof===t||a.$$typeof===r||a.$$typeof===h||a.$$typeof===k||a.$$typeof===n||a.$$typeof===w||a.$$typeof===x||a.$$typeof===y||a.$$typeof===v)};__webpack_unused_export__=z;
 
 
 /***/ }),
 
-/***/ 183:
+/***/ 864:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
 if (true) {
-  module.exports = __webpack_require__(680);
+  module.exports = __webpack_require__(921);
 } else {}
 
 
@@ -261,19 +2961,11 @@ if (true) {
 
 /***/ }),
 
-/***/ 698:
+/***/ 787:
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_MODULE__698__;
-
-/***/ }),
-
-/***/ 207:
-/***/ ((module) => {
-
-"use strict";
-module.exports = __WEBPACK_EXTERNAL_MODULE__207__;
+module.exports = __WEBPACK_EXTERNAL_MODULE__787__;
 
 /***/ })
 
@@ -328,6 +3020,18 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__207__;
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -344,6 +3048,11 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__207__;
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
@@ -358,7 +3067,7 @@ __webpack_require__.d(__webpack_exports__, {
 });
 
 // EXTERNAL MODULE: external {"root":"React","commonjs2":"react","commonjs":"react","amd":"react"}
-var external_root_React_commonjs2_react_commonjs_react_amd_react_ = __webpack_require__(698);
+var external_root_React_commonjs2_react_commonjs_react_amd_react_ = __webpack_require__(787);
 var external_root_React_commonjs2_react_commonjs_react_amd_react_default = /*#__PURE__*/__webpack_require__.n(external_root_React_commonjs2_react_commonjs_react_amd_react_);
 // EXTERNAL MODULE: ./node_modules/prop-types/index.js
 var prop_types = __webpack_require__(697);
@@ -436,56 +3145,59 @@ var unitlessKeys = {
 
 /* harmony default export */ const unitless_browser_esm = (unitlessKeys);
 
-// EXTERNAL MODULE: ./node_modules/styled-components/node_modules/react-is/index.js
-var react_is = __webpack_require__(183);
+// EXTERNAL MODULE: ./node_modules/react-is/index.js
+var react_is = __webpack_require__(864);
 ;// CONCATENATED MODULE: ./node_modules/memoize-one/dist/memoize-one.esm.js
-function areInputsEqual(newInputs, lastInputs) {
-  if (newInputs.length !== lastInputs.length) {
+var safeIsNaN = Number.isNaN ||
+    function ponyfill(value) {
+        return typeof value === 'number' && value !== value;
+    };
+function isEqual(first, second) {
+    if (first === second) {
+        return true;
+    }
+    if (safeIsNaN(first) && safeIsNaN(second)) {
+        return true;
+    }
     return false;
-  }
-
-  for (var i = 0; i < newInputs.length; i++) {
-    if (newInputs[i] !== lastInputs[i]) {
-      return false;
+}
+function areInputsEqual(newInputs, lastInputs) {
+    if (newInputs.length !== lastInputs.length) {
+        return false;
     }
-  }
-
-  return true;
+    for (var i = 0; i < newInputs.length; i++) {
+        if (!isEqual(newInputs[i], lastInputs[i])) {
+            return false;
+        }
+    }
+    return true;
 }
 
-function index (resultFn, isEqual) {
-  if (isEqual === void 0) {
-    isEqual = areInputsEqual;
-  }
-
-  var lastThis;
-  var lastArgs = [];
-  var lastResult;
-  var calledOnce = false;
-
-  var result = function result() {
-    for (var _len = arguments.length, newArgs = new Array(_len), _key = 0; _key < _len; _key++) {
-      newArgs[_key] = arguments[_key];
+function memoizeOne(resultFn, isEqual) {
+    if (isEqual === void 0) { isEqual = areInputsEqual; }
+    var lastThis;
+    var lastArgs = [];
+    var lastResult;
+    var calledOnce = false;
+    function memoized() {
+        var newArgs = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            newArgs[_i] = arguments[_i];
+        }
+        if (calledOnce && lastThis === this && isEqual(newArgs, lastArgs)) {
+            return lastResult;
+        }
+        lastResult = resultFn.apply(this, newArgs);
+        calledOnce = true;
+        lastThis = this;
+        lastArgs = newArgs;
+        return lastResult;
     }
-
-    if (calledOnce && lastThis === this && isEqual(newArgs, lastArgs)) {
-      return lastResult;
-    }
-
-    lastResult = resultFn.apply(this, newArgs);
-    calledOnce = true;
-    lastThis = this;
-    lastArgs = newArgs;
-    return lastResult;
-  };
-
-  return result;
+    return memoized;
 }
 
-/* harmony default export */ const memoize_one_esm = (index);
+/* harmony default export */ const memoize_one_esm = (memoizeOne);
 
-// EXTERNAL MODULE: external {"root":"ReactDOM","commonjs2":"react-dom","commonjs":"react-dom","amd":"react-dom"}
-var external_root_ReactDOM_commonjs2_react_dom_commonjs_react_dom_amd_react_dom_ = __webpack_require__(207);
 ;// CONCATENATED MODULE: ./node_modules/@emotion/memoize/dist/memoize.browser.esm.js
 function memoize(fn) {
   var cache = {};
@@ -500,9 +3212,9 @@ function memoize(fn) {
 ;// CONCATENATED MODULE: ./node_modules/@emotion/is-prop-valid/dist/is-prop-valid.browser.esm.js
 
 
-var reactPropsRegex = /^((children|dangerouslySetInnerHTML|key|ref|autoFocus|defaultValue|defaultChecked|innerHTML|suppressContentEditableWarning|suppressHydrationWarning|valueLink|accept|acceptCharset|accessKey|action|allow|allowUserMedia|allowPaymentRequest|allowFullScreen|allowTransparency|alt|async|autoComplete|autoPlay|capture|cellPadding|cellSpacing|challenge|charSet|checked|cite|classID|className|cols|colSpan|content|contentEditable|contextMenu|controls|controlsList|coords|crossOrigin|data|dateTime|default|defer|dir|disabled|download|draggable|encType|form|formAction|formEncType|formMethod|formNoValidate|formTarget|frameBorder|headers|height|hidden|high|href|hrefLang|htmlFor|httpEquiv|id|inputMode|integrity|is|keyParams|keyType|kind|label|lang|list|loop|low|marginHeight|marginWidth|max|maxLength|media|mediaGroup|method|min|minLength|multiple|muted|name|nonce|noValidate|open|optimum|pattern|placeholder|playsInline|poster|preload|profile|radioGroup|readOnly|referrerPolicy|rel|required|reversed|role|rows|rowSpan|sandbox|scope|scoped|scrolling|seamless|selected|shape|size|sizes|slot|span|spellCheck|src|srcDoc|srcLang|srcSet|start|step|style|summary|tabIndex|target|title|type|useMap|value|width|wmode|wrap|about|datatype|inlist|prefix|property|resource|typeof|vocab|autoCapitalize|autoCorrect|autoSave|color|itemProp|itemScope|itemType|itemID|itemRef|results|security|unselectable|accentHeight|accumulate|additive|alignmentBaseline|allowReorder|alphabetic|amplitude|arabicForm|ascent|attributeName|attributeType|autoReverse|azimuth|baseFrequency|baselineShift|baseProfile|bbox|begin|bias|by|calcMode|capHeight|clip|clipPathUnits|clipPath|clipRule|colorInterpolation|colorInterpolationFilters|colorProfile|colorRendering|contentScriptType|contentStyleType|cursor|cx|cy|d|decelerate|descent|diffuseConstant|direction|display|divisor|dominantBaseline|dur|dx|dy|edgeMode|elevation|enableBackground|end|exponent|externalResourcesRequired|fill|fillOpacity|fillRule|filter|filterRes|filterUnits|floodColor|floodOpacity|focusable|fontFamily|fontSize|fontSizeAdjust|fontStretch|fontStyle|fontVariant|fontWeight|format|from|fr|fx|fy|g1|g2|glyphName|glyphOrientationHorizontal|glyphOrientationVertical|glyphRef|gradientTransform|gradientUnits|hanging|horizAdvX|horizOriginX|ideographic|imageRendering|in|in2|intercept|k|k1|k2|k3|k4|kernelMatrix|kernelUnitLength|kerning|keyPoints|keySplines|keyTimes|lengthAdjust|letterSpacing|lightingColor|limitingConeAngle|local|markerEnd|markerMid|markerStart|markerHeight|markerUnits|markerWidth|mask|maskContentUnits|maskUnits|mathematical|mode|numOctaves|offset|opacity|operator|order|orient|orientation|origin|overflow|overlinePosition|overlineThickness|panose1|paintOrder|pathLength|patternContentUnits|patternTransform|patternUnits|pointerEvents|points|pointsAtX|pointsAtY|pointsAtZ|preserveAlpha|preserveAspectRatio|primitiveUnits|r|radius|refX|refY|renderingIntent|repeatCount|repeatDur|requiredExtensions|requiredFeatures|restart|result|rotate|rx|ry|scale|seed|shapeRendering|slope|spacing|specularConstant|specularExponent|speed|spreadMethod|startOffset|stdDeviation|stemh|stemv|stitchTiles|stopColor|stopOpacity|strikethroughPosition|strikethroughThickness|string|stroke|strokeDasharray|strokeDashoffset|strokeLinecap|strokeLinejoin|strokeMiterlimit|strokeOpacity|strokeWidth|surfaceScale|systemLanguage|tableValues|targetX|targetY|textAnchor|textDecoration|textRendering|textLength|to|transform|u1|u2|underlinePosition|underlineThickness|unicode|unicodeBidi|unicodeRange|unitsPerEm|vAlphabetic|vHanging|vIdeographic|vMathematical|values|vectorEffect|version|vertAdvY|vertOriginX|vertOriginY|viewBox|viewTarget|visibility|widths|wordSpacing|writingMode|x|xHeight|x1|x2|xChannelSelector|xlinkActuate|xlinkArcrole|xlinkHref|xlinkRole|xlinkShow|xlinkTitle|xlinkType|xmlBase|xmlns|xmlnsXlink|xmlLang|xmlSpace|y|y1|y2|yChannelSelector|z|zoomAndPan|for|class|autofocus)|(([Dd][Aa][Tt][Aa]|[Aa][Rr][Ii][Aa]|x)-.*))$/; // https://esbench.com/bench/5bfee68a4cd7e6009ef61d23
+var reactPropsRegex = /^((children|dangerouslySetInnerHTML|key|ref|autoFocus|defaultValue|defaultChecked|innerHTML|suppressContentEditableWarning|suppressHydrationWarning|valueLink|accept|acceptCharset|accessKey|action|allow|allowUserMedia|allowPaymentRequest|allowFullScreen|allowTransparency|alt|async|autoComplete|autoPlay|capture|cellPadding|cellSpacing|challenge|charSet|checked|cite|classID|className|cols|colSpan|content|contentEditable|contextMenu|controls|controlsList|coords|crossOrigin|data|dateTime|decoding|default|defer|dir|disabled|disablePictureInPicture|download|draggable|encType|form|formAction|formEncType|formMethod|formNoValidate|formTarget|frameBorder|headers|height|hidden|high|href|hrefLang|htmlFor|httpEquiv|id|inputMode|integrity|is|keyParams|keyType|kind|label|lang|list|loading|loop|low|marginHeight|marginWidth|max|maxLength|media|mediaGroup|method|min|minLength|multiple|muted|name|nonce|noValidate|open|optimum|pattern|placeholder|playsInline|poster|preload|profile|radioGroup|readOnly|referrerPolicy|rel|required|reversed|role|rows|rowSpan|sandbox|scope|scoped|scrolling|seamless|selected|shape|size|sizes|slot|span|spellCheck|src|srcDoc|srcLang|srcSet|start|step|style|summary|tabIndex|target|title|type|useMap|value|width|wmode|wrap|about|datatype|inlist|prefix|property|resource|typeof|vocab|autoCapitalize|autoCorrect|autoSave|color|inert|itemProp|itemScope|itemType|itemID|itemRef|on|results|security|unselectable|accentHeight|accumulate|additive|alignmentBaseline|allowReorder|alphabetic|amplitude|arabicForm|ascent|attributeName|attributeType|autoReverse|azimuth|baseFrequency|baselineShift|baseProfile|bbox|begin|bias|by|calcMode|capHeight|clip|clipPathUnits|clipPath|clipRule|colorInterpolation|colorInterpolationFilters|colorProfile|colorRendering|contentScriptType|contentStyleType|cursor|cx|cy|d|decelerate|descent|diffuseConstant|direction|display|divisor|dominantBaseline|dur|dx|dy|edgeMode|elevation|enableBackground|end|exponent|externalResourcesRequired|fill|fillOpacity|fillRule|filter|filterRes|filterUnits|floodColor|floodOpacity|focusable|fontFamily|fontSize|fontSizeAdjust|fontStretch|fontStyle|fontVariant|fontWeight|format|from|fr|fx|fy|g1|g2|glyphName|glyphOrientationHorizontal|glyphOrientationVertical|glyphRef|gradientTransform|gradientUnits|hanging|horizAdvX|horizOriginX|ideographic|imageRendering|in|in2|intercept|k|k1|k2|k3|k4|kernelMatrix|kernelUnitLength|kerning|keyPoints|keySplines|keyTimes|lengthAdjust|letterSpacing|lightingColor|limitingConeAngle|local|markerEnd|markerMid|markerStart|markerHeight|markerUnits|markerWidth|mask|maskContentUnits|maskUnits|mathematical|mode|numOctaves|offset|opacity|operator|order|orient|orientation|origin|overflow|overlinePosition|overlineThickness|panose1|paintOrder|pathLength|patternContentUnits|patternTransform|patternUnits|pointerEvents|points|pointsAtX|pointsAtY|pointsAtZ|preserveAlpha|preserveAspectRatio|primitiveUnits|r|radius|refX|refY|renderingIntent|repeatCount|repeatDur|requiredExtensions|requiredFeatures|restart|result|rotate|rx|ry|scale|seed|shapeRendering|slope|spacing|specularConstant|specularExponent|speed|spreadMethod|startOffset|stdDeviation|stemh|stemv|stitchTiles|stopColor|stopOpacity|strikethroughPosition|strikethroughThickness|string|stroke|strokeDasharray|strokeDashoffset|strokeLinecap|strokeLinejoin|strokeMiterlimit|strokeOpacity|strokeWidth|surfaceScale|systemLanguage|tableValues|targetX|targetY|textAnchor|textDecoration|textRendering|textLength|to|transform|u1|u2|underlinePosition|underlineThickness|unicode|unicodeBidi|unicodeRange|unitsPerEm|vAlphabetic|vHanging|vIdeographic|vMathematical|values|vectorEffect|version|vertAdvY|vertOriginX|vertOriginY|viewBox|viewTarget|visibility|widths|wordSpacing|writingMode|x|xHeight|x1|x2|xChannelSelector|xlinkActuate|xlinkArcrole|xlinkHref|xlinkRole|xlinkShow|xlinkTitle|xlinkType|xmlBase|xmlns|xmlnsXlink|xmlLang|xmlSpace|y|y1|y2|yChannelSelector|z|zoomAndPan|for|class|autofocus)|(([Dd][Aa][Tt][Aa]|[Aa][Rr][Ii][Aa]|x)-.*))$/; // https://esbench.com/bench/5bfee68a4cd7e6009ef61d23
 
-var is_prop_valid_browser_esm_index = memoize_browser_esm(function (prop) {
+var index = memoize_browser_esm(function (prop) {
   return reactPropsRegex.test(prop) || prop.charCodeAt(0) === 111
   /* o */
   && prop.charCodeAt(1) === 110
@@ -512,7 +3224,463 @@ var is_prop_valid_browser_esm_index = memoize_browser_esm(function (prop) {
 /* Z+1 */
 );
 
-/* harmony default export */ const is_prop_valid_browser_esm = (is_prop_valid_browser_esm_index);
+/* harmony default export */ const is_prop_valid_browser_esm = (index);
+
+;// CONCATENATED MODULE: ./node_modules/is-what/dist/index.esm.js
+/**
+ * Returns the object type of the given payload
+ *
+ * @param {*} payload
+ * @returns {string}
+ */
+function getType(payload) {
+    return Object.prototype.toString.call(payload).slice(8, -1);
+}
+/**
+ * Returns whether the payload is undefined
+ *
+ * @param {*} payload
+ * @returns {payload is undefined}
+ */
+function isUndefined(payload) {
+    return getType(payload) === 'Undefined';
+}
+/**
+ * Returns whether the payload is null
+ *
+ * @param {*} payload
+ * @returns {payload is null}
+ */
+function isNull(payload) {
+    return getType(payload) === 'Null';
+}
+/**
+ * Returns whether the payload is a plain JavaScript object (excluding special classes or objects with other prototypes)
+ *
+ * @param {*} payload
+ * @returns {payload is PlainObject}
+ */
+function isPlainObject(payload) {
+    if (getType(payload) !== 'Object')
+        return false;
+    return payload.constructor === Object && Object.getPrototypeOf(payload) === Object.prototype;
+}
+/**
+ * Returns whether the payload is a plain JavaScript object (excluding special classes or objects with other prototypes)
+ *
+ * @param {*} payload
+ * @returns {payload is PlainObject}
+ */
+function isObject(payload) {
+    return isPlainObject(payload);
+}
+/**
+ * Returns whether the payload is a an empty object (excluding special classes or objects with other prototypes)
+ *
+ * @param {*} payload
+ * @returns {payload is { [K in any]: never }}
+ */
+function isEmptyObject(payload) {
+    return isPlainObject(payload) && Object.keys(payload).length === 0;
+}
+/**
+ * Returns whether the payload is a an empty object (excluding special classes or objects with other prototypes)
+ *
+ * @param {*} payload
+ * @returns {payload is PlainObject}
+ */
+function isFullObject(payload) {
+    return isPlainObject(payload) && Object.keys(payload).length > 0;
+}
+/**
+ * Returns whether the payload is an any kind of object (including special classes or objects with different prototypes)
+ *
+ * @param {*} payload
+ * @returns {payload is PlainObject}
+ */
+function isAnyObject(payload) {
+    return getType(payload) === 'Object';
+}
+/**
+ * Returns whether the payload is an object like a type passed in < >
+ *
+ * Usage: isObjectLike<{id: any}>(payload) // will make sure it's an object and has an `id` prop.
+ *
+ * @template T this must be passed in < >
+ * @param {*} payload
+ * @returns {payload is T}
+ */
+function isObjectLike(payload) {
+    return isAnyObject(payload);
+}
+/**
+ * Returns whether the payload is a function (regular or async)
+ *
+ * @param {*} payload
+ * @returns {payload is AnyFunction}
+ */
+function isFunction(payload) {
+    return typeof payload === 'function';
+}
+/**
+ * Returns whether the payload is an array
+ *
+ * @param {any} payload
+ * @returns {payload is any[]}
+ */
+function index_esm_isArray(payload) {
+    return getType(payload) === 'Array';
+}
+/**
+ * Returns whether the payload is a an array with at least 1 item
+ *
+ * @param {*} payload
+ * @returns {payload is any[]}
+ */
+function isFullArray(payload) {
+    return index_esm_isArray(payload) && payload.length > 0;
+}
+/**
+ * Returns whether the payload is a an empty array
+ *
+ * @param {*} payload
+ * @returns {payload is []}
+ */
+function isEmptyArray(payload) {
+    return index_esm_isArray(payload) && payload.length === 0;
+}
+/**
+ * Returns whether the payload is a string
+ *
+ * @param {*} payload
+ * @returns {payload is string}
+ */
+function isString(payload) {
+    return getType(payload) === 'String';
+}
+/**
+ * Returns whether the payload is a string, BUT returns false for ''
+ *
+ * @param {*} payload
+ * @returns {payload is string}
+ */
+function isFullString(payload) {
+    return isString(payload) && payload !== '';
+}
+/**
+ * Returns whether the payload is ''
+ *
+ * @param {*} payload
+ * @returns {payload is string}
+ */
+function isEmptyString(payload) {
+    return payload === '';
+}
+/**
+ * Returns whether the payload is a number (but not NaN)
+ *
+ * This will return `false` for `NaN`!!
+ *
+ * @param {*} payload
+ * @returns {payload is number}
+ */
+function isNumber(payload) {
+    return getType(payload) === 'Number' && !isNaN(payload);
+}
+/**
+ * Returns whether the payload is a boolean
+ *
+ * @param {*} payload
+ * @returns {payload is boolean}
+ */
+function isBoolean(payload) {
+    return getType(payload) === 'Boolean';
+}
+/**
+ * Returns whether the payload is a regular expression (RegExp)
+ *
+ * @param {*} payload
+ * @returns {payload is RegExp}
+ */
+function isRegExp(payload) {
+    return getType(payload) === 'RegExp';
+}
+/**
+ * Returns whether the payload is a Map
+ *
+ * @param {*} payload
+ * @returns {payload is Map<any, any>}
+ */
+function isMap(payload) {
+    return getType(payload) === 'Map';
+}
+/**
+ * Returns whether the payload is a WeakMap
+ *
+ * @param {*} payload
+ * @returns {payload is WeakMap<any, any>}
+ */
+function isWeakMap(payload) {
+    return getType(payload) === 'WeakMap';
+}
+/**
+ * Returns whether the payload is a Set
+ *
+ * @param {*} payload
+ * @returns {payload is Set<any>}
+ */
+function isSet(payload) {
+    return getType(payload) === 'Set';
+}
+/**
+ * Returns whether the payload is a WeakSet
+ *
+ * @param {*} payload
+ * @returns {payload is WeakSet<any>}
+ */
+function isWeakSet(payload) {
+    return getType(payload) === 'WeakSet';
+}
+/**
+ * Returns whether the payload is a Symbol
+ *
+ * @param {*} payload
+ * @returns {payload is symbol}
+ */
+function isSymbol(payload) {
+    return getType(payload) === 'Symbol';
+}
+/**
+ * Returns whether the payload is a Date, and that the date is valid
+ *
+ * @param {*} payload
+ * @returns {payload is Date}
+ */
+function isDate(payload) {
+    return getType(payload) === 'Date' && !isNaN(payload);
+}
+/**
+ * Returns whether the payload is a Blob
+ *
+ * @param {*} payload
+ * @returns {payload is Blob}
+ */
+function isBlob(payload) {
+    return getType(payload) === 'Blob';
+}
+/**
+ * Returns whether the payload is a File
+ *
+ * @param {*} payload
+ * @returns {payload is File}
+ */
+function isFile(payload) {
+    return getType(payload) === 'File';
+}
+/**
+ * Returns whether the payload is a Promise
+ *
+ * @param {*} payload
+ * @returns {payload is Promise<any>}
+ */
+function isPromise(payload) {
+    return getType(payload) === 'Promise';
+}
+/**
+ * Returns whether the payload is an Error
+ *
+ * @param {*} payload
+ * @returns {payload is Error}
+ */
+function isError(payload) {
+    return getType(payload) === 'Error';
+}
+/**
+ * Returns whether the payload is literally the value `NaN` (it's `NaN` and also a `number`)
+ *
+ * @param {*} payload
+ * @returns {payload is typeof NaN}
+ */
+function isNaNValue(payload) {
+    return getType(payload) === 'Number' && isNaN(payload);
+}
+/**
+ * Returns whether the payload is a primitive type (eg. Boolean | Null | Undefined | Number | String | Symbol)
+ *
+ * @param {*} payload
+ * @returns {(payload is boolean | null | undefined | number | string | symbol)}
+ */
+function isPrimitive(payload) {
+    return (isBoolean(payload) ||
+        isNull(payload) ||
+        isUndefined(payload) ||
+        isNumber(payload) ||
+        isString(payload) ||
+        isSymbol(payload));
+}
+/**
+ * Returns true whether the payload is null or undefined
+ *
+ * @param {*} payload
+ * @returns {(payload is null | undefined)}
+ */
+var isNullOrUndefined = isOneOf(isNull, isUndefined);
+function isOneOf(a, b, c, d, e) {
+    return function (value) {
+        return a(value) || b(value) || (!!c && c(value)) || (!!d && d(value)) || (!!e && e(value));
+    };
+}
+/**
+ * Does a generic check to check that the given payload is of a given type.
+ * In cases like Number, it will return true for NaN as NaN is a Number (thanks javascript!);
+ * It will, however, differentiate between object and null
+ *
+ * @template T
+ * @param {*} payload
+ * @param {T} type
+ * @throws {TypeError} Will throw type error if type is an invalid type
+ * @returns {payload is T}
+ */
+function isType(payload, type) {
+    if (!(type instanceof Function)) {
+        throw new TypeError('Type must be a function');
+    }
+    if (!Object.prototype.hasOwnProperty.call(type, 'prototype')) {
+        throw new TypeError('Type is not a class');
+    }
+    // Classes usually have names (as functions usually have names)
+    var name = type.name;
+    return getType(payload) === name || Boolean(payload && payload.constructor === type);
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/merge-anything/dist/index.esm.js
+
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+}
+
+function assignProp(carry, key, newVal, originalObject) {
+    var propType = originalObject.propertyIsEnumerable(key)
+        ? 'enumerable'
+        : 'nonenumerable';
+    if (propType === 'enumerable')
+        carry[key] = newVal;
+    if (propType === 'nonenumerable') {
+        Object.defineProperty(carry, key, {
+            value: newVal,
+            enumerable: false,
+            writable: true,
+            configurable: true
+        });
+    }
+}
+function mergeRecursively(origin, newComer, extensions) {
+    // work directly on newComer if its not an object
+    if (!isPlainObject(newComer)) {
+        // extend merge rules
+        if (extensions && index_esm_isArray(extensions)) {
+            extensions.forEach(function (extend) {
+                newComer = extend(origin, newComer);
+            });
+        }
+        return newComer;
+    }
+    // define newObject to merge all values upon
+    var newObject = {};
+    if (isPlainObject(origin)) {
+        var props_1 = Object.getOwnPropertyNames(origin);
+        var symbols_1 = Object.getOwnPropertySymbols(origin);
+        newObject = __spreadArrays(props_1, symbols_1).reduce(function (carry, key) {
+            // @ts-ignore
+            var targetVal = origin[key];
+            if ((!isSymbol(key) && !Object.getOwnPropertyNames(newComer).includes(key)) ||
+                (isSymbol(key) && !Object.getOwnPropertySymbols(newComer).includes(key))) {
+                assignProp(carry, key, targetVal, origin);
+            }
+            return carry;
+        }, {});
+    }
+    var props = Object.getOwnPropertyNames(newComer);
+    var symbols = Object.getOwnPropertySymbols(newComer);
+    var result = __spreadArrays(props, symbols).reduce(function (carry, key) {
+        // re-define the origin and newComer as targetVal and newVal
+        var newVal = newComer[key];
+        var targetVal = (isPlainObject(origin))
+            // @ts-ignore
+            ? origin[key]
+            : undefined;
+        // extend merge rules
+        if (extensions && index_esm_isArray(extensions)) {
+            extensions.forEach(function (extend) {
+                newVal = extend(targetVal, newVal);
+            });
+        }
+        // When newVal is an object do the merge recursively
+        if (targetVal !== undefined && isPlainObject(newVal)) {
+            newVal = mergeRecursively(targetVal, newVal, extensions);
+        }
+        assignProp(carry, key, newVal, newComer);
+        return carry;
+    }, newObject);
+    return result;
+}
+/**
+ * Merge anything recursively.
+ * Objects get merged, special objects (classes etc.) are re-assigned "as is".
+ * Basic types overwrite objects or other basic types.
+ *
+ * @param {(IConfig | any)} origin
+ * @param {...any[]} newComers
+ * @returns the result
+ */
+function merge(origin) {
+    var newComers = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        newComers[_i - 1] = arguments[_i];
+    }
+    var extensions = null;
+    var base = origin;
+    if (isPlainObject(origin) && origin.extensions && Object.keys(origin).length === 1) {
+        base = {};
+        extensions = origin.extensions;
+    }
+    return newComers.reduce(function (result, newComer) {
+        return mergeRecursively(result, newComer, extensions);
+    }, base);
+}
+
+function concatArrays(originVal, newVal) {
+    if (isArray(originVal) && isArray(newVal)) {
+        // concat logic
+        return originVal.concat(newVal);
+    }
+    return newVal; // always return newVal as fallback!!
+}
+
+/* harmony default export */ const index_esm = (merge);
+
 
 ;// CONCATENATED MODULE: ./node_modules/styled-components/dist/styled-components.browser.esm.js
 
@@ -618,7 +3786,7 @@ var possibleConstructorReturn = function (self, call) {
 };
 
 // 
-var isPlainObject = (function (x) {
+var styled_components_browser_esm_isPlainObject = (function (x) {
   return (typeof x === 'undefined' ? 'undefined' : _typeof(x)) === 'object' && x.constructor === Object;
 });
 
@@ -627,7 +3795,7 @@ var EMPTY_ARRAY = Object.freeze([]);
 var EMPTY_OBJECT = Object.freeze({});
 
 // 
-function isFunction(test) {
+function styled_components_browser_esm_isFunction(test) {
   return typeof test === 'function';
 }
 
@@ -649,7 +3817,7 @@ function isStyledComponent(target) {
 
 // 
 
-var SC_ATTR = typeof process !== 'undefined' && process.env.SC_ATTR || 'data-styled';
+var SC_ATTR = typeof process !== 'undefined' && (process.env.REACT_APP_SC_ATTR || process.env.SC_ATTR) || 'data-styled';
 
 var SC_VERSION_ATTR = 'data-styled-version';
 
@@ -657,7 +3825,7 @@ var SC_STREAM_ATTR = 'data-styled-streamed';
 
 var IS_BROWSER = typeof window !== 'undefined' && 'HTMLElement' in window;
 
-var DISABLE_SPEEDY = typeof SC_DISABLE_SPEEDY === 'boolean' && SC_DISABLE_SPEEDY || "production" !== 'production';
+var DISABLE_SPEEDY = typeof SC_DISABLE_SPEEDY === 'boolean' && SC_DISABLE_SPEEDY || typeof process !== 'undefined' && (process.env.REACT_APP_SC_DISABLE_SPEEDY || process.env.SC_DISABLE_SPEEDY) || "production" !== 'production';
 
 // Shared empty execution context when generating static styles
 var STATIC_EXECUTION_CONTEXT = {};
@@ -704,7 +3872,7 @@ var StyledComponentsError = function (_Error) {
     }
 
     if (true) {
-      var _this = possibleConstructorReturn(this, _Error.call(this, 'An error occurred. See https://github.com/styled-components/styled-components/blob/master/packages/styled-components/src/utils/errors.md#' + code + ' for more information. ' + (interpolations ? 'Additional arguments: ' + interpolations.join(', ') : '')));
+      var _this = possibleConstructorReturn(this, _Error.call(this, 'An error occurred. See https://github.com/styled-components/styled-components/blob/master/packages/styled-components/src/utils/errors.md#' + code + ' for more information.' + (interpolations.length > 0 ? ' Additional arguments: ' + interpolations.join(', ') : '')));
     } else { var _this; }
     return possibleConstructorReturn(_this);
   }
@@ -901,9 +4069,9 @@ var sheetForTag = function sheetForTag(tag) {
   if (tag.sheet) return tag.sheet;
 
   /* Firefox quirk requires us to step through all stylesheets to find one owned by the given tag */
-  var size = document.styleSheets.length;
+  var size = tag.ownerDocument.styleSheets.length;
   for (var i = 0; i < size; i += 1) {
-    var sheet = document.styleSheets[i];
+    var sheet = tag.ownerDocument.styleSheets[i];
     // $FlowFixMe
     if (sheet.ownerNode === tag) return sheet;
   }
@@ -957,9 +4125,12 @@ var addUpUntilIndex = function addUpUntilIndex(sizes, index) {
 
 /* create a new style tag after lastEl */
 var makeStyleTag = function makeStyleTag(target, tagEl, insertBefore) {
-  var el = document.createElement('style');
+  var targetDocument = document;
+  if (target) targetDocument = target.ownerDocument;else if (tagEl) targetDocument = tagEl.ownerDocument;
+
+  var el = targetDocument.createElement('style');
   el.setAttribute(SC_ATTR, '');
-  el.setAttribute(SC_VERSION_ATTR, "4.2.0");
+  el.setAttribute(SC_VERSION_ATTR, "4.4.1");
 
   var nonce = getNonce();
   if (nonce) {
@@ -967,7 +4138,7 @@ var makeStyleTag = function makeStyleTag(target, tagEl, insertBefore) {
   }
 
   /* Work around insertRule quirk in EdgeHTML */
-  el.appendChild(document.createTextNode(''));
+  el.appendChild(targetDocument.createTextNode(''));
 
   if (target && !tagEl) {
     /* Append to target when no previous element was passed */
@@ -988,7 +4159,7 @@ var makeStyleTag = function makeStyleTag(target, tagEl, insertBefore) {
 var wrapAsHtmlTag = function wrapAsHtmlTag(css, names) {
   return function (additionalAttrs) {
     var nonce = getNonce();
-    var attrs = [nonce && 'nonce="' + nonce + '"', SC_ATTR + '="' + stringifyNames(names) + '"', SC_VERSION_ATTR + '="' + "4.2.0" + '"', additionalAttrs];
+    var attrs = [nonce && 'nonce="' + nonce + '"', SC_ATTR + '="' + stringifyNames(names) + '"', SC_VERSION_ATTR + '="' + "4.4.1" + '"', additionalAttrs];
 
     var htmlAttr = attrs.filter(Boolean).join(' ');
     return '<style ' + htmlAttr + '>' + css() + '</style>';
@@ -1000,7 +4171,7 @@ var wrapAsElement = function wrapAsElement(css, names) {
   return function () {
     var _props;
 
-    var props = (_props = {}, _props[SC_ATTR] = stringifyNames(names), _props[SC_VERSION_ATTR] = "4.2.0", _props);
+    var props = (_props = {}, _props[SC_ATTR] = stringifyNames(names), _props[SC_VERSION_ATTR] = "4.4.1", _props);
 
     var nonce = getNonce();
     if (nonce) {
@@ -1075,6 +4246,8 @@ var makeSpeedyTag = function makeSpeedyTag(el, getImportRuleTag) {
   var removeRules = function removeRules(id) {
     var marker = markers[id];
     if (marker === undefined) return;
+    // $FlowFixMe
+    if (el.isConnected === false) return;
 
     var size = sizes[marker];
     var sheet = sheetForTag(el);
@@ -1130,8 +4303,8 @@ var makeSpeedyTag = function makeSpeedyTag(el, getImportRuleTag) {
   };
 };
 
-var makeTextNode = function makeTextNode(id) {
-  return document.createTextNode(makeTextMarker(id));
+var makeTextNode = function makeTextNode(targetDocument, id) {
+  return targetDocument.createTextNode(makeTextMarker(id));
 };
 
 var makeBrowserTag = function makeBrowserTag(el, getImportRuleTag) {
@@ -1149,7 +4322,7 @@ var makeBrowserTag = function makeBrowserTag(el, getImportRuleTag) {
       return prev;
     }
 
-    markers[id] = makeTextNode(id);
+    markers[id] = makeTextNode(el.ownerDocument, id);
     el.appendChild(markers[id]);
     names[id] = Object.create(null);
 
@@ -1187,7 +4360,7 @@ var makeBrowserTag = function makeBrowserTag(el, getImportRuleTag) {
     if (marker === undefined) return;
 
     /* create new empty text node and replace the current one */
-    var newMarker = makeTextNode(id);
+    var newMarker = makeTextNode(el.ownerDocument, id);
     el.replaceChild(newMarker, marker);
     markers[id] = newMarker;
     resetIdNames(names, id);
@@ -1407,7 +4580,7 @@ var StyleSheet = function () {
     var isStreamed = false;
 
     /* retrieve all of our SSR style elements from the DOM */
-    var nodes = document.querySelectorAll('style[' + SC_ATTR + '][' + SC_VERSION_ATTR + '="' + "4.2.0" + '"]');
+    var nodes = document.querySelectorAll('style[' + SC_ATTR + '][' + SC_VERSION_ATTR + '="' + "4.4.1" + '"]');
 
     var nodesSize = nodes.length;
 
@@ -1747,14 +4920,27 @@ var isFalsish = function isFalsish(chunk) {
   return chunk === undefined || chunk === null || chunk === false || chunk === '';
 };
 
-var objToCss = function objToCss(obj, prevKey) {
-  var css = Object.keys(obj).filter(function (key) {
-    return !isFalsish(obj[key]);
-  }).map(function (key) {
-    if (isPlainObject(obj[key])) return objToCss(obj[key], key);
-    return hyphenateStyleName(key) + ': ' + addUnitIfNeeded(key, obj[key]) + ';';
-  }).join(' ');
-  return prevKey ? prevKey + ' {\n  ' + css + '\n}' : css;
+var objToCssArray = function objToCssArray(obj, prevKey) {
+  var rules = [];
+  var keys = Object.keys(obj);
+
+  keys.forEach(function (key) {
+    if (!isFalsish(obj[key])) {
+      if (styled_components_browser_esm_isPlainObject(obj[key])) {
+        rules.push.apply(rules, objToCssArray(obj[key], key));
+
+        return rules;
+      } else if (styled_components_browser_esm_isFunction(obj[key])) {
+        rules.push(hyphenateStyleName(key) + ':', obj[key], ';');
+
+        return rules;
+      }
+      rules.push(hyphenateStyleName(key) + ': ' + addUnitIfNeeded(key, obj[key]) + ';');
+    }
+    return rules;
+  });
+
+  return prevKey ? [prevKey + ' {'].concat(rules, ['}']) : rules;
 };
 
 function flatten(chunk, executionContext, styleSheet) {
@@ -1780,7 +4966,7 @@ function flatten(chunk, executionContext, styleSheet) {
   }
 
   /* Either execute or defer the function */
-  if (isFunction(chunk)) {
+  if (styled_components_browser_esm_isFunction(chunk)) {
     if (isStatelessFunction(chunk) && executionContext) {
       var _result = chunk(executionContext);
 
@@ -1798,7 +4984,7 @@ function flatten(chunk, executionContext, styleSheet) {
   }
 
   /* Handle objects */
-  return isPlainObject(chunk) ? objToCss(chunk) : chunk.toString();
+  return styled_components_browser_esm_isPlainObject(chunk) ? objToCssArray(chunk) : chunk.toString();
 }
 
 // 
@@ -1808,7 +4994,7 @@ function css(styles) {
     interpolations[_key - 1] = arguments[_key];
   }
 
-  if (isFunction(styles) || isPlainObject(styles)) {
+  if (styled_components_browser_esm_isFunction(styles) || styled_components_browser_esm_isPlainObject(styles)) {
     // $FlowFixMe
     return flatten(interleave(EMPTY_ARRAY, [styles].concat(interpolations)));
   }
@@ -1896,7 +5082,7 @@ function generateAlphabeticName(code) {
 function hasFunctionObjectKey(obj) {
   // eslint-disable-next-line guard-for-in, no-restricted-syntax
   for (var key in obj) {
-    if (isFunction(obj[key])) {
+    if (styled_components_browser_esm_isFunction(obj[key])) {
       return true;
     }
   }
@@ -1911,7 +5097,7 @@ function isStaticRules(rules, attrs) {
     // recursive case
     if (Array.isArray(rule) && !isStaticRules(rule, attrs)) {
       return false;
-    } else if (isFunction(rule) && !isStyledComponent(rule)) {
+    } else if (styled_components_browser_esm_isFunction(rule) && !isStyledComponent(rule)) {
       // functions are allowed to be static if they're just being
       // used to get the classname of a nested styled component
       return false;
@@ -1919,15 +5105,13 @@ function isStaticRules(rules, attrs) {
   }
 
   if (attrs.some(function (x) {
-    return isFunction(x) || hasFunctionObjectKey(x);
+    return styled_components_browser_esm_isFunction(x) || hasFunctionObjectKey(x);
   })) return false;
 
   return true;
 }
 
 // 
-
-var isHMREnabled =  false && 0;
 
 /* combines hashStr (murmurhash) and nameGenerator for convenience */
 var hasher = function hasher(str) {
@@ -1944,7 +5128,7 @@ var ComponentStyle = function () {
     classCallCheck(this, ComponentStyle);
 
     this.rules = rules;
-    this.isStatic = !isHMREnabled && isStaticRules(rules, attrs);
+    this.isStatic =  true && isStaticRules(rules, attrs);
     this.componentId = componentId;
 
     if (!StyleSheet.master.hasId(componentId)) {
@@ -1953,10 +5137,10 @@ var ComponentStyle = function () {
   }
 
   /*
-     * Flattens a rule set into valid CSS
-     * Hashes it, wraps the whole chunk in a .hash1234 {}
-     * Returns the hash to be injected on render()
-     * */
+   * Flattens a rule set into valid CSS
+   * Hashes it, wraps the whole chunk in a .hash1234 {}
+   * Returns the hash to be injected on render()
+   * */
 
 
   ComponentStyle.prototype.generateAndInjectStyles = function generateAndInjectStyles(executionContext, styleSheet) {
@@ -1999,7 +5183,7 @@ var createWarnTooManyClasses = (function (displayName) {
       if (Object.keys(generatedClasses).length >= LIMIT) {
         // Unable to find latestRule in test environment.
         /* eslint-disable no-console, prefer-template */
-        console.warn('Over ' + LIMIT + ' classes were generated for component ' + displayName + '. \n' + 'Consider using the attrs method, together with a style object for frequently changed styles.\n' + 'Example:\n' + '  const Component = styled.div.attrs({\n' + '    style: ({ background }) => ({\n' + '      background,\n' + '    }),\n' + '  })`width: 100%;`\n\n' + '  <Component />');
+        console.warn('Over ' + LIMIT + ' classes were generated for component ' + displayName + '. \n' + 'Consider using the attrs method, together with a style object for frequently changed styles.\n' + 'Example:\n' + '  const Component = styled.div.attrs(props => ({\n' + '    style: {\n' + '      background: props.background,\n' + '    },\n' + '  }))`width: 100%;`\n\n' + '  <Component />');
         warningSeen = true;
         generatedClasses = {};
       }
@@ -2199,7 +5383,7 @@ var ThemeProvider = function (_Component) {
     return external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(
       ThemeContext.Provider,
       { value: context },
-      external_root_React_commonjs2_react_commonjs_react_amd_react_default().Children.only(this.props.children)
+      this.props.children
     );
   };
 
@@ -2210,7 +5394,7 @@ var ThemeProvider = function (_Component) {
 
 
   ThemeProvider.prototype.getTheme = function getTheme(theme, outerTheme) {
-    if (isFunction(theme)) {
+    if (styled_components_browser_esm_isFunction(theme)) {
       var mergedTheme = theme(outerTheme);
 
       if (false) {}
@@ -2389,60 +5573,6 @@ var StyleSheetManager = function (_Component) {
 
 // 
 
-var didWarnAboutClassNameUsage = new Set();
-
-var classNameUsageCheckInjector = (function (target) {
-  var elementClassName = '';
-
-  var targetCDM = target.componentDidMount;
-
-  // eslint-disable-next-line no-param-reassign
-  target.componentDidMount = function componentDidMount() {
-    if (typeof targetCDM === 'function') {
-      targetCDM.call(this);
-    }
-
-    var forwardTarget = this.props.forwardedComponent.target;
-
-    if (target.props && target.props.suppressClassNameWarning || target.attrs && target.attrs.suppressClassNameWarning || didWarnAboutClassNameUsage.has(forwardTarget)) {
-      return;
-    }
-
-    didWarnAboutClassNameUsage.add(forwardTarget);
-
-    var classNames = elementClassName.replace(/\s+/g, ' ').trim().split(' ');
-    // eslint-disable-next-line react/no-find-dom-node
-    var node = ReactDOM.findDOMNode(this);
-    var selector = classNames.map(function (s) {
-      return '.' + s;
-    }).join('');
-
-    if (node && node.nodeType === 1 && !classNames.every(function (className) {
-      return node.classList && node.classList.contains(className);
-    }) && !node.querySelector(selector)) {
-      // eslint-disable-next-line no-console
-      console.warn('It looks like you\'ve wrapped styled() around your React component (' + getComponentName(forwardTarget) + '), but the className prop is not being passed down to a child. No styles will be rendered unless className is composed within your React component.');
-    }
-  };
-
-  var prevRenderInner = target.renderInner;
-
-  // eslint-disable-next-line no-param-reassign
-  target.renderInner = function renderInner() {
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    var element = prevRenderInner.apply(this, args);
-
-    elementClassName = element.props.className;
-
-    return element;
-  };
-});
-
-// 
-
 var identifiers = {};
 
 /* We depend on components having unique IDs */
@@ -2475,8 +5605,6 @@ var StyledComponent = function (_Component) {
 
     _this.renderOuter = _this.renderOuter.bind(_this);
     _this.renderInner = _this.renderInner.bind(_this);
-
-    if (false) {}
 
     if (false) {}
     return _this;
@@ -2518,26 +5646,24 @@ var StyledComponent = function (_Component) {
     var generatedClassName = void 0;
     if (componentStyle.isStatic) {
       generatedClassName = this.generateAndInjectStyles(EMPTY_OBJECT, this.props);
-    } else if (theme !== undefined) {
-      generatedClassName = this.generateAndInjectStyles(determineTheme(this.props, theme, defaultProps), this.props);
     } else {
-      generatedClassName = this.generateAndInjectStyles(this.props.theme || EMPTY_OBJECT, this.props);
+      generatedClassName = this.generateAndInjectStyles(determineTheme(this.props, theme, defaultProps) || EMPTY_OBJECT, this.props);
     }
 
     var elementToBeCreated = this.props.as || this.attrs.as || target;
     var isTargetTag = isTag(elementToBeCreated);
 
     var propsForElement = {};
-    var computedProps = _extends({}, this.attrs, this.props);
+    var computedProps = _extends({}, this.props, this.attrs);
 
     var key = void 0;
     // eslint-disable-next-line guard-for-in
     for (key in computedProps) {
       if (false) {}
 
-      if (key === 'forwardedComponent' || key === 'as' || key === 'suppressClassNameWarning') {
+      if (key === 'forwardedComponent' || key === 'as') {
         continue;
-      } else if (key === 'forwardedRef') propsForElement.ref = computedProps[key];else if (!isTargetTag || is_prop_valid_browser_esm(key)) {
+      } else if (key === 'forwardedRef') propsForElement.ref = computedProps[key];else if (key === 'forwardedAs') propsForElement.as = computedProps[key];else if (!isTargetTag || is_prop_valid_browser_esm(key)) {
         // Don't pass through non HTML tags through to HTML elements
         propsForElement[key] = computedProps[key];
       }
@@ -2547,7 +5673,7 @@ var StyledComponent = function (_Component) {
       propsForElement.style = _extends({}, this.attrs.style, this.props.style);
     }
 
-    propsForElement.className = Array.prototype.concat(foldedComponentIds, this.props.className, styledComponentId, this.attrs.className, generatedClassName).filter(Boolean).join(' ');
+    propsForElement.className = Array.prototype.concat(foldedComponentIds, styledComponentId, generatedClassName !== styledComponentId ? generatedClassName : null, this.props.className, this.attrs.className).filter(Boolean).join(' ');
 
     return (0,external_root_React_commonjs2_react_commonjs_react_amd_react_.createElement)(elementToBeCreated, propsForElement);
   };
@@ -2567,7 +5693,7 @@ var StyledComponent = function (_Component) {
       var attr = void 0;
       var key = void 0;
 
-      if (isFunction(resolvedAttrDef)) {
+      if (styled_components_browser_esm_isFunction(resolvedAttrDef)) {
         // $FlowFixMe
         resolvedAttrDef = resolvedAttrDef(context);
         attrDefWasFn = true;
@@ -2579,7 +5705,7 @@ var StyledComponent = function (_Component) {
         attr = resolvedAttrDef[key];
 
         if (!attrDefWasFn) {
-          if (isFunction(attr) && !isDerivedReactComponent(attr) && !isStyledComponent(attr)) {
+          if (styled_components_browser_esm_isFunction(attr) && !isDerivedReactComponent(attr) && !isStyledComponent(attr)) {
             if (false) {}
 
             attr = attr(context);
@@ -2649,15 +5775,18 @@ function createStyledComponent(target, options, rules) {
    * forwardRef creates a new interim component, which we'll take advantage of
    * instead of extending ParentComponent to create _another_ interim class
    */
-  var WrappedStyledComponent = external_root_React_commonjs2_react_commonjs_react_amd_react_default().forwardRef(function (props, ref) {
+  var WrappedStyledComponent = void 0;
+  var forwardRef = function forwardRef(props, ref) {
     return external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(ParentComponent, _extends({}, props, { forwardedComponent: WrappedStyledComponent, forwardedRef: ref }));
-  });
+  };
+  forwardRef.displayName = displayName;
+  WrappedStyledComponent = external_root_React_commonjs2_react_commonjs_react_amd_react_default().forwardRef(forwardRef);
+  WrappedStyledComponent.displayName = displayName;
 
   // $FlowFixMe
   WrappedStyledComponent.attrs = finalAttrs;
   // $FlowFixMe
   WrappedStyledComponent.componentStyle = componentStyle;
-  WrappedStyledComponent.displayName = displayName;
 
   // $FlowFixMe
   WrappedStyledComponent.foldedComponentIds = isTargetStyledComp ? // $FlowFixMe
@@ -2686,6 +5815,17 @@ function createStyledComponent(target, options, rules) {
 
     return createStyledComponent(tag, newOptions, rules);
   };
+
+  // $FlowFixMe
+  Object.defineProperty(WrappedStyledComponent, 'defaultProps', {
+    get: function get$$1() {
+      return this._foldedDefaultProps;
+    },
+    set: function set$$1(obj) {
+      // $FlowFixMe
+      this._foldedDefaultProps = isTargetStyledComp ? index_esm(target.defaultProps, obj) : obj;
+    }
+  });
 
   if (false) {}
 
@@ -2952,20 +6092,18 @@ if (false) {}
 //# sourceMappingURL=styled-components.browser.esm.js.map
 
 ;// CONCATENATED MODULE: ./lib/elements/Label.js
-function Label_extends() { Label_extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return Label_extends.apply(this, arguments); }
+function Label_extends() { Label_extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return Label_extends.apply(this, arguments); }
 
 
 
 
-var DLabel =
-/*#__PURE__*/
-styled_components_browser_esm.label.withConfig({
+var DLabel = /*#__PURE__*/styled_components_browser_esm.label.withConfig({
   displayName: "Label__DLabel",
   componentId: "sc-1yy87qc-0"
 })(["font-size:15px;color:#000;"]);
 
 var Label = function Label(props) {
-  return external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(DLabel, Label_extends({}, props, {
+  return /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(DLabel, Label_extends({}, props, {
     className: props.className
   }));
 };
@@ -2974,15 +6112,30 @@ Label.propTypes = {
   className: prop_types_default().oneOfType([(prop_types_default()).string, (prop_types_default()).object])
 };
 /* harmony default export */ const elements_Label = (Label);
+// EXTERNAL MODULE: ./node_modules/cleave.js/react.js
+var react = __webpack_require__(34);
+var react_default = /*#__PURE__*/__webpack_require__.n(react);
 ;// CONCATENATED MODULE: ./lib/elements/Input.js
-function Input_extends() { Input_extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return Input_extends.apply(this, arguments); }
+var _excluded = ["maxDate", "minDate", "format"];
+
+function Input_extends() { Input_extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return Input_extends.apply(this, arguments); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 
 
 
-var DInput =
-/*#__PURE__*/
-styled_components_browser_esm.input.withConfig({
+
+
+var DInput = /*#__PURE__*/styled_components_browser_esm((react_default())).withConfig({
   displayName: "Input__DInput",
   componentId: "sc-12thhga-0"
 })(["width:100%;padding:5px;color:black;background:white;border:", ";border-radius:3px;box-sizing:border-box;&:focus{outline:none;}"], function (props) {
@@ -2990,8 +6143,42 @@ styled_components_browser_esm.input.withConfig({
 });
 
 var Input = function Input(props) {
-  return external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(DInput, Input_extends({}, props, {
-    className: props.className
+  var maxDate = props.maxDate,
+      minDate = props.minDate,
+      format = props.format,
+      propsInput = _objectWithoutProperties(props, _excluded);
+
+  var maxDateValue = '';
+  var minDateValue = '';
+  var maxDateValueBool = dayjs_min_default()(maxDate, format).isValid();
+  var minDateValueBool = dayjs_min_default()(minDate, format).isValid();
+
+  if (maxDateValueBool) {
+    maxDateValue = dayjs_min_default()(maxDate, format).format('YYYY-MM-DD');
+  }
+
+  if (minDateValueBool) {
+    minDateValue = dayjs_min_default()(minDate, format).format('YYYY-MM-DD');
+  }
+
+  var options = {
+    date: true,
+    delimiter: '/',
+    datePattern: ['m', 'd', 'Y']
+  };
+  console.log('TCL ~ options v4', options);
+
+  if (maxDateValueBool && minDateValueBool) {
+    options = _objectSpread(_objectSpread({}, options), {}, {
+      dateMin: minDateValue,
+      dateMax: maxDateValue
+    });
+  }
+
+  return /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(DInput, Input_extends({}, propsInput, {
+    options: options,
+    className: props.className,
+    autocomplete: "off"
   }));
 };
 
@@ -3000,20 +6187,18 @@ Input.propTypes = {
 };
 /* harmony default export */ const elements_Input = (Input);
 ;// CONCATENATED MODULE: ./lib/elements/Icon.js
-function Icon_extends() { Icon_extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return Icon_extends.apply(this, arguments); }
+function Icon_extends() { Icon_extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return Icon_extends.apply(this, arguments); }
 
 
 
 
-var Img =
-/*#__PURE__*/
-styled_components_browser_esm.img.withConfig({
+var Img = /*#__PURE__*/styled_components_browser_esm.img.withConfig({
   displayName: "Icon__Img",
   componentId: "sc-1yw6gqm-0"
 })(["width:22px;height:22px;position:absolute;cursor:pointer;bottom:3px;margin:auto;right:10px;"]);
 
 var Icon = function Icon(props) {
-  return external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Img, Icon_extends({}, props, {
+  return /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Img, Icon_extends({}, props, {
     className: props.className,
     src: props.icon
   }));
@@ -3026,20 +6211,18 @@ Icon.propTypes = {
 /* harmony default export */ const elements_Icon = (Icon);
 ;// CONCATENATED MODULE: ./lib/elements/Container.js
 
-var Container =
-/*#__PURE__*/
-styled_components_browser_esm.div.withConfig({
+var Container = /*#__PURE__*/styled_components_browser_esm.div.withConfig({
   displayName: "Container",
   componentId: "sc-crzztr-0"
 })(["width:100%;position:relative;font-family:'Open Sans',sans-serif;"]);
 /* harmony default export */ const elements_Container = (Container);
 ;// CONCATENATED MODULE: ./lib/elements/CalendarContainer.js
 
-var CalendarContainer =
-/*#__PURE__*/
-styled_components_browser_esm.div.attrs({
-  // we can define static props
-  tabIndex: '1'
+var CalendarContainer = /*#__PURE__*/styled_components_browser_esm.div.attrs(function (props) {
+  console.log('TCL ~ props', props);
+  return {
+    tabIndex: '1'
+  };
 }).withConfig({
   displayName: "CalendarContainer",
   componentId: "sc-1gorc7r-0"
@@ -3049,9 +6232,7 @@ styled_components_browser_esm.div.attrs({
 /* harmony default export */ const elements_CalendarContainer = (CalendarContainer);
 ;// CONCATENATED MODULE: ./lib/elements/CalendarHeading.js
 
-var CalendarHeading =
-/*#__PURE__*/
-styled_components_browser_esm.div.withConfig({
+var CalendarHeading = /*#__PURE__*/styled_components_browser_esm.div.withConfig({
   displayName: "CalendarHeading",
   componentId: "sc-15iv79b-0"
 })(["width:100%;height:64px;max-width:325px;max-height:64px;position:relative;background-color:", ";border-bottom:solid 1px #f4f4f4;border-radius:6px;"], function (props) {
@@ -3060,9 +6241,7 @@ styled_components_browser_esm.div.withConfig({
 /* harmony default export */ const elements_CalendarHeading = (CalendarHeading);
 ;// CONCATENATED MODULE: ./lib/elements/SingleArrow.js
 
-var SingleArrow =
-/*#__PURE__*/
-styled_components_browser_esm.span.withConfig({
+var SingleArrow = /*#__PURE__*/styled_components_browser_esm.span.withConfig({
   displayName: "SingleArrow",
   componentId: "sc-f35t5r-0"
 })(["width:22px;height:22px;border-radius:11.3px;background-color:", ";display:inline-block;position:absolute;top:0;cursor:pointer;bottom:0;margin:auto;color:#b8c2cb;font-weight:bold;opacity:0.4;border-radius:50%;border:", ";", ":40px;&:after{content:'';display:inline-block;margin-top:1px;margin-left:", ";width:5px;height:5px;border-top:", ";border-right:", ";-moz-transform:", ";-webkit-transform:", ";transform:", ";position:absolute;top:0;right:0;left:0;bottom:0;margin:auto;}"], function (props) {
@@ -3085,32 +6264,20 @@ styled_components_browser_esm.span.withConfig({
   return props.left ? 'rotate(-135deg)' : 'rotate(45deg)';
 });
 /* harmony default export */ const elements_SingleArrow = (SingleArrow);
-;// CONCATENATED MODULE: ./lib/elements/DoubleArrow.js
-
-var DoubleArrow =
-/*#__PURE__*/
-styled_components_browser_esm.span.withConfig({
-  displayName: "DoubleArrow",
-  componentId: "sc-ulwz8p-0"
-})(["width:22px;height:22px;border-radius:11.3px;background-color:", ";display:inline-block;position:absolute;top:0;cursor:pointer;bottom:0;margin:auto;color:#b8c2cb;font-weight:bold;opacity:0.4;", ":7px;border-radius:50%;border:", ";&:after,&:before{content:'';display:inline-block;width:5px;height:5px;border-top:", ";border-right:", ";-moz-transform:", ";-webkit-transform:", ";transform:", ";position:absolute;top:0;right:0;left:0;bottom:0;margin:auto;}&:after{margin-left:5px;}&:before{margin-right:5px;}"], function (props) {
-  return props.secondaryColor;
-}, function (props) {
-  return props.left ? 'left' : 'right';
-}, function (props) {
-  return '2px solid ' + props.primaryTextColor;
-}, function (props) {
-  return '2px solid ' + props.primaryTextColor;
-}, function (props) {
-  return '2px solid ' + props.primaryTextColor;
-}, function (props) {
-  return props.left ? 'rotate(-135deg)' : 'rotate(45deg)';
-}, function (props) {
-  return props.left ? 'rotate(-135deg)' : 'rotate(45deg)';
-}, function (props) {
-  return props.left ? 'rotate(-135deg)' : 'rotate(45deg)';
-});
-/* harmony default export */ const elements_DoubleArrow = (DoubleArrow);
 ;// CONCATENATED MODULE: ./lib/elements/DateEditor.js
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+/* eslint-disable multiline-ternary */
 
 
 
@@ -3123,25 +6290,19 @@ dayjs_min_default().extend((customParseFormat_default()));
 dayjs_min_default().extend((isBetween_default()));
 dayjs_min_default().extend((isSameOrAfter_default()));
 dayjs_min_default().extend((isSameOrBefore_default()));
-var Span =
-/*#__PURE__*/
-styled_components_browser_esm.span.withConfig({
+var Span = /*#__PURE__*/styled_components_browser_esm.span.withConfig({
   displayName: "DateEditor__Span",
   componentId: "sc-st1fz1-0"
 })(["font-size:1.5em;text-align:center;color:", ";font-size:20px;font-weight:600;margin-right:10px;line-height:64px;cursor:pointer;opacity:0.4;"], function (props) {
   return props.primaryTextColor;
 });
-var SelectedSpan =
-/*#__PURE__*/
-styled_components_browser_esm(Span).withConfig({
+var SelectedSpan = /*#__PURE__*/styled_components_browser_esm(Span).withConfig({
   displayName: "DateEditor__SelectedSpan",
   componentId: "sc-st1fz1-1"
 })(["color:", ";opacity:1;"], function (props) {
   return props.primaryTextColor;
 });
-var Wrapper =
-/*#__PURE__*/
-styled_components_browser_esm.div.withConfig({
+var Wrapper = /*#__PURE__*/styled_components_browser_esm.div.withConfig({
   displayName: "DateEditor__Wrapper",
   componentId: "sc-st1fz1-2"
 })(["min-width:170px;background:", ";text-align:center;border-radius:6px;"], function (props) {
@@ -3149,7 +6310,9 @@ styled_components_browser_esm.div.withConfig({
 });
 
 var DateEditor = function DateEditor(props) {
-  var onDateClick = props.onDateClick,
+  var defaultDate = '';
+  var defaultDateView = props.defaultDateView,
+      onDateClick = props.onDateClick,
       onMonthClick = props.onMonthClick,
       onYearClick = props.onYearClick,
       date = props.date,
@@ -3157,7 +6320,9 @@ var DateEditor = function DateEditor(props) {
       viewFor = props.viewFor,
       maxDate = props.maxDate,
       minDate = props.minDate,
-      primaryTextColor = props.primaryTextColor;
+      primaryTextColor = props.primaryTextColor,
+      _props$sortHeader = props.sortHeader,
+      sortHeader = _props$sortHeader === void 0 ? ['m', 'd', 'y'] : _props$sortHeader;
 
   var _date = dayjs_min_default()(date || dayjs_min_default()().format(format || 'DD-MM-YYYY'), format || 'DD-MM-YYYY');
 
@@ -3165,29 +6330,42 @@ var DateEditor = function DateEditor(props) {
 
   var _maxDate = dayjs_min_default()(maxDate, format || 'DD-MM-YYYY');
 
-  var defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+  if (defaultDateView && !date && dayjs_min_default()(defaultDateView).isValid()) {
+    defaultDate = dayjs_min_default()(defaultDateView, format || 'DD-MM-YYYY');
+  } else {
+    defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+  }
+
   var day = date ? dayjs_min_default()(date, format || 'DD-MM-YYYY').format('DD') : defaultDate.format('DD');
   var month = date ? dayjs_min_default()(date, format || 'DD-MM-YYYY').format('MMM') : defaultDate.format('MMM');
   var year = date ? dayjs_min_default()(date, format || 'DD-MM-YYYY').format('YYYY') : defaultDate.format('YYYY');
-  return external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Wrapper, null, viewFor === 'date' ? external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(SelectedSpan, {
-    onClick: onDateClick,
-    primaryTextColor: primaryTextColor
-  }, day) : external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Span, {
-    onClick: onDateClick,
-    primaryTextColor: primaryTextColor
-  }, day), viewFor === 'month' ? external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(SelectedSpan, {
-    onClick: onMonthClick,
-    primaryTextColor: primaryTextColor
-  }, month) : external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Span, {
-    onClick: onMonthClick,
-    primaryTextColor: primaryTextColor
-  }, month), viewFor === 'year' ? external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(SelectedSpan, {
-    onClick: onYearClick,
-    primaryTextColor: primaryTextColor
-  }, year) : external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Span, {
-    onClick: onYearClick,
-    primaryTextColor: primaryTextColor
-  }, year));
+  var actionsClick = {
+    'd': viewFor === 'date' ? /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(SelectedSpan, {
+      onClick: onDateClick,
+      primaryTextColor: primaryTextColor
+    }, day) : /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Span, {
+      onClick: onDateClick,
+      primaryTextColor: primaryTextColor
+    }, day),
+    'm': viewFor === 'month' ? /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(SelectedSpan, {
+      onClick: onMonthClick,
+      primaryTextColor: primaryTextColor
+    }, month) : /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Span, {
+      onClick: onMonthClick,
+      primaryTextColor: primaryTextColor
+    }, month),
+    'y': viewFor === 'year' ? /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(SelectedSpan, {
+      onClick: onYearClick,
+      primaryTextColor: primaryTextColor
+    }, year) : /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Span, {
+      onClick: onYearClick,
+      primaryTextColor: primaryTextColor
+    }, year)
+  };
+  return /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Wrapper, null, _toConsumableArray(sortHeader).map(function (element) {
+    var letter = String(element).toLowerCase().charAt(0);
+    return actionsClick[letter] || /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Span, null);
+  }));
 };
 
 DateEditor.propTypes = {
@@ -3205,12 +6383,8 @@ DateEditor.propTypes = {
 /* harmony default export */ const elements_DateEditor = (DateEditor);
 ;// CONCATENATED MODULE: ./lib/elements/Wrapper.js
 
-var fadeinout =
-/*#__PURE__*/
-keyframes(["0%{opacity:0;}50%{opacity:1;}"]);
-var Wrapper_Wrapper =
-/*#__PURE__*/
-styled_components_browser_esm.div.withConfig({
+var fadeinout = /*#__PURE__*/keyframes(["0%{opacity:0;}50%{opacity:1;}"]);
+var Wrapper_Wrapper = /*#__PURE__*/styled_components_browser_esm.div.withConfig({
   displayName: "Wrapper",
   componentId: "sc-1f69782-0"
 })(["width:100%;height:250px;max-width:280px;background:", ";text-align:center;box-sizing:border-box;margin:0 auto;animation:", " .5s linear 1 forwards;"], function (props) {
@@ -3219,18 +6393,14 @@ styled_components_browser_esm.div.withConfig({
 /* harmony default export */ const elements_Wrapper = (Wrapper_Wrapper);
 ;// CONCATENATED MODULE: ./lib/elements/Span.js
 
-var Span_Span =
-/*#__PURE__*/
-styled_components_browser_esm.span.withConfig({
+var Span_Span = /*#__PURE__*/styled_components_browser_esm.span.withConfig({
   displayName: "Span",
   componentId: "sc-1r2petn-0"
 })(["font-size:14px;text-align:center;color:#222222;width:40px;height:40px;margin:15px;display:inline-block;line-height:40px;cursor:pointer;overflow:auto;"]);
 /* harmony default export */ const elements_Span = (Span_Span);
 ;// CONCATENATED MODULE: ./lib/elements/Header.js
 
-var Header =
-/*#__PURE__*/
-styled_components_browser_esm.div.withConfig({
+var Header = /*#__PURE__*/styled_components_browser_esm.div.withConfig({
   displayName: "Header",
   componentId: "sc-169yovh-0"
 })(["width:100%;text-align:left;"]);
@@ -3251,9 +6421,7 @@ dayjs_min_default().extend((customParseFormat_default()));
 dayjs_min_default().extend((isBetween_default()));
 dayjs_min_default().extend((isSameOrAfter_default()));
 dayjs_min_default().extend((isSameOrBefore_default()));
-var DSpan =
-/*#__PURE__*/
-styled_components_browser_esm(elements_Span).withConfig({
+var DSpan = /*#__PURE__*/styled_components_browser_esm(elements_Span).withConfig({
   displayName: "DateView__DSpan",
   componentId: "sc-sepxv7-0"
 })(["height:30px;line-height:30px;margin:0;pointer-events:", ";cursor:", ";background-color:", ";color:", ";opacity:", ";"], function (props) {
@@ -3267,9 +6435,7 @@ styled_components_browser_esm(elements_Span).withConfig({
 }, function (props) {
   return props.isMax || props.isMin ? '0.4' : '1';
 });
-var DateView_SelectedSpan =
-/*#__PURE__*/
-styled_components_browser_esm(elements_Span).withConfig({
+var DateView_SelectedSpan = /*#__PURE__*/styled_components_browser_esm(elements_Span).withConfig({
   displayName: "DateView__SelectedSpan",
   componentId: "sc-sepxv7-1"
 })(["background-color:", ";color:", ";height:30px;line-height:30px;margin:0;opacity:", ";"], function (props) {
@@ -3279,23 +6445,20 @@ styled_components_browser_esm(elements_Span).withConfig({
 }, function (props) {
   return props.isMax || props.isMin ? '0.4' : '1';
 });
-var HeadSpan =
-/*#__PURE__*/
-styled_components_browser_esm(elements_Span).withConfig({
+var HeadSpan = /*#__PURE__*/styled_components_browser_esm(elements_Span).withConfig({
   displayName: "DateView__HeadSpan",
   componentId: "sc-sepxv7-2"
 })(["color:#b8c2cb;font-weight:600;margin:0;color:", ";opacity:0.4;"], function (props) {
   return props.primaryTextColor;
 });
-var Body =
-/*#__PURE__*/
-styled_components_browser_esm.div.withConfig({
+var Body = /*#__PURE__*/styled_components_browser_esm.div.withConfig({
   displayName: "DateView__Body",
   componentId: "sc-sepxv7-3"
 })(["width:100%;text-align:left;height:30px;"]);
 
 var DateView = function DateView(props) {
-  var date = props.date,
+  var defaultDateView = props.defaultDateView,
+      date = props.date,
       format = props.format,
       onDateChange = props.onDateChange,
       maxDate = props.maxDate,
@@ -3311,7 +6474,14 @@ var DateView = function DateView(props) {
 
   var _maxDate = dayjs_min_default()(maxDate, format || 'DD-MM-YYYY');
 
-  var defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+  var defaultDate = '';
+
+  if (defaultDateView && !date && dayjs_min_default()(defaultDateView).isValid()) {
+    defaultDate = dayjs_min_default()(defaultDateView, format || 'DD-MM-YYYY');
+  } else {
+    defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+  }
+
   var mainDate = date ? dayjs_min_default()(date, format || 'DD-MM-YYYY') : defaultDate;
   var endDate = maxDate ? dayjs_min_default()(maxDate, format || 'DD-MM-YYYY') : null;
   var startDate = minDate ? dayjs_min_default()(minDate, format || 'DD-MM-YYYY') : null;
@@ -3342,25 +6512,25 @@ var DateView = function DateView(props) {
     d.push(totalDays.slice(_i2, _i2 + chunk));
   }
 
-  return external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Wrapper, null, external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Header, null, external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
+  return /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Wrapper, null, /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Header, null, /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
     primaryTextColor: primaryTextColor
-  }, "S"), external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
+  }, "S"), /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
     primaryTextColor: primaryTextColor
-  }, "M"), external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
+  }, "M"), /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
     primaryTextColor: primaryTextColor
-  }, "T"), external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
+  }, "T"), /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
     primaryTextColor: primaryTextColor
-  }, "W"), external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
+  }, "W"), /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
     primaryTextColor: primaryTextColor
-  }, "T"), external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
+  }, "T"), /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
     primaryTextColor: primaryTextColor
-  }, "F"), external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
+  }, "F"), /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(HeadSpan, {
     primaryTextColor: primaryTextColor
   }, "S")), d.map(function (week, k) {
-    return external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Body, {
+    return /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Body, {
       key: k
     }, week.map(function (day, i) {
-      return currentDate === day.d && !d.isMax ? external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(DateView_SelectedSpan, {
+      return currentDate === day.d && !d.isMax ? /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(DateView_SelectedSpan, {
         isMax: day.isMax,
         isMin: day.isMin,
         key: i,
@@ -3370,7 +6540,7 @@ var DateView = function DateView(props) {
         primaryColor: primaryColor,
         primaryTextColor: primaryTextColor,
         secondaryTextColor: secondaryTextColor
-      }, day ? day.d : '') : external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(DSpan, {
+      }, day ? day.d : '') : /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(DSpan, {
         isMax: day.isMax,
         isMin: day.isMin,
         key: i,
@@ -3413,9 +6583,7 @@ dayjs_min_default().extend((customParseFormat_default()));
 dayjs_min_default().extend((isBetween_default()));
 dayjs_min_default().extend((isSameOrAfter_default()));
 dayjs_min_default().extend((isSameOrBefore_default()));
-var YSpan =
-/*#__PURE__*/
-styled_components_browser_esm(elements_Span).withConfig({
+var YSpan = /*#__PURE__*/styled_components_browser_esm(elements_Span).withConfig({
   displayName: "MonthView__YSpan",
   componentId: "sc-1p1ywwz-0"
 })(["margin:5px 15px;pointer-events:", ";cursor:", ";background-color:", ";color:", ";opacity:", ";width:60px;"], function (props) {
@@ -3429,9 +6597,7 @@ styled_components_browser_esm(elements_Span).withConfig({
 }, function (props) {
   return props.isMax || props.isMin ? '0.4' : '1';
 });
-var MonthView_SelectedSpan =
-/*#__PURE__*/
-styled_components_browser_esm(elements_Span).withConfig({
+var MonthView_SelectedSpan = /*#__PURE__*/styled_components_browser_esm(elements_Span).withConfig({
   displayName: "MonthView__SelectedSpan",
   componentId: "sc-1p1ywwz-1"
 })(["background-color:", ";color:", ";margin:5px 15px;width:60px;"], function (props) {
@@ -3441,7 +6607,8 @@ styled_components_browser_esm(elements_Span).withConfig({
 });
 
 var MonthView = function MonthView(props) {
-  var date = props.date,
+  var defaultDateView = props.defaultDateView,
+      date = props.date,
       format = props.format,
       onMonthChange = props.onMonthChange,
       maxDate = props.maxDate,
@@ -3457,7 +6624,14 @@ var MonthView = function MonthView(props) {
 
   var _maxDate = dayjs_min_default()(maxDate, format || 'DD-MM-YYYY');
 
-  var defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+  var defaultDate = '';
+
+  if (defaultDateView && !date && dayjs_min_default()(defaultDateView).isValid()) {
+    defaultDate = dayjs_min_default()(defaultDateView, format || 'DD-MM-YYYY');
+  } else {
+    defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+  }
+
   var mainDate = date ? dayjs_min_default()(date, format || 'DD-MM-YYYY') : defaultDate;
   var endDate = maxDate ? dayjs_min_default()(maxDate, format || 'DD-MM-YYYY') : null;
   var startDate = minDate ? dayjs_min_default()(minDate, format || 'DD-MM-YYYY') : null;
@@ -3473,8 +6647,8 @@ var MonthView = function MonthView(props) {
     });
   }
 
-  return external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Wrapper, null, external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Header, null, months.map(function (month, k) {
-    return currentMonth === month.m ? external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(MonthView_SelectedSpan, {
+  return /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Wrapper, null, /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Header, null, months.map(function (month, k) {
+    return currentMonth === month.m ? /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(MonthView_SelectedSpan, {
       isMax: month.isMax,
       isMin: month.isMin,
       key: k,
@@ -3484,7 +6658,7 @@ var MonthView = function MonthView(props) {
       primaryColor: primaryColor,
       primaryTextColor: primaryTextColor,
       secondaryTextColor: secondaryTextColor
-    }, month.m) : external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(YSpan, {
+    }, month.m) : /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(YSpan, {
       isMax: month.isMax,
       isMin: month.isMin,
       key: k,
@@ -3526,9 +6700,7 @@ dayjs_min_default().extend((customParseFormat_default()));
 dayjs_min_default().extend((isBetween_default()));
 dayjs_min_default().extend((isSameOrAfter_default()));
 dayjs_min_default().extend((isSameOrBefore_default()));
-var YearView_YSpan =
-/*#__PURE__*/
-styled_components_browser_esm(elements_Span).withConfig({
+var YearView_YSpan = /*#__PURE__*/styled_components_browser_esm(elements_Span).withConfig({
   displayName: "YearView__YSpan",
   componentId: "sc-13uw4f7-0"
 })(["margin:5px 15px;pointer-events:", ";cursor:", ";background-color:", ";color:", ";opacity:", ";"], function (props) {
@@ -3542,9 +6714,7 @@ styled_components_browser_esm(elements_Span).withConfig({
 }, function (props) {
   return props.isMax || props.isMin ? '0.4' : '1';
 });
-var YearView_SelectedSpan =
-/*#__PURE__*/
-styled_components_browser_esm(elements_Span).withConfig({
+var YearView_SelectedSpan = /*#__PURE__*/styled_components_browser_esm(elements_Span).withConfig({
   displayName: "YearView__SelectedSpan",
   componentId: "sc-13uw4f7-1"
 })(["background-color:", ";color:", ";margin:5px 15px;"], function (props) {
@@ -3570,7 +6740,8 @@ var getYears = function getYears(year, main, end, start) {
 };
 
 var YearView = function YearView(props) {
-  var date = props.date,
+  var defaultDateView = props.defaultDateView,
+      date = props.date,
       format = props.format,
       onYearChange = props.onYearChange,
       yearBlock = props.yearBlock,
@@ -3587,14 +6758,21 @@ var YearView = function YearView(props) {
 
   var _maxDate = dayjs_min_default()(maxDate, format || 'DD-MM-YYYY');
 
-  var defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+  var defaultDate = '';
+
+  if (defaultDateView && !date && dayjs_min_default()(defaultDateView).isValid()) {
+    defaultDate = dayjs_min_default()(defaultDateView, format || 'DD-MM-YYYY');
+  } else {
+    defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+  }
+
   var mainDate = date ? dayjs_min_default()(date, format || 'DD-MM-YYYY') : defaultDate;
   var endDate = maxDate ? dayjs_min_default()(maxDate, format || 'DD-MM-YYYY') : null;
   var startDate = minDate ? dayjs_min_default()(minDate, format || 'DD-MM-YYYY') : null;
   var currentYear = mainDate.get('year');
   var years = getYears(yearBlock, mainDate, endDate, startDate);
-  return external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Wrapper, null, external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Header, null, years.map(function (year, k) {
-    return currentYear === year.y ? external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(YearView_SelectedSpan, {
+  return /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Wrapper, null, /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Header, null, years.map(function (year, k) {
+    return currentYear === year.y ? /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(YearView_SelectedSpan, {
       isMax: year.isMax,
       isMin: year.isMin,
       key: k,
@@ -3604,7 +6782,7 @@ var YearView = function YearView(props) {
       primaryColor: primaryColor,
       primaryTextColor: primaryTextColor,
       secondaryTextColor: secondaryTextColor
-    }, year.y) : external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(YearView_YSpan, {
+    }, year.y) : /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(YearView_YSpan, {
       isMax: year.isMax,
       isMin: year.isMin,
       key: k,
@@ -3640,7 +6818,8 @@ YearView.propTypes = {
 
 
 var CalendarBody = function CalendarBody(props) {
-  var viewFor = props.viewFor,
+  var defaultDateView = props.defaultDateView,
+      viewFor = props.viewFor,
       date = props.date,
       format = props.format,
       onChange = props.onChange,
@@ -3651,13 +6830,14 @@ var CalendarBody = function CalendarBody(props) {
       secondaryColor = props.secondaryColor,
       primaryTextColor = props.primaryTextColor,
       secondaryTextColor = props.secondaryTextColor;
-  return external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Wrapper, {
+  return /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Wrapper, {
     secondaryColor: secondaryColor
-  }, viewFor === 'date' && external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_DateView, {
+  }, viewFor === 'date' && /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_DateView, {
     date: date,
     format: format,
     maxDate: maxDate,
     minDate: minDate,
+    defaultDateView: defaultDateView,
     onDateChange: function onDateChange(value) {
       return onChange(value, 'date');
     },
@@ -3665,11 +6845,12 @@ var CalendarBody = function CalendarBody(props) {
     primaryTextColor: primaryTextColor,
     secondaryColor: secondaryColor,
     secondaryTextColor: secondaryTextColor
-  }), viewFor === 'month' && external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_MonthView, {
+  }), viewFor === 'month' && /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_MonthView, {
     date: date,
     format: format,
     maxDate: maxDate,
     minDate: minDate,
+    defaultDateView: defaultDateView,
     onMonthChange: function onMonthChange(value) {
       return onChange(value, 'month');
     },
@@ -3677,11 +6858,12 @@ var CalendarBody = function CalendarBody(props) {
     primaryTextColor: primaryTextColor,
     secondaryColor: secondaryColor,
     secondaryTextColor: secondaryTextColor
-  }), viewFor === 'year' && external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_YearView, {
+  }), viewFor === 'year' && /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_YearView, {
     date: date,
     format: format,
     maxDate: maxDate,
     minDate: minDate,
+    defaultDateView: defaultDateView,
     onYearChange: function onYearChange(value) {
       return onChange(value, 'year');
     },
@@ -3708,13 +6890,17 @@ CalendarBody.propTypes = {
 };
 /* harmony default export */ const elements_CalendarBody = (CalendarBody);
 ;// CONCATENATED MODULE: ./lib/components/ModernDatepicker.js
-function ModernDatepicker_typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { ModernDatepicker_typeof = function _typeof(obj) { return typeof obj; }; } else { ModernDatepicker_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return ModernDatepicker_typeof(obj); }
+function ModernDatepicker_typeof(obj) { "@babel/helpers - typeof"; return ModernDatepicker_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, ModernDatepicker_typeof(obj); }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || ModernDatepicker_unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function ModernDatepicker_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return ModernDatepicker_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return ModernDatepicker_arrayLikeToArray(o, minLen); }
+
+function ModernDatepicker_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -3722,18 +6908,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (ModernDatepicker_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (ModernDatepicker_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
 
@@ -3756,17 +6945,17 @@ dayjs_min_default().extend((isBetween_default()));
 dayjs_min_default().extend((isSameOrAfter_default()));
 dayjs_min_default().extend((isSameOrBefore_default()));
 
-var ModernDatepicker =
-/*#__PURE__*/
-function (_Component) {
+var ModernDatepicker = /*#__PURE__*/function (_Component) {
   _inherits(ModernDatepicker, _Component);
+
+  var _super = _createSuper(ModernDatepicker);
 
   function ModernDatepicker(props) {
     var _this;
 
     _classCallCheck(this, ModernDatepicker);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ModernDatepicker).call(this, props));
+    _this = _super.call(this, props);
     _this.isInstanceOfDate = props.date && Object.prototype.toString.call(props.date) === '[object Date]' && props.date instanceof Date && typeof props.date.getMonth === 'function';
     _this.isMaxInstanceOfDate = props.maxDate && Object.prototype.toString.call(props.maxDate) === '[object Date]' && props.maxDate instanceof Date && typeof props.maxDate.getMonth === 'function';
     _this.isMinInstanceOfDate = props.minDate && Object.prototype.toString.call(props.minDate) === '[object Date]' && props.minDate instanceof Date && typeof props.minDate.getMonth === 'function';
@@ -3801,7 +6990,8 @@ function (_Component) {
           format = _this$props.format,
           onChange = _this$props.onChange,
           maxDate = _this$props.maxDate,
-          minDate = _this$props.minDate;
+          minDate = _this$props.minDate,
+          defaultDateView = _this$props.defaultDateView;
       var yearBlock = this.state.yearBlock;
 
       var _this$checkDateInstan = this.checkDateInstance(),
@@ -3815,7 +7005,14 @@ function (_Component) {
 
       var _maxDate = isMaxInstanceOfDate ? dayjs_min_default()(maxDate) : dayjs_min_default()(maxDate, format || 'DD-MM-YYYY');
 
-      var defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+      var defaultDate = '';
+
+      if (defaultDateView && !this.state.dateToEdit && dayjs_min_default()(defaultDateView).isValid()) {
+        defaultDate = dayjs_min_default()(defaultDateView, format || 'DD-MM-YYYY');
+      } else {
+        defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+      }
+
       var date = dayjs_min_default()(this.state.dateToEdit || defaultDate.format(format || 'DD-MM-YYYY'), format || 'DD-MM-YYYY').set(unit, value);
       var year = date.get('year');
       var newYearBlock = this.getNewYearBlock(yearBlock, year);
@@ -3839,7 +7036,8 @@ function (_Component) {
           format = _this$props2.format,
           onChange = _this$props2.onChange,
           maxDate = _this$props2.maxDate,
-          minDate = _this$props2.minDate;
+          minDate = _this$props2.minDate,
+          defaultDateView = _this$props2.defaultDateView;
       var _this$state = this.state,
           yearBlock = _this$state.yearBlock,
           dateToEdit = _this$state.dateToEdit;
@@ -3857,7 +7055,14 @@ function (_Component) {
 
       var _maxDate = isMaxInstanceOfDate ? dayjs_min_default()(maxDate) : dayjs_min_default()(maxDate, format || 'DD-MM-YYYY');
 
-      var defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+      var defaultDate = '';
+
+      if (defaultDateView && !this.state.dateToEdit && dayjs_min_default()(defaultDateView).isValid()) {
+        defaultDate = dayjs_min_default()(defaultDateView, format || 'DD-MM-YYYY');
+      } else {
+        defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+      }
+
       var date = dayjs_min_default()(dateToEdit || defaultDate, format || 'DD-MM-YYYY').clone().add(value, unit);
       var endDate = maxDate ? isMaxInstanceOfDate ? dayjs_min_default()(maxDate) : dayjs_min_default()(maxDate, format || 'DD-MM-YYYY') : null;
       var startDate = minDate ? isMinInstanceOfDate ? dayjs_min_default()(minDate) : dayjs_min_default()(minDate, format || 'DD-MM-YYYY') : null;
@@ -3898,7 +7103,8 @@ function (_Component) {
           format = _this$props3.format,
           onChange = _this$props3.onChange,
           maxDate = _this$props3.maxDate,
-          minDate = _this$props3.minDate;
+          minDate = _this$props3.minDate,
+          defaultDateView = _this$props3.defaultDateView;
       var _this$state2 = this.state,
           yearBlock = _this$state2.yearBlock,
           dateToEdit = _this$state2.dateToEdit;
@@ -3916,7 +7122,14 @@ function (_Component) {
 
       var _maxDate = isMaxInstanceOfDate ? dayjs_min_default()(maxDate) : dayjs_min_default()(maxDate, format || 'DD-MM-YYYY');
 
-      var defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+      var defaultDate = '';
+
+      if (defaultDateView && !this.state.dateToEdit && dayjs_min_default()(defaultDateView).isValid()) {
+        defaultDate = dayjs_min_default()(defaultDateView, format || 'DD-MM-YYYY');
+      } else {
+        defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate && _maxDate.isSameOrAfter(_date) ? _date : minDate && _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;
+      }
+
       var date = dayjs_min_default()(dateToEdit || defaultDate, format || 'DD-MM-YYYY').clone().subtract(value, unit);
       var endDate = maxDate ? isMaxInstanceOfDate ? dayjs_min_default()(maxDate) : dayjs_min_default()(maxDate, format || 'DD-MM-YYYY') : null;
       var startDate = minDate ? isMinInstanceOfDate ? dayjs_min_default()(minDate) : dayjs_min_default()(minDate, format || 'DD-MM-YYYY') : null;
@@ -4102,6 +7315,8 @@ function (_Component) {
           yearBlock = _this$state4.yearBlock,
           textDate = _this$state4.textDate;
       var _this$props7 = this.props,
+          defaultDateView = _this$props7.defaultDateView,
+          sortHeader = _this$props7.sortHeader,
           allowEdit = _this$props7.allowEdit,
           format = _this$props7.format,
           placeholder = _this$props7.placeholder,
@@ -4134,14 +7349,14 @@ function (_Component) {
       var _maxDate = maxDate ? isMaxInstanceOfDate ? dayjs_min_default()(maxDate).format(format || 'DD-MM-YYYY') : dayjs_min_default()(maxDate, format || 'DD-MM-YYYY').format(format || 'DD-MM-YYYY') : null;
 
       var value = this.checkAndReturnDate();
-      return external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Container, {
+      return /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Container, {
         onBlur: function onBlur(e) {
           return _this4.onBlur(e);
         }
-      }, label && external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Label, {
+      }, label && /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Label, {
         className: labelClass,
         htmlFor: id
-      }, label), external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Input, {
+      }, label), /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Input, {
         className: className,
         id: id,
         onChange: function onChange(e) {
@@ -4153,34 +7368,36 @@ function (_Component) {
         placeholder: placeholder,
         showBorder: showBorder,
         type: "text",
-        value: allowEdit ? isValid ? textDate : value : value
-      }), icon && external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Icon, {
+        value: allowEdit ? isValid ? textDate : value : value,
+        maxDate: maxDate,
+        minDate: minDate,
+        format: format
+      }), icon && /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Icon, {
         className: iconClass,
         icon: icon,
         onClick: function onClick() {
           return _this4.toggleCalendar(true);
         }
-      }), showContainer && isValid && (this.checkAndReturnDate() === '' || dayjs_min_default()(this.checkAndReturnDate(), format || 'DD-MM-YYYY').isValid()) && external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_CalendarContainer, {
+      }), showContainer && isValid && (this.checkAndReturnDate() === '' || dayjs_min_default()(this.checkAndReturnDate(), format || 'DD-MM-YYYY').isValid()) && /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_CalendarContainer, {
         secondaryColor: secondaryColor
-      }, external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_CalendarHeading, {
+      }, /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_CalendarHeading, {
         secondaryColor: secondaryColor
-      }, external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_SingleArrow, {
+      }, /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_SingleArrow, {
         left: true,
         onClick: function onClick() {
-          return _this4.subDate(1, 'month');
+          if (setViewFor === 'year') {
+            _this4.subDate(1, 'year');
+          } else {
+            _this4.subDate(1, 'month');
+          }
         },
         primaryTextColor: primaryTextColor,
         secondaryColor: secondaryColor
-      }), external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_DoubleArrow, {
-        left: true,
-        onClick: function onClick() {
-          return _this4.subDate(1, 'year');
-        },
-        primaryTextColor: primaryTextColor,
-        secondaryColor: secondaryColor
-      }), external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_DateEditor, {
+      }), /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_DateEditor, {
         date: dateToEdit,
         format: format,
+        sortHeader: sortHeader,
+        defaultDateView: defaultDateView,
         lang: lang,
         maxDate: _maxDate,
         minDate: _minDate,
@@ -4196,23 +7413,22 @@ function (_Component) {
         primaryTextColor: primaryTextColor,
         secondaryColor: secondaryColor,
         viewFor: setViewFor
-      }), external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_SingleArrow, {
+      }), /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_SingleArrow, {
         onClick: function onClick() {
-          return _this4.addDate(1, 'month');
+          if (setViewFor === 'year') {
+            _this4.addDate(1, 'year');
+          } else {
+            _this4.addDate(1, 'month');
+          }
         },
         primaryTextColor: primaryTextColor,
         secondaryColor: secondaryColor
-      }), external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_DoubleArrow, {
-        onClick: function onClick() {
-          return _this4.addDate(1, 'year');
-        },
-        primaryTextColor: primaryTextColor,
-        secondaryColor: secondaryColor
-      })), external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_CalendarBody, {
+      })), /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_CalendarBody, {
         date: dateToEdit,
         format: format,
         maxDate: _maxDate,
         minDate: _minDate,
+        defaultDateView: defaultDateView,
         onChange: function onChange(value, unit) {
           return _this4.handleDateChange(value, unit);
         },
