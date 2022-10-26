@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50.93% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>218/428</span>
+                <span class='fraction'>214/428</span>
             </div>
         
             
@@ -466,7 +466,8 @@
 <a name='L401'></a><a href='#L401'>401</a>
 <a name='L402'></a><a href='#L402'>402</a>
 <a name='L403'></a><a href='#L403'>403</a>
-<a name='L404'></a><a href='#L404'>404</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -751,6 +752,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -930,7 +932,7 @@ class ModernDatepicker extends Component {
     <span class="missing-if-branch" title="if path not taken" >I</span>if (defaultDateView &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!this.state.dateToEdit </span>&amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >dayjs(defaultDateView).isValid())</span> {
 <span class="cstat-no" title="statement not covered" >      defaultDate = dayjs(defaultDateView, format || 'DD-MM-YYYY');</span>
     } else {
-      defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate &amp;&amp; _maxDate.isSameOrAfter(_date) ? _date : minDate &amp;&amp; _minDate.isSameOrBefore(_date) ? _minDate : <span class="branch-1 cbranch-no" title="branch not covered" >maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;</span>
+      defaultDate = _date.isBetween(minDate ? _minDate.clone().subtract(1, 'day') : _date.clone().subtract(1, 'day'), maxDate ? _maxDate.clone().add(1, 'day') : _date.clone().add(1, 'day')) ? _date : maxDate &amp;&amp; _maxDate.isSameOrAfter(_date) ? _date : <span class="branch-1 cbranch-no" title="branch not covered" >minDate &amp;&amp; _minDate.isSameOrBefore(_date) ? _minDate : maxDate ? _maxDate.clone().subtract(1, 'day') : minDate ? _minDate.clone().add(1, 'day') : _date;</span>
     }
 &nbsp;
 &nbsp;
@@ -1139,8 +1141,8 @@ class ModernDatepicker extends Component {
   }
 &nbsp;
   render() {
+    const { defaultDateView, disabled, sortHeader, allowEdit, format, placeholder, showBorder, className, id, icon, iconClass, maxDate, minDate, label, labelClass, lang, primaryColor = '#00b9f5', secondaryColor = 'white', primaryTextColor = 'black', secondaryTextColor = 'white' } = this.props;
     const { showContainer, setViewFor, dateToEdit, isValid, yearBlock, textDate } = this.state;
-    const { defaultDateView, sortHeader, allowEdit, format, placeholder, showBorder, className, id, icon, iconClass, maxDate, minDate, label, labelClass, lang, primaryColor = '#00b9f5', secondaryColor = 'white', primaryTextColor = 'black', secondaryTextColor = 'white' } = this.props;
     const [, isMaxInstanceOfDate, isMinInstanceOfDate] = this.checkDateInstance();
     const _minDate = minDate ? (isMinInstanceOfDate ? dayjs(minDate).format(format || <span class="branch-1 cbranch-no" title="branch not covered" >'DD-MM-YYYY')</span> : dayjs(minDate, format || <span class="branch-1 cbranch-no" title="branch not covered" >'DD-MM-YYYY')</span>.format(format || <span class="branch-1 cbranch-no" title="branch not covered" >'DD-MM-YYYY')</span>) : null;
     const _maxDate = maxDate ? (isMaxInstanceOfDate ? dayjs(maxDate).format(format || <span class="branch-1 cbranch-no" title="branch not covered" >'DD-MM-YYYY')</span> : dayjs(maxDate, format || <span class="branch-1 cbranch-no" title="branch not covered" >'DD-MM-YYYY')</span>.format(format || <span class="branch-1 cbranch-no" title="branch not covered" >'DD-MM-YYYY')</span>) : null;
@@ -1152,6 +1154,7 @@ class ModernDatepicker extends Component {
           htmlFor={id}
         &gt;{label}&lt;/Label&gt;}
         &lt;Input
+          disabled={disabled}
           className={className}
           id={id}
           onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >allowEdit &amp;&amp; this.onDateEnter(e)}</span>
@@ -1279,7 +1282,7 @@ export default ModernDatepicker;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-10-05T16:38:21.659Z
+                at 2022-10-26T08:17:31.532Z
             </div>
         <script src="../prettify.js"></script>
         <script>

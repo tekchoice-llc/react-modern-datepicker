@@ -7305,15 +7305,9 @@ var ModernDatepicker = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this4 = this;
 
-      var _this$state4 = this.state,
-          showContainer = _this$state4.showContainer,
-          setViewFor = _this$state4.setViewFor,
-          dateToEdit = _this$state4.dateToEdit,
-          isValid = _this$state4.isValid,
-          yearBlock = _this$state4.yearBlock,
-          textDate = _this$state4.textDate;
       var _this$props7 = this.props,
           defaultDateView = _this$props7.defaultDateView,
+          disabled = _this$props7.disabled,
           sortHeader = _this$props7.sortHeader,
           allowEdit = _this$props7.allowEdit,
           format = _this$props7.format,
@@ -7336,6 +7330,13 @@ var ModernDatepicker = /*#__PURE__*/function (_Component) {
           primaryTextColor = _this$props7$primaryT === void 0 ? 'black' : _this$props7$primaryT,
           _this$props7$secondar2 = _this$props7.secondaryTextColor,
           secondaryTextColor = _this$props7$secondar2 === void 0 ? 'white' : _this$props7$secondar2;
+      var _this$state4 = this.state,
+          showContainer = _this$state4.showContainer,
+          setViewFor = _this$state4.setViewFor,
+          dateToEdit = _this$state4.dateToEdit,
+          isValid = _this$state4.isValid,
+          yearBlock = _this$state4.yearBlock,
+          textDate = _this$state4.textDate;
 
       var _this$checkDateInstan13 = this.checkDateInstance(),
           _this$checkDateInstan14 = _slicedToArray(_this$checkDateInstan13, 3),
@@ -7355,6 +7356,7 @@ var ModernDatepicker = /*#__PURE__*/function (_Component) {
         className: labelClass,
         htmlFor: id
       }, label), /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_Input, {
+        disabled: disabled,
         className: className,
         id: id,
         onChange: function onChange(e) {
