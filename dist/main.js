@@ -6199,7 +6199,10 @@ var Img = /*#__PURE__*/styled_components_browser_esm.img.withConfig({
 var Icon = function Icon(props) {
   return /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(Img, Icon_extends({}, props, {
     className: props.className,
-    src: props.icon
+    src: props.icon,
+    style: {
+      opacity: props.disabled ? '0.4' : '1'
+    }
   }));
 };
 
@@ -7376,7 +7379,9 @@ var ModernDatepicker = /*#__PURE__*/function (_Component) {
         className: iconClass,
         icon: icon,
         onClick: function onClick() {
-          return _this4.toggleCalendar(true);
+          if (!disabled) {
+            _this4.toggleCalendar(true);
+          }
         }
       }), showContainer && isValid && (this.checkAndReturnDate() === '' || dayjs_min_default()(this.checkAndReturnDate(), format || 'DD-MM-YYYY').isValid()) && /*#__PURE__*/external_root_React_commonjs2_react_commonjs_react_amd_react_default().createElement(elements_CalendarContainer, {
         secondaryColor: secondaryColor
