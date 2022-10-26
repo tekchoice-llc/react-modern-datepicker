@@ -6166,7 +6166,6 @@ var Input = function Input(props) {
     delimiter: '/',
     datePattern: ['m', 'd', 'Y']
   };
-  console.log('TCL ~ options v4', options);
 
   if (maxDateValueBool && minDateValueBool) {
     options = _objectSpread(_objectSpread({}, options), {}, {
@@ -6219,7 +6218,6 @@ var Container = /*#__PURE__*/styled_components_browser_esm.div.withConfig({
 ;// CONCATENATED MODULE: ./lib/elements/CalendarContainer.js
 
 var CalendarContainer = /*#__PURE__*/styled_components_browser_esm.div.attrs(function (props) {
-  console.log('TCL ~ props', props);
   return {
     tabIndex: '1'
   };
